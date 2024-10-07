@@ -88,21 +88,35 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This comes from the file about.qmd.\nThis is a website for the final project for MA[46]15 Data Science with R by Team TEAMNAME. The members of this team are below."
+    "text": "This comes from the file about.qmd.\nThis is a website for the final project for MA[46]15 Data Science with R by Team Group 7. The members of this team are below."
   },
   {
-    "objectID": "about.html#chang-liu",
-    "href": "about.html#chang-liu",
+    "objectID": "about.html#ian-ding",
+    "href": "about.html#ian-ding",
     "title": "About",
-    "section": "Chang Liu",
-    "text": "Chang Liu\nLuis is a Ph.D. student in Stats and is the Teaching Fellow for the course."
+    "section": "Ian Ding",
+    "text": "Ian Ding\nIan is a junior studying Math and Computer Science. https://github.com/iding426"
   },
   {
-    "objectID": "about.html#dan-sussman",
-    "href": "about.html#dan-sussman",
+    "objectID": "about.html#arjun-patel",
+    "href": "about.html#arjun-patel",
     "title": "About",
-    "section": "Dan Sussman",
-    "text": "Dan Sussman\nDan is a professor in the Math/Stat department and is the instructor for the course.\n\n\nAbout this Template.\nThis is based off of the standard Quarto website template from RStudio (2023.09.0 Build 463)."
+    "section": "Arjun Patel",
+    "text": "Arjun Patel\nArjun Patel is a junior majoring in Medical Sciences and Applied Math."
+  },
+  {
+    "objectID": "about.html#zexian-xu",
+    "href": "about.html#zexian-xu",
+    "title": "About",
+    "section": "Zexian Xu",
+    "text": "Zexian Xu\nZexian Xu is a senior majoring in Statistics and Computer Science. https://github.com/jessieandjj"
+  },
+  {
+    "objectID": "about.html#sviatoslav-shevchenko",
+    "href": "about.html#sviatoslav-shevchenko",
+    "title": "About",
+    "section": "Sviatoslav Shevchenko",
+    "text": "Sviatoslav Shevchenko\nSviat is a junior pursuing a dual degree in Data Science and Economics. https://github.com/sshevche-cell\n\n\nAbout this Template.\nThis is based off of the standard Quarto website template from RStudio (2023.09.0 Build 463)."
   },
   {
     "objectID": "big_picture.html",
