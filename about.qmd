@@ -34,6 +34,10 @@ Arjun Patel is a junior majoring in Medical Sciences and Applied Math.
 Zexian Xu is a senior majoring in Statistics and Computer Science.
 https://github.com/jessieandjj
 
+## Rukevwe Omusi
+Rukevwe Omusi is a senior majoring in Data Science with a Film minor.
+https://github.com/ojomusi
+
 <!-- Please leave in the information below -->
 
 ### About this Template.
