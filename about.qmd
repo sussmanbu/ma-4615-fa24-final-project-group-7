@@ -34,6 +34,10 @@ Arjun Patel is a junior majoring in Medical Sciences and Applied Math.
 Zexian Xu is a senior majoring in Statistics and Computer Science.
 https://github.com/jessieandjj
 
+## Sviatoslav Shevchenko
+Sviat is a junior pursuing a dual degree in Data Science and Economics. 
+https://github.com/sshevche-cell
+
 <!-- Please leave in the information below -->
 
 ### About this Template.
