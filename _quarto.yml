@@ -4,7 +4,7 @@ project:
   resources: scripts
 
 website:
-  title: "MA [46]15 Final Project - Group 7: Arjun Patel, "
+  title: "MA [46]15 Final Project - Group 7"
   navbar:
     right:
       - about.qmd
