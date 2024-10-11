@@ -1,0 +1,34 @@
+---
+title: "First Blog Post"
+editor: visual
+---
+
+<https://www.icpsr.umich.edu/web/NACJD/studies/36370/>
+
+This dataset looks into how prior experiences with the police can influence one’s decision to report a crime. The data is from 2002-2011. It includes 110 variables and 105273 rows with information on the prevalence, frequency, and nature of respondents' encounters with the police in the prior year, as well as respondents' personal and household victimization experiences that occurred after the administration of the PPCS, including whether the crime was reported to the police. Demographic variables include age, race, gender, education, and socioeconomic status.
+
+The data groups race and ethnicity in the variable label C4_RACE into these categories:
+
+1\. White, Non-Hispanic
+
+2\. Black, Non-Hispanic
+
+3\. Hispanic
+
+4\. Other or multiracial, Non-Hispanic
+
+The variables for the encounters with the police are numerical such as whether the respondent was arrested or handcuffed, incident frequency, etc. which makes it easy to plot by race, gender, or other categorical variables.
+
+<https://catalog.data.gov/dataset/rates-and-trends-in-heart-disease-and-stroke-mortality-among-us-adults-35-by-county-a-2000-45659>
+
+Rates and Trends in Heart Disease and Stroke Mortality Among US Adults (35+) by County, Age Group, Race/Ethnicity, and Sex – 2000-2019
+
+The dataset includes 21 columns and 5,770,224 rows. There is not much said about the data being collected in this dataset, it is said that “rates and trends were estimated using Bayesian spatiotemporal model and a smoothed over space and time demographic group”. Additionally, using the 2010 US population figures, the ages are standardized to 10-year groups. There is no issue with loading and cleaning the data, however the csv function used before in class may have a row limit lower than the number of rows in this dataset. This could for example be addressed by considering a number of rows under that row limit. The dataset allows for attempts to understand what kind of stroke or deceive is prevalent among certain racial groups, regions (counties, states), genders or ages, Perhaps, there could also be a difference in regions by year, which would be interesting to see given there is a lot of change in a specific region. Immediately, a challenge will be to decide whether to include the over 5 million rows in the analysis, which would require using some other csv reader or adjust the data for this one which could alter the results of the analysis. Another challenge are the overall categories within some variables in the dataset (“overall” in sex and gender variables), which may be of not great use when we would be trying to analyze for differences by either of the variables. To conclude, the dataset seems to be rich, however it does have some aspects that may be a challenge in the initial analysis stages.
+
+<https://data.nysed.gov/downloads.php>
+
+The data describes students enrollment reported by total public school (aggregated data for all districts and charter schools), county (aggregated data for all districts and charter schools in the county), Needs-to-Resource-Capacity (N/RC) group, district, and public schools.  
+
+  The ENTITY_CD is the 12-digit Basic Educational Data System (BEDS) code that uniquely identifies the entity (school, district, etc.). The need/resource capacity index, a measure of a district's ability to meet the needs of its students with local resources, is the ratio of the estimated poverty percentage1 (expressed in standard score form) to the Combined Wealth Ratio2 (expressed in standard score form).  
+
+  The dataset contains the different enrollments by grade, race/ethnicity, gender and other groups.
