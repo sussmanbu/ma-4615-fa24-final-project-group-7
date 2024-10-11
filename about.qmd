@@ -29,6 +29,7 @@ https://github.com/iding426
 ## Arjun Patel
 
 Arjun Patel is a junior majoring in Medical Sciences and Applied Math.
+https://github.com/Arjuntina
 
 ## Zexian Xu
 Zexian Xu is a senior majoring in Statistics and Computer Science.
@@ -37,6 +38,10 @@ https://github.com/jessieandjj
 ## Rukevwe Omusi
 Rukevwe Omusi is a senior majoring in Data Science with a Film minor.
 https://github.com/ojomusi
+
+## Sviatoslav Shevchenko
+Sviat is a junior pursuing a dual degree in Data Science and Economics. 
+https://github.com/sshevche-cell
 
 <!-- Please leave in the information below -->
 
