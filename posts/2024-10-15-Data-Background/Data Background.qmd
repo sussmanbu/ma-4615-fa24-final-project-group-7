@@ -6,9 +6,14 @@ description:  |
 date: "2024-10-15"
 ---
 
-"Where does the data come from?"
+Dataset Name: The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370)
+Dataset Link: https://www.icpsr.umich.edu/web/NACJD/studies/36370/
 
-"Who collected it?"
+"Where does the data come from?" - Arjun
+
+The data comes from 
+
+"Who collected it?" - Arjun
 
 "Why was it collected?" - Sviat
 
