@@ -10,9 +10,9 @@ date: "2024-10-15"
 
 "Who collected it?"
 
-"Why was it collected?"
+"Why was it collected?" - Sviat
 
-"Are you able to find the data from the original source?"
+"Are you able to find the data from the original source?" - Sviat
 
 "Are there any issues you can see with how the data was collected?"
 
@@ -26,4 +26,4 @@ Due to the means that the dataset was collected, the dataset is susceptible to i
 
 "Is this data being used for some policy decisions?"
 
-"What questions have others ask about this data?"
+"What questions have others asked about this data?"
