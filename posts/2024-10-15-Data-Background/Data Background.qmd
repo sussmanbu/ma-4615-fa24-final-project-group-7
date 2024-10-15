@@ -4,8 +4,9 @@ subtitle: ""
 description:  |
   Blog post outlining background information related to our dataset.
 date: "2024-10-15"
+---
 
-"Where does the data come from?" 
+"Where does the data come from?"
 
 "Who collected it?"
 
@@ -13,9 +14,9 @@ date: "2024-10-15"
 
 "Are you able to find the data from the original source?"
 
-"Are there any issues you can see with how the data was collected?" 
+"Are there any issues you can see with how the data was collected?"
 
-"What is the sample population?" 
+"What is the sample population?"
 
 "Are there reasons to think the sample is biased in some way?"
 
@@ -24,5 +25,3 @@ date: "2024-10-15"
 "Is this data being used for some policy decisions?"
 
 "What questions have others ask about this data?"
-
----
