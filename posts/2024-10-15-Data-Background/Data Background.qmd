@@ -20,6 +20,8 @@ date: "2024-10-15"
 
 "Are there reasons to think the sample is biased in some way?"
 
+Due to the means that the dataset was collected, the dataset is susceptible to inherit bias found in the sample that is collected. The dataset relies on matching responses to the PPCS (Public-Police Contact Survey) to corresponding responses in the NCVS (National Crime Victimization Survey). Since this dataet relies on responses to both of these surveys it is possible that the sample is bias in that individuals who experienced victimization at the hand of law enforcement may be more likely to respond to the NCVS versus those who may not have.
+
 "How is this data used? Has there been other research on the same data?"
 
 "Is this data being used for some policy decisions?"
