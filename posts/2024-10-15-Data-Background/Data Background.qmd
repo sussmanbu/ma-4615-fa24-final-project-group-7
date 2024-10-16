@@ -11,9 +11,21 @@ Dataset Link: https://www.icpsr.umich.edu/web/NACJD/studies/36370/
 
 "Where does the data come from?" - Arjun
 
-The data comes from 
+The data in this dataset is compiled from the National Crime Victimization Survey (NCVS) and the Police-Public Contact Survey (PPCS). The NCVS is a annual survey of approximately 240,000 people in 150,000 US households which reports background information of the person being surveyed, the number and type of crimes each person was victimized by within the past year, and background information of any offenders. Also reported is the reason why/why not the crime was reported to police and the victim's experience in the criminal justice system.
+Meanwhile, the PPCS is a supplement survey to the NCVS which documents characteristics of people who had any contact with police in the previous year. During the time period represented by data in this dataset, the PPCS was conducted approximately every 3 years.
+The dataset was formed by merging the NCVS and PPCS data from 2002, 2008, and 2011. In those years, 76,910, 57,978, and 49,246 people took part in both the NCVS and PPCS, respectively. After filtering, data of police contact and victimization experiences within the previous year for 105,273 people aged 16 or older in the US is included. 
+
+Sources (idk if we need to cite)
+https://bjs.ojp.gov/programs/ncvs
+https://bjs.ojp.gov/data-collection/police-public-contact-survey-ppcs
+
 
 "Who collected it?" - Arjun
+
+The original, raw data used to compile the data in this dataset comes from the National Crime Victimization Survey (NCVS) and the Police-Public Contact Survey (PPCS). Both are collected by the Bureau of Justice Statistics (BJS), which is the primary statistical agency of the US's Department of Justice. It was first established in 1979 in order to better understand statistics about crimes in the United States.
+
+Source:
+https://bjs.ojp.gov/about
 
 "Why was it collected?" - Sviat
 
