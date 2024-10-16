@@ -4,10 +4,6 @@
 
 library(tidyverse)
 
-loan_data <- read_csv(here::here("dataset", "loan_refusal.csv"))
+policeContactData <- read_tsv("dataset/police-contact-data.tsv")
 
-## CLEAN the data
-loan_data_clean <- loan_data |>
-  pivot_longer(2:5, names_to = "group", values_to = "refusal_rate")
 
-write_rds(loan_data_clean, file = here::here("dataset", "loan_refusal_clean.rds"))
