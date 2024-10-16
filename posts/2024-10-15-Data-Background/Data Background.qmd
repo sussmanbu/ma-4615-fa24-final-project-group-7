@@ -6,46 +6,42 @@ description:  |
 date: "2024-10-15"
 ---
 
-Dataset Name: The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370)
-Dataset Link: https://www.icpsr.umich.edu/web/NACJD/studies/36370/
+Dataset Name: The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) [Dataset Link](https://www.icpsr.umich.edu/web/NACJD/studies/36370/)
 
-"Where does the data come from?" - Arjun
+**"Where does the data come from?" - Arjun**
 
-The data in this dataset is compiled from the National Crime Victimization Survey (NCVS) and the Police-Public Contact Survey (PPCS). The NCVS is a annual survey of approximately 240,000 people in 150,000 US households which reports background information of the person being surveyed, the number and type of crimes each person was victimized by within the past year, and background information of any offenders. Also reported is the reason why/why not the crime was reported to police and the victim's experience in the criminal justice system.
-Meanwhile, the PPCS is a supplement survey to the NCVS which documents characteristics of people who had any contact with police in the previous year. During the time period represented by data in this dataset, the PPCS was conducted approximately every 3 years.
-The dataset was formed by merging the NCVS and PPCS data from 2002, 2008, and 2011. In those years, 76,910, 57,978, and 49,246 people took part in both the NCVS and PPCS, respectively. After filtering, data of police contact and victimization experiences within the previous year for 105,273 people aged 16 or older in the US is included. 
+The data in this dataset is compiled from the National Crime Victimization Survey (NCVS) and the Police-Public Contact Survey (PPCS). The NCVS is a annual survey of approximately 240,000 people in 150,000 US households which reports background information of the person being surveyed, the number and type of crimes each person was victimized by within the past year, and background information of any offenders. Also reported is the reason why/why not the crime was reported to police and the victim's experience in the criminal justice system. Meanwhile, the PPCS is a supplement survey to the NCVS which documents characteristics of people who had any contact with police in the previous year. During the time period represented by data in this dataset, the PPCS was conducted approximately every 3 years. The dataset was formed by merging the NCVS and PPCS data from 2002, 2008, and 2011. In those years, 76,910, 57,978, and 49,246 people took part in both the NCVS and PPCS, respectively. After filtering, data of police contact and victimization experiences within the previous year for 105,273 people aged 16 or older in the US is included.
 
-Sources (idk if we need to cite)
-https://bjs.ojp.gov/programs/ncvs
-https://bjs.ojp.gov/data-collection/police-public-contact-survey-ppcs
+Sources (idk if we need to cite) https://bjs.ojp.gov/programs/ncvs https://bjs.ojp.gov/data-collection/police-public-contact-survey-ppcs
 
-
-"Who collected it?" - Arjun
+**"Who collected it?" - Arjun**
 
 The original, raw data used to compile the data in this dataset comes from the National Crime Victimization Survey (NCVS) and the Police-Public Contact Survey (PPCS). Both are collected by the Bureau of Justice Statistics (BJS), which is the primary statistical agency of the US's Department of Justice. It was first established in 1979 in order to better understand statistics about crimes in the United States.
 
-Source:
-https://bjs.ojp.gov/about
+[Source](https://bjs.ojp.gov/about)
 
-"Why was it collected?" 
+**"Why was it collected?"**
+
 The study collected this data to investigate how individuals' prior interactions with law enforcement, both directly and through the experiences of others, influence their decisions to report crimes. By linking data from the National Crime Victimization Survey (NCVS) with the Police-Public Contact Survey (PPCS), the researchers could explore the relationship between these experiences and crime reporting behavior. The goal may be to understand if factors such as the nature or frequency of prior police encounters—whether positive or negative—affect people's trust in or willingness to engage with law enforcement when they become victims of crime. Additionally, demographic variables like age, race, gender, and socioeconomic status were likely included to explore whether these factors mediate the relationship between police encounters and crime reporting, providing insights into potential disparities in how different groups experience and respond to law enforcement.
 
-"Are you able to find the data from the original source?" 
-Yes, the rovided link to the data is the original source of the survey from which the data comes. 
+**"Are you able to find the data from the original source?"** 
 
-"Are there any issues you can see with how the data was collected?"
-Issues with how the data was collected: The NCVS and PPCS do not contain common identifiers that would allow cases to be linked across datasets. Variables common to the NCVS and PPCS were concatenated to create unique identifiers which could link the two datasets, but there was variation in how much the data had to be manipulated to create these unique identifiers. This method was also used to generate unique identifiers for approximately 77 to 90 percent of PPCS cases depending on the year, the rest of them being generated by manipulating the sampling weights and using the person sequence number.
-Additionally, when multiple incidents of the same type occurred in the same month and were the first incidents subsequent to the PPCS, it was impossible to determine which incident was most proximal to PPCS interview, so the first incident was selected at random, affecting 39 (.6%) of the personal incidents and 443 (3.9%) of the respondents with household incidents. 
-Another issue is with the weights:  not all PPCS interviews could be matched, therefore population estimates are not necessarily representative of the U.S. population. Also, 2011 cases have higher weights due to sampling design, and thus have a disproportionate effect on the results.
-"What is the sample population?"
-The sample population is 105,273 people ages 16 and older living in the United States.
+Yes, the provided link to the data is the original source of the survey from which the data comes.
 
-"Are there reasons to think the sample is biased in some way?"
+**"Are there any issues you can see with how the data was collected?"**
 
-Due to the means that the dataset was collected, the dataset is susceptible to inherit bias found in the sample that is collected. The dataset relies on matching responses to the PPCS (Public-Police Contact Survey) to corresponding responses in the NCVS (National Crime Victimization Survey). Since this dataet relies on responses to both of these surveys it is possible that the sample is bias in that individuals who experienced victimization at the hand of law enforcement may be more likely to respond to the NCVS versus those who may not have.
+Issues with how the data was collected: The NCVS and PPCS do not contain common identifiers that would allow cases to be linked across datasets. Variables common to the NCVS and PPCS were concatenated to create unique identifiers which could link the two datasets, but there was variation in how much the data had to be manipulated to create these unique identifiers. This method was also used to generate unique identifiers for approximately 77 to 90 percent of PPCS cases depending on the year, the rest of them being generated by manipulating the sampling weights and using the person sequence number. Additionally, when multiple incidents of the same type occurred in the same month and were the first incidents subsequent to the PPCS, it was impossible to determine which incident was most proximal to PPCS interview, so the first incident was selected at random, affecting 39 (.6%) of the personal incidents and 443 (3.9%) of the respondents with household incidents. Another issue is with the weights: not all PPCS interviews could be matched, therefore population estimates are not necessarily representative of the U.S. population. Also, 2011 cases have higher weights due to sampling design, and thus have a disproportionate effect on the results. "What is the sample population?" The sample population is 105,273 people ages 16 and older living in the United States.
 
-"How is this data used? Has there been other research on the same data?"
+**"Are there reasons to think the sample is biased in some way?"**
 
-"Is this data being used for some policy decisions?"
+Due to the means that the dataset was collected, the dataset is susceptible to inherit bias found in the sample that is collected. The dataset relies on matching responses to the PPCS (Public-Police Contact Survey) to corresponding responses in the NCVS (National Crime Victimization Survey). Since this dataet relies on responses to both of these surveys it is possible that the sample is biased in that individuals who experienced victimization at the hand of law enforcement may be more likely to respond to the NCVS versus those who may not have. This could lead to some statistics being displayed inaccurately in relation to the entire population as a whole.
 
-"What questions have others asked about this data?"
+**"How is this data used? Has there been other research on the same data?"**
+
+The dataset is used to examine whether or not there is a relation between the presence of face-to-face interactions with law enforcement, and subsequent reports of victimizations. It also helps to outline the general prior police conduct made with individuals who identify as victims and those who do not. 
+
+Outside of the original paper published in correspondence with the dataset itself, we could not find any other publications which site this set. While we were unable to find any other studies using this data, it is certianly possible that there are other groups/individuals who are using this dataset for their own studies. 
+
+**"Is this data being used for some policy decisions?"**
+
+**"What questions have others asked about this data?"**
