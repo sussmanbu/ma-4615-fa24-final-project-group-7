@@ -1,9 +1,12 @@
 ---
 title: "Data Background"
+author: ""
 subtitle: ""
 description:  |
   Blog post outlining background information related to our dataset.
 date: "2024-10-15"
+date-modified: "2024-10-15"
+draft: FALSE
 ---
 
 Dataset Name: The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) [Dataset Link](https://www.icpsr.umich.edu/web/NACJD/studies/36370/)
@@ -40,7 +43,7 @@ Due to the means that the dataset was collected, the dataset is susceptible to i
 
 The dataset is used to examine whether or not there is a relation between the presence of face-to-face interactions with law enforcement, and subsequent reports of victimizations. It also helps to outline the general prior police conduct made with individuals who identify as victims and those who do not. 
 
-Outside of the original paper published in correspondence with the dataset itself, we could not find any other publications which site this set. While we were unable to find any other studies using this data, it is certianly possible that there are other groups/individuals who are using this dataset for their own studies. 
+Outside of the original paper published in correspondence with the dataset itself, we could not find any other publications which site this set. While we were unable to find any other studies using this data, it is certainly possible that there are other groups/individuals who are using this dataset for their own studies. 
 
 **"Is this data being used for some policy decisions?"**
 
