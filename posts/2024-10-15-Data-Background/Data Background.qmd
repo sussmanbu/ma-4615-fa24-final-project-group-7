@@ -47,5 +47,8 @@ Due to the means that the dataset was collected, the dataset is susceptible to i
 "How is this data used? Has there been other research on the same data?"
 
 "Is this data being used for some policy decisions?"
+The dataset provides detailed crime data in the U.S. and is used in policy-making decisions. Law enforcement agencies, policymakers, and researchers use NIBRS data to identify crime trends, allocate resources, and develop crime prevention strategies. 
 
 "What questions have others asked about this data?"
+
+How can the data be used to assess the impact of local or national policy changes? How do different types of crimes (e.g., property crimes, violent crimes) vary by time of year, geography, or demographic group? 
