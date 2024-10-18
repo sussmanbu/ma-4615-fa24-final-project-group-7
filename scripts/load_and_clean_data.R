@@ -5,5 +5,9 @@
 library(tidyverse)
 
 policeContactData <- read_tsv("dataset/police-contact-data.tsv")
+#View(policeContactData)
 
+filtered <- policeContactData |>
+  select(where(~sum(is.na(.x)) < 90000))
+View(filtered)
 
