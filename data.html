@@ -240,25 +240,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-&gt; loan_data &lt;- read_csv(here::here("dataset", "loan_refusal.csv"))</code></pre>
+&gt; policeContactData &lt;- read_tsv("dataset/police-contact-data.tsv")</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 20 Columns: 5
+<pre><code>Rows: 105273 Columns: 110
 ── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): bank
-dbl (4): min, white, himin, hiwhite
+Delimiter: "\t"
+dbl (110): PER_ID, HH_ID, PSTRATA, WEIGHT, SECUCODE, C4_RACE, AGE, MALE, MAR...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-&gt; loan_data_clean &lt;- pivot_longer(loan_data, 2:5, names_to = "group", 
-+     values_to = "refusal_rate")
+&gt; filtered &lt;- select(policeContactData, where(~sum(is.na(.x)) &lt; 
++     90000))
 
-&gt; write_rds(loan_data_clean, file = here::here("dataset", 
-+     "loan_refusal_clean.rds"))</code></pre>
+&gt; View(filtered)</code></pre>
 </div>
 </div>
 <p>You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\MA415\\Final_Project\</code>).</p>
