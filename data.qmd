@@ -7,6 +7,23 @@ draft: false
 
 ![](images/data-import-cheatsheet-thumbs.png)
 
+The Dataset we picked: 
+The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) 
+[Dataset Link](https://www.icpsr.umich.edu/web/NACJD/studies/36370/)
+
+The dataset is collected by the Bureau of Justice Statistics (BJS), which is the primary statistical agency of the US's Department of Justice. It was first established in 1979 in order to better understand statistics about crimes in the United States. The data collected in these studies provides information on how each individuals' prior interactions with law enforcement, both directly and through the experiences of others, influence their decisions to report crimes. By linking data from the National Crime Victimization Survey (NCVS) with the Police-Public Contact Survey (PPCS), the researchers could explore the relationship between police encounter experiences and crime reporting behavior. The combined dataset used in this study contains data about survey participants in 2002, 2008, and 2011.
+
+
+The dataset comprises person-level, household-level, and police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. 
+At the person level, variables include PER_ID(Unique person identifier), age, race, contact(if the respondent had police contact in the past 12 months), and number of face-to-face police contacts within the past year.
+At the household level, HH_ID identifies households, while hhpov (poverty status) and HH_size (number of household members) contextualize socioeconomic status. Police encounters are detailed with REASON (reason for contact), arrested (if the respondent was arrested), and cuffed (if handcuffed), which capture the nature of police interactions. 
+Victimization variables like d_HH_P23 (household crime victimization), time2vic_inc_P23HH (time between police interview and crime), and notify_inc_P23HH (police notified of household crime) provide insights into subsequent incidents. 
+Additional demographic variables such as education, mar_stat (marital status), and work_lw (employment status) add socioeconomic context.
+
+
+
+
+
 
 This comes from the file `data.qmd`.
 
