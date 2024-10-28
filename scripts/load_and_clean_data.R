@@ -13,10 +13,22 @@ numNaPerVariable <- policeContactData |>
   summarise(across(everything(), ~ sum(is.na(.)), .names = "na_count_{col}"))
 
 filtered <- policeContactData |>
-  select(!c(SECUCODE, num_fu_HHint, num_fu_perint, PSTRATA)) 
+  select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, endsWith("_sub"), starts_with(("vicar_")), time2vic_inc_P23PER)) 
   #select(where(~sum(is.na(.x)) < 90000)) |>
   
 View(filtered)
+# Removed columns:
+# PSTRATA: don't understand how to use it
+# SECUCODE: not necessary
+# num_fu_HHint, num_fu_perint: don't need to know number of follow-ups
+# Columns ending with "_sub": unsure what " missing  carried back from later waves " means
+# time2vic_inc_P23PER: don't want to investigate months from PPCS interview to victimization
+# 
+# QUESTIONS
+# There are many columns titled whyno[number]_inc_P23[HH for household crime, PER for personal crime] with 
+# description of Reason not reported: (insert reason), should I remove any of them?
+# 
+
 
 categorical_columns <- c("C4_RACE", "MALE", "MAR_STAT", "WORK_LW", "HHPOV", "FREQ_DRV", 
                          "HH_SIZE", "PUB_HOUSE", "PUB_HOUSE_SUB", "REGION", "PPCS_YEAR", 
