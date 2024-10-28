@@ -8,6 +8,11 @@ library(tidyverse)
 policeContactData <- read_tsv("dataset/police-contact-data.tsv")
 #View(policeContactData)
 
+# View how many NA values each variable has
+# This information is also available online, but has been calculated here for convenience
+numNaPerVariable <- policeContactData |>
+  summarise(across(everything(), ~ sum(is.na(.)), .names = "na_count_{col}"))
+
 filtered <- policeContactData |>
   select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, endsWith("_sub"), starts_with(("vicar_")), time2vic_inc_P23PER)) 
   #select(where(~sum(is.na(.x)) < 90000)) |>
