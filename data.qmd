@@ -20,6 +20,21 @@ At the household level, HH_ID identifies households, while hhpov (poverty status
 Victimization variables like d_HH_P23 (household crime victimization), time2vic_inc_P23HH (time between police interview and crime), and notify_inc_P23HH (police notified of household crime) provide insights into subsequent incidents. 
 Additional demographic variables such as education, mar_stat (marital status), and work_lw (employment status) add socioeconomic context.
 
+In terms of cleaning the data, we originally started by planning to remove rows, with over 90,000 na values, but quickly realized that some of these highlighted rare experiences with police that are information that would be crucial to our analysis. 
+
+In noticing that, we decided to more forwards by removing all columns we felt contained information which were not generally relevant to the analysis we wish to conduct. This was done by reading through the documentation for the dataset and filtering out columns we felt were unhelpful to our analysis. Below are a list of a few columns we removed and why:
+
+PSTRATA: PSEUDO-STRATUM CODE - We didn't understand what this datapoint was representing, or how to use it.
+
+SECUCODE - STANDARD ERROR COMPUTATION UNIT CODE: Again another code, which is vague in description.
+
+num_fu_HHint, num_fu_perint - Number of follow-up HH interviews post-PPCS, Number of follow-up PERSON interviews post-PPCS : The number of follow-ups for each person or household isn't relevant to us.
+
+Columns ending with "_sub": Data wasn't originally collected, and carried back later on. 
+
+time2vic_inc_P23PER: We don't want to investigate months from PPCS interview to victimization
+
+This is all done in our [cleaning script](\scripts\load_and_clean_data.R). In this script we start by removing certain columns, and then outlining the remaining columns as numerical or categorical, in order to check for inconsistent data values and providing default values to missing data. For most cases, we consider missing data to be okay, as na values may be interpreted as such in our analysis but we have considered adding certain default values like the average for numerical values such that it wouldn't affect the average of the entire dataset.
 
 
 
@@ -64,10 +79,10 @@ For larger datasets, you'll need to create a new folder in the project root dire
 Your [load_and_clean_data.R](/scripts/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
 
 ```{r}
-source(
-  "scripts/load_and_clean_data.R",
-  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
-)
+# source(
+  # "scripts/load_and_clean_data.R",
+  #echo = FALSE # Use echo=FALSE or omit it to avoid code output  
+#)
 ```
 You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\MA415\\Final_Project\`).
 
