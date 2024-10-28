@@ -4,12 +4,16 @@
 
 library(tidyverse)
 
+
 policeContactData <- read_tsv("dataset/police-contact-data.tsv")
 #View(policeContactData)
 
 filtered <- policeContactData |>
-  select(where(~sum(is.na(.x)) < 90000))
+  select(!c(SECUCODE, num_fu_HHint, num_fu_perint, PSTRATA)) |>
+  select(where(~sum(is.na(.x)) < 90000)) |>
+  
 View(filtered)
+
 
 ### HIS EXAMPLE
 # This file is purely as an example.
