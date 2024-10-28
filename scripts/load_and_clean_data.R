@@ -4,11 +4,14 @@
 
 library(tidyverse)
 
-policeContactData <- read_tsv("dataset/police-contact-data.tsv")
-#View(policeContactData)
+policeContactData <- read_tsv(here::here("dataset", "police-contact-data.tsv"))
+View(policeContactData)
+
+summary(policeContactData)
 
 filtered <- policeContactData |>
-  select(where(~sum(is.na(.x)) < 90000))
+  distinct()
+
 View(filtered)
 
 ### HIS EXAMPLE
