@@ -4,6 +4,7 @@
 
 library(tidyverse)
 
+
 policeContactData <- read_tsv("dataset/police-contact-data.tsv")
 #View(policeContactData)
 
@@ -13,7 +14,9 @@ numNaPerVariable <- policeContactData |>
   summarise(across(everything(), ~ sum(is.na(.)), .names = "na_count_{col}"))
 
 filtered <- policeContactData |>
-  select(where(~sum(is.na(.x)) < 90000))
+  select(!c(SECUCODE, num_fu_HHint, num_fu_perint, PSTRATA)) 
+  #select(where(~sum(is.na(.x)) < 90000)) |>
+  
 View(filtered)
 
 categorical_columns <- c("C4_RACE", "MALE", "MAR_STAT", "WORK_LW", "HHPOV", "FREQ_DRV", 
@@ -29,6 +32,7 @@ quantitative_columns <- c("AGE","EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_
 filtered[quantitative_columns] <- filtered[quantitative_columns] |> 
   map_df(~ as.numeric(.x)) |> 
   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x))
+
 
 ### HIS EXAMPLE
 # This file is purely as an example.
