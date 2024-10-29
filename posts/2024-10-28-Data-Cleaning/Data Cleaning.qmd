@@ -17,6 +17,7 @@ We then decided to filter out any columns which had at least 90,000 missing valu
 not included variables:
 
 PSTRATA because we don't know what it is & will not use it
+<<<<<<< HEAD
 
 Weight because we want to do it ourselves
 
@@ -28,3 +29,7 @@ Variables ending with "_sub" because we are unsure what "missing  carried back f
 
 TIME2VIC_INC_P23PER because don't want to investigate months from PPCS interview to victimization
 
+=======
+Weight becaues we want to do it ourself
+SEUCODE because it relates to PSTRAT
+>>>>>>> e9c820d (some updates)

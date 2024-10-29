@@ -13,11 +13,57 @@ numNaPerVariable <- policeContactData |>
   summarise(across(everything(), ~ sum(is.na(.)), .names = "na_count_{col}"))
 
 filtered <- policeContactData |>
+<<<<<<< HEAD
   select(!ends_with("_sub"), !starts_with("vicar_")) |>
   select(!c(SECUCODE, WEIGHT, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, TIME2VIC_INC_P23PER)) 
+=======
+  select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, ends_with("_sub"), starts_with(("vicar_")), TIME2VIC_INC_P23PER)) 
+>>>>>>> e9c820d (some updates)
   #select(where(~sum(is.na(.x)) < 90000)) |>
-  
+
 View(filtered)
+
+#Exploratory Data Analysis (Barplots)
+
+#Barplot function
+create_barplot <- function(data, col_name) {
+  ggplot(data, aes_string(x = col_name)) +
+    geom_bar(fill = "skyblue", color = "black") +
+    labs(title = paste("Barplot of", col_name),
+         x = col_name,
+         y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+}
+
+
+columns <- c("AGE", "EDUCATION", "HH_SIZE", "NUM_MOVES", "N_HH_P1", "N_PERS_P1", "NUM_CONT", "VAL_LOSS2_INC_P23HH")  
+
+for (col in columns) {
+  print(create_barplot(filtered, col))
+}
+
+#Outlier Identification
+
+#Boxplot function
+create_outlier_boxplot <- function(data, col_name) {
+  ggplot(data, aes_string(y = col_name)) +
+    geom_boxplot(outlier.color = "red",  
+                 outlier.shape = 16,      
+                 outlier.size = 2) +      
+    labs(title = paste("Boxplot of", col_name, "with Outliers"),
+         y = col_name) +
+    theme_minimal()
+}
+
+columns <- c("column1", "column2", "column3")  
+
+for (col in columns) {
+  print(create_outlier_boxplot(filtered, col))
+}
+
+
+
 # Removed columns:
 # PSTRATA: don't understand how to use it
 # SECUCODE: not necessary
