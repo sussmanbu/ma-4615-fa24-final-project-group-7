@@ -31,7 +31,7 @@ quantitative_columns <- c("AGE","EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_
 
 filtered[quantitative_columns] <- filtered[quantitative_columns] |> 
   map_df(~ as.numeric(.x)) |> 
-  map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x))
+#   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) Commenting out this line because I'm not sure how accurate it is to replace missing values with the average value (was discussed in class)
 
 
 ### HIS EXAMPLE
