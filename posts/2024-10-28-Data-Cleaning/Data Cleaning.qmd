@@ -11,7 +11,21 @@ draft: FALSE
 
 Describe the data in a few sentences/paragraphs.
 
-The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. After performing this initial data import, we decided to filter out specific variables that we didn't intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation because of the differences in sizes of the dataset in different years. We decided to remove these variables because we figured it would be better if we could control
+The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. After performing this initial data import, we decided to filter out specific variables that we didn't intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation because of the differences in sizes of the dataset in different years. We decided to remove these variables because we figured it would be better if we could control.
+
+Additionally, an importnat step in the data cleaning process was to explore teh data with the help of barplot showing distributions for specific variables and boxplots showing outliers. This would aid us in our analysis and furtehr steps when working with the data. Below is a function used to create boxplots:
+
+create_outlier_boxplot <- function(data, col_name) {
+  ggplot(data, aes_string(y = col_name)) +
+    geom_boxplot(outlier.color = "red",   
+                 outlier.shape = 16,      
+                 outlier.size = 2) +      
+    labs(title = paste("Boxplot of", col_name, "with Outliers"),
+         y = col_name) +
+    theme_minimal()
+}
+
+
 
 Weight because we want to do it ourselves
 
