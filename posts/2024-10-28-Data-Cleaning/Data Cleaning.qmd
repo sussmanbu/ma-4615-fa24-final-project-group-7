@@ -1,9 +1,9 @@
 ---
-title: "Data Cleaning"
+title: "Data Cleaning and Loading & Data for Equity"
 author: ""
 subtitle: ""
 description:  |
-  Blog post outlining specifics of the data and how we went about cleaning it.
+  Blog post outlining specifics of the data and how we went about cleaning it, additionally discussing the data for equity principles, as well as related article.
 date: "2024-10-28"
 date-modified: "2024-10-28"
 draft: FALSE
@@ -11,7 +11,7 @@ draft: FALSE
 
 This week, we finalized the data description and characterization before beginning the process of loading and cleaning the data. The data, which was collected from the Bureau of Justic Stastics (BJS), is a person-level and household-level dataset characterizing police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. The raw data consists of 110 variables and 105273 unique observations.
 
-The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. 
+The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. After performing this initial data import, we decided to filter out specific variables that we didn't intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation because of the differences in sizes of the dataset in different years. We decided to remove these variables because we figured it would be better if we could control.
 
 After performing this initial data import, we decided to filter out specific variables that we didn't intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation due to dataset size differences across different years. We decided to remove variables like these because we realized that, in order to perform analysis of the data ourselves, it would be more accurate and meaningful to calculate these parameters from scratch. That way, we would decrease the risk of performing a biased analysis with data values we didn't fully comprehend.
 
@@ -19,3 +19,22 @@ We also made the systematic decision to remove the variables corresponding to da
 
 Finally, we were forced to exclude certain variables from the dataset that contained values we didn't understand. For example, all variables that ended with "_sub" were excluded because we were unsure what the entries "missing carried back from later waves" corresponded to.
 
+Additionally, an important step in the data cleaning process was to explore the data with the help of barplot showing distributions for specific variables and boxplots showing outliers. This would aid us in our analysis and further steps when working with the data. Below is a function used to create boxplots:
+
+create_outlier_boxplot <- function(data, col_name) {
+  ggplot(data, aes_string(y = col_name)) +
+    geom_boxplot(outlier.color = "red",   
+                 outlier.shape = 16,      
+                 outlier.size = 2) +      
+    labs(title = paste("Boxplot of", col_name, "with Outliers"),
+         y = col_name) +
+    theme_minimal()
+}
+
+Data For Equity Principles:
+
+Beneficence:
+The dataset we are working on is about crimes and perpetrators of those crimes. The key idea of working with this dataset is to understand who committed the crimes, why and possibly whether it would be likely that they will commit them again in the future. Thus, it is important to us to not misrepresent a certain group of people as the group that is responsible for all crime or even the most of it, there are always additional factors involved apart from a specific statistic of a group commiting more crimes. It is important to represent the data objectively, discussing its implicatons and results within a wider scope and context, signifying that there are always variables left out of scope that can influence the results nevertheless. 
+
+Respect for Persons:
+The analysis that we aim to do for this dataset should by no means be definitive, but still leave open-ended questions and perhaps concerns. We do not want to create a bias for the viewers of this analysis and give them the power to make their own decisions about this data. It is again important taht we bring this unbiased view as means of displaying accurate and unbiased results (giving respect to teh groups showcased in the data), however also allowing for the viewers the right to consider and decide whether they agree with us or not, without forcing any bias on them. 
