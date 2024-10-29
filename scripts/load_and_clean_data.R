@@ -4,7 +4,6 @@
 
 library(tidyverse)
 
-
 policeContactData <- read_tsv("dataset/police-contact-data.tsv")
 #View(policeContactData)
 
@@ -14,10 +13,63 @@ numNaPerVariable <- policeContactData |>
   summarise(across(everything(), ~ sum(is.na(.)), .names = "na_count_{col}"))
 
 filtered <- policeContactData |>
-  select(!c(SECUCODE, num_fu_HHint, num_fu_perint, PSTRATA)) 
+  select(!ends_with("_sub"), !starts_with("vicar_")) |>
+  select(!c(SECUCODE, WEIGHT, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, TIME2VIC_INC_P23PER)) 
+  select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, ends_with("_sub"), starts_with(("vicar_")), TIME2VIC_INC_P23PER)) 
   #select(where(~sum(is.na(.x)) < 90000)) |>
-  
+
 View(filtered)
+
+#Exploratory Data Analysis
+
+#Barplot function
+create_barplot <- function(data, col_name) {
+  ggplot(data, aes_string(x = col_name)) +
+    geom_bar(fill = "skyblue", color = "black") +
+    labs(title = paste("Barplot of", col_name),
+         x = col_name,
+         y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
+
+columns <- c("AGE", "EDUCATION", "HH_SIZE", "NUM_MOVES", "N_HH_P1", "N_PERS_P1", "NUM_CONT", "VAL_LOSS2_INC_P23HH")
+
+for (col in columns) {
+  print(create_barplot(filtered, col))
+}
+
+#Outlier Detection
+
+#Boxplot function
+create_outlier_boxplot <- function(data, col_name) {
+  ggplot(data, aes_string(y = col_name)) +
+    geom_boxplot(outlier.color = "red",   
+                 outlier.shape = 16,      
+                 outlier.size = 2) +      
+    labs(title = paste("Boxplot of", col_name, "with Outliers"),
+         y = col_name) +
+    theme_minimal()
+}
+
+columns <- c("AGE", "EDUCATION", "HH_SIZE", "NUM_MOVES", "N_HH_P1", "N_PERS_P1", "NUM_CONT", "VAL_LOSS2_INC_P23HH") 
+
+for (col in columns) {
+  print(create_outlier_boxplot(filtered, col))
+}
+
+# Removed columns:
+# PSTRATA: don't understand how to use it
+# SECUCODE: not necessary
+# num_fu_HHint, num_fu_perint: don't need to know number of follow-ups
+# Columns ending with "_sub": unsure what " missing  carried back from later waves " means
+# time2vic_inc_P23PER: don't want to investigate months from PPCS interview to victimization
+# 
+# QUESTIONS
+# There are many columns titled whyno[number]_inc_P23[HH for household crime, PER for personal crime] with 
+# description of Reason not reported: (insert reason), should I remove any of them?
+# 
+
 
 categorical_columns <- c("C4_RACE", "MALE", "MAR_STAT", "WORK_LW", "HHPOV", "FREQ_DRV", 
                          "HH_SIZE", "PUB_HOUSE", "PUB_HOUSE_SUB", "REGION", "PPCS_YEAR", 
