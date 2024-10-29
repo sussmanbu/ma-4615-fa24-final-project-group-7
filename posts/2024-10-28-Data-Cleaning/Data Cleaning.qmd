@@ -25,6 +25,14 @@ create_outlier_boxplot <- function(data, col_name) {
     theme_minimal()
 }
 
+Data For Equity Principles:
+
+Beneficence:
+The dataset we are working on is about crimes and perpetrators of those crimes. The key idea of working with this dataset is to udnerstand who committed the crimes, why and possibly whether it would be likely that they will commit them again in the future. Thus, it is important to us to not misrepresent a certain group of people as the group that is responsible for all crime or even the most of it, there are always additional factors involved apart from a specific statistic of a group commiting more crimes. It is important to represent the data objectively, discussing its implicatons and results within a wider scope and context, signifying that there are always variables left out of scope taht can influence the results nevertheless. 
+
+Respect for Persons:
+The analysis that we aim to do for this dataset should by no means be definitive, but still leave open-ended questions and perhaps concerns. We do not want to craete a bias for the viewers of this analysis and give them the power to make their own decisions about this data. It is again important taht we bring this unbiased view as ameans of displaying accurate and unbiased results (giving respect to teh groups showcased in teh data), however also allowing for the viewers the right to consider and decide whetehr they agree with us or not, without forcing any bias on them. 
+
 
 
 Weight because we want to do it ourselves
