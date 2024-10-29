@@ -9,12 +9,22 @@ date-modified: "2024-10-28"
 draft: FALSE
 ---
 
-Describe the data in a few setences/paragraphs.
+Describe the data in a few sentences/paragraphs.
 
-The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than occassional NA values. However, after performing this initial data import, we noticed that a large majority (~90%) of the data corresponding to certain variables was missing. These included the variables  
+The first step in the process of loading & cleaning the data was converting the tsv file we found online to an R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than occasional NA values. However, after performing this initial data import, we noticed that a large majority (~90%) of the data corresponding to certain variables was missing. These included the variables  
 We then decided to filter out any columns which had at least 90,000 missing values. 
 
 not included variables:
+
 PSTRATA because we don't know what it is & will not use it
-Weight becaues we want to do it ourself
-SEUCODE because it relates to PSTRATA
+
+Weight because we want to do it ourselves
+
+SECUCODE because it relates to PSTRATA
+
+NUM_FU_HHINT, NUM_FU_PERINT because we don't want to use the number of follow-up interviews
+
+Variables ending with "_sub" because we are unsure what "missing  carried back from later waves " means
+
+TIME2VIC_INC_P23PER because don't want to investigate months from PPCS interview to victimization
+
