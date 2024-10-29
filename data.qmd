@@ -20,7 +20,7 @@ At the household level, HH_ID identifies households, while hhpov (poverty status
 Victimization variables like d_HH_P23 (household crime victimization), time2vic_inc_P23HH (time between police interview and crime), and notify_inc_P23HH (police notified of household crime) provide insights into subsequent incidents. 
 Additional demographic variables such as education, mar_stat (marital status), and work_lw (employment status) add socioeconomic context.
 
-In terms of cleaning the data, we originally started by planning to remove rows, with over 90,000 na values, but quickly realized that some of these highlighted rare experiences with police that are information that would be crucial to our analysis. 
+In terms of cleaning the data, we originally started by planning to remove rows with over 90,000 na values, but quickly realized that some of these highlighted rare experiences with police that are information that would be crucial to our analysis. 
 
 In noticing that, we decided to more forwards by removing all columns we felt contained information which were not generally relevant to the analysis we wish to conduct. This was done by reading through the documentation for the dataset and filtering out columns we felt were unhelpful to our analysis. Below are a list of a few columns we removed and why:
 

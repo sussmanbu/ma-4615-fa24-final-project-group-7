@@ -9,16 +9,13 @@ date-modified: "2024-10-28"
 draft: FALSE
 ---
 
-Describe the data in a few sentences/paragraphs.
+This week, we finalized the data description and characterization before beginning the process of loading and cleaning the data. The data, which was collected from the Bureau of Justic Stastics (BJS), is a person-level and household-level dataset characterizing police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. The raw data consists of 110 variables and 105273 unique observations.
 
-The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. After performing this initial data import, we decided to filter out specific variables that we didn't intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation because of the differences in sizes of the dataset in different years. We decided to remove these variables because we figured it would be better if we could control
+The first step in the process of loading & cleaning the data was converting the tsv file we found online to a R dataset. We did so through the `read_tsv` tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. 
 
-Weight because we want to do it ourselves
+After performing this initial data import, we decided to filter out specific variables that we didn't intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation due to dataset size differences across different years. We decided to remove variables like these because we realized that, in order to perform analysis of the data ourselves, it would be more accurate and meaningful to calculate these parameters from scratch. That way, we would decrease the risk of performing a biased analysis with data values we didn't fully comprehend.
 
-SECUCODE because it relates to PSTRATA
+We also made the systematic decision to remove the variables corresponding to data about follow-up interviews, like NUM_FU_HHINT and NUM_FU_PERINT. We did so because we currently don't intend to use that data in our analysis. Similarly, we decided to systematically remove the variable TIME2VIC_INC_P23PER because we don't want to investigate data about the time between PPCS interview and victimization.
 
-NUM_FU_HHINT, NUM_FU_PERINT because we don't want to use the number of follow-up interviews
+Finally, we were forced to exclude certain variables from the dataset that contained values we didn't understand. For example, all variables that ended with "_sub" were excluded because we were unsure what the entries "missing carried back from later waves" corresponded to.
 
-Variables ending with "_sub" because we are unsure what "missing  carried back from later waves " means
-
-TIME2VIC_INC_P23PER because don't want to investigate months from PPCS interview to victimization
