@@ -1,9 +1,9 @@
 ---
-title: "Data Cleaning"
+title: "Data Cleaning and Loading & Data for Equity"
 author: ""
 subtitle: ""
 description:  |
-  Blog post outlining specifics of the data and how we went about cleaning it.
+  Blog post outlining specifics of the data and how we went about cleaning it, additionally discussing the data for equity principles, as well as related article.
 date: "2024-10-28"
 date-modified: "2024-10-28"
 draft: FALSE
