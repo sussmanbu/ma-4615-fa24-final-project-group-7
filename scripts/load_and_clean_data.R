@@ -13,12 +13,9 @@ numNaPerVariable <- policeContactData |>
   summarise(across(everything(), ~ sum(is.na(.)), .names = "na_count_{col}"))
 
 filtered <- policeContactData |>
-<<<<<<< HEAD
   select(!ends_with("_sub"), !starts_with("vicar_")) |>
   select(!c(SECUCODE, WEIGHT, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, TIME2VIC_INC_P23PER)) 
-=======
   select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, ends_with("_sub"), starts_with(("vicar_")), TIME2VIC_INC_P23PER)) 
->>>>>>> e9c820d (some updates)
   #select(where(~sum(is.na(.x)) < 90000)) |>
 
 View(filtered)
