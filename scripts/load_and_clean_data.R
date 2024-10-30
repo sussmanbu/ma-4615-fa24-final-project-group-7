@@ -84,7 +84,7 @@ filtered[quantitative_columns] <- filtered[quantitative_columns] |>
   map_df(~ as.numeric(.x)) 
 
 View(filtered)
-saveRDS(filtered, "filtered_data.rds")
+write_RDS(filtered, "filtered_data.rds")
 #   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) Commenting out this line because I'm not sure how accurate it is to replace missing values with the average value (was discussed in class)
 
 
