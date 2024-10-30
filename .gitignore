@@ -8,4 +8,6 @@
 .DS_Store
 Thumbs.db
 /_site/
+
 scripts/experimenting_plots.qmd
+
