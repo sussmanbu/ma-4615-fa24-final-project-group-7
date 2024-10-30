@@ -15,7 +15,7 @@ numNaPerVariable <- policeContactData |>
 filtered <- policeContactData |>
   select(!ends_with("_sub"), !starts_with("vicar_")) |>
   select(!c(SECUCODE, WEIGHT, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, TIME2VIC_INC_P23PER)) 
-  select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, ends_with("_sub"), starts_with(("vicar_")), TIME2VIC_INC_P23PER)) 
+  #select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, ends_with("_sub"), starts_with(("vicar_")), TIME2VIC_INC_P23PER)) 
   #select(where(~sum(is.na(.x)) < 90000)) |>
 
 View(filtered)
@@ -82,7 +82,9 @@ quantitative_columns <- c("AGE","EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_
                           "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
 filtered[quantitative_columns] <- filtered[quantitative_columns] |> 
-  map_df(~ as.numeric(.x)) |> 
+  map_df(~ as.numeric(.x)) 
+View(filtered)
+saveRDS(filtered, "filtered_data.rds")
 #   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) Commenting out this line because I'm not sure how accurate it is to replace missing values with the average value (was discussed in class)
 
 
