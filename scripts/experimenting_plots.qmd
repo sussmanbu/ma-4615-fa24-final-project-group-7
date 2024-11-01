@@ -1,0 +1,10 @@
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+
+
+```{r}
+filtered <- read_rds("filtered_data.rds")
+filtered
+```
