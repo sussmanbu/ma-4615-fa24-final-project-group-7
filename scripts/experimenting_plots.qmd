@@ -6,5 +6,19 @@ suppressPackageStartupMessages(library(tidyverse))
 
 ```{r}
 filtered <- read_rds("filtered_data.rds")
-filtered
+
+```
+
+
+```{r}
+create_outlier_boxplot <- function(data, col_name) {
+  ggplot(data, aes_string(y = col_name)) +
+    geom_boxplot(outlier.color = "red",   
+                 outlier.shape = 16,      
+                 outlier.size = 2) +      
+    labs(title = paste("Boxplot of", col_name, "with Outliers"),
+         y = col_name) +
+    theme_minimal()
+}
+create_outlier_boxplot(filtered, filtered$C4_RACEte)
 ```
