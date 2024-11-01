@@ -6,6 +6,30 @@ draft: false
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
+Loading our Police Interaction dataset.
+
+```{r}
+library(tidyverse)
+data <- read_rds(here::here("dataset/police_interaction.rds"))
+```
+
+One initial step in conducting EDA is by looking at the "PROPER" variable, which outlines whether or not the police behaved properly during the interaction, and seeing how the proportion of improper actions differs between individuals of different races. 
+
+```{r}
+data |>
+  filter(!is.na(PROPER)) |>
+  group_by(RACE) |>
+  summarize(
+    improper_proportion = sum(PROPER == 0) / n()
+  ) |>
+  ggplot(aes(x = RACE, y = improper_proportion, fill = RACE)) +
+  geom_bar(stat = "identity")
+```
+
+
+
+
+
 
 This comes from the file `analysis.qmd`.
 
@@ -23,12 +47,6 @@ Avoid using "we" too frequently, for example "We also found that ...". Describe 
 ### Example of loading data
 
 The code below shows an example of loading the loan refusal data set (which you should delete at some point).
-
-```{r}
-library(tidyverse)
-print(getwd())
-data <- read_rds(here::here("dataset/loan_refusal_clean.rds"))
-```
 
 ## Note on Attribution
 
