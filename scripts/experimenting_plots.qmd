@@ -31,4 +31,15 @@ filtered |>
     theme_minimal() +
   facet_wrap(~RACE) 
   #theme(legend.title = element_text(hjust = 1))
+
+```
+
+
+```{r}
+ggplot(filtered, aes(x = as.factor(ARRESTED), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Arrests by Race", x = "Arrested (0 = No, 1 = Yes)", y = "Proportion", fill = "Race")
+
+
+
 ```
