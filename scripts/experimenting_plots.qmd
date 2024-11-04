@@ -1,5 +1,6 @@
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
+
 ```
 
 
@@ -33,8 +34,33 @@ filtered |>
     geom_bar(show.legend = TRUE) +
     theme_minimal() +
   facet_wrap(~RACE) 
+
  # ggplot(aes(x = REASON, y = after_stat(prop), fill = reason_text, group = reason_text)) +
  #    geom_bar(show.legend = TRUE, color = "black", position = "dodge") +
  #    theme_minimal() +
 #  theme(legend = element_text("Reason for traffic stop"))
+
+  #theme(legend.title = element_text(hjust = 1))
+
+```
+
+
+```{r}
+ggplot(filtered, aes(x = as.factor(ARRESTED), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Arrests by Race", x = "Arrested (0 = No, 1 = Yes)", y = "Proportion", fill = "Race")
+
+
+
+```
+
+
+```{r}
+
+ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Race by Police Contact", x = "Police Contact", y = "Proportion", fill = "Race") +
+  scale_x_discrete(labels = c("0" = "No", "1" = "Yes")) +
+  scale_y_continuous(labels = scales::percent)
+
 ```
