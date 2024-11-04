@@ -22,8 +22,11 @@ create_barplot <- function(data, col_name) {
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
 reason_key = c("Out of universe/missing", "Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
+# filtered_reason <- filtered %>%
+#  count(RACE , wt = reason_key, name = "ny")
 filtered |>
   group_by(RACE) |>
+  filter(REASON > 0) |>
   mutate(
     reason_text = reason_key[REASON + 1] 
   ) |>
@@ -31,6 +34,12 @@ filtered |>
     geom_bar(show.legend = TRUE) +
     theme_minimal() +
   facet_wrap(~RACE) 
+
+ # ggplot(aes(x = REASON, y = after_stat(prop), fill = reason_text, group = reason_text)) +
+ #    geom_bar(show.legend = TRUE, color = "black", position = "dodge") +
+ #    theme_minimal() +
+#  theme(legend = element_text("Reason for traffic stop"))
+
   #theme(legend.title = element_text(hjust = 1))
 
 ```
@@ -53,4 +62,5 @@ ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
   labs(title = "Proportion of Race by Police Contact", x = "Police Contact", y = "Proportion", fill = "Race") +
   scale_x_discrete(labels = c("0" = "No", "1" = "Yes")) +
   scale_y_continuous(labels = scales::percent)
+
 ```
