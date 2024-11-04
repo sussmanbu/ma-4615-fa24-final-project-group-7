@@ -21,19 +21,25 @@ create_barplot <- function(data, col_name) {
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
-reason_key = c("Out of universe/missing", "Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
+reason_key = c("Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
 # filtered_reason <- filtered %>%
 #  count(RACE , wt = reason_key, name = "ny")
+# filtered |>
+#   group_by(RACE) |>
+#   filter(REASON > 0) |>
+#   mutate(
+#     reason_text = reason_key[REASON + 1] 
+#   ) |>
+#   ggplot(aes(x = REASON, fill = reason_text)) +
+#     geom_bar(show.legend = TRUE) +
+#     theme_minimal() +
+#   facet_wrap(~RACE) 
 filtered |>
-  group_by(RACE) |>
   filter(REASON > 0) |>
-  mutate(
-    reason_text = reason_key[REASON + 1] 
-  ) |>
-  ggplot(aes(x = REASON, fill = reason_text)) +
-    geom_bar(show.legend = TRUE) +
-    theme_minimal() +
-  facet_wrap(~RACE) 
+ggplot(aes(x = as.factor(REASON), fill = as.factor(RACE)))+
+  geom_bar(position = "fill") + 
+  labs(title = "Proportion of Reasons for Traffic Stop by Race") 
+  scale_fill_discrete(name = "Race", xlab(reason_key))
 
  # ggplot(aes(x = REASON, y = after_stat(prop), fill = reason_text, group = reason_text)) +
  #    geom_bar(show.legend = TRUE, color = "black", position = "dodge") +
