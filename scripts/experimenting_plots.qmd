@@ -1,5 +1,6 @@
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
+
 ```
 
 
@@ -42,4 +43,14 @@ ggplot(filtered, aes(x = as.factor(ARRESTED), fill = as.factor(RACE))) +
 
 
 
+```
+
+
+```{r}
+
+ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Race by Police Contact", x = "Police Contact", y = "Proportion", fill = "Race") +
+  scale_x_discrete(labels = c("0" = "No", "1" = "Yes")) +
+  scale_y_continuous(labels = scales::percent)
 ```
