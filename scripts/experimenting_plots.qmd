@@ -5,20 +5,30 @@ suppressPackageStartupMessages(library(tidyverse))
 
 
 ```{r}
-filtered <- read_rds("filtered_data.rds")
+filtered <- read_rds("dataset/police_interaction.rds")
 
 ```
 
 
 ```{r}
-create_outlier_boxplot <- function(data, col_name) {
-  ggplot(data, aes_string(y = col_name)) +
-    geom_boxplot(outlier.color = "red",   
-                 outlier.shape = 16,      
-                 outlier.size = 2) +      
-    labs(title = paste("Boxplot of", col_name, "with Outliers"),
-         y = col_name) +
-    theme_minimal()
+create_barplot <- function(data, col_name) {
+  ggplot(data, aes_string(x = col_name)) +
+    geom_bar(fill = "skyblue", color = "black") +
+    labs(title = paste("Barplot of", col_name),
+         x = col_name,
+         y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
-create_outlier_boxplot(filtered, filtered$C4_RACEte)
+reason_key = c("Out of universe/missing", "Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
+filtered |>
+  group_by(RACE) |>
+  mutate(
+    reason_text = reason_key[REASON + 1] 
+  ) |>
+  ggplot(aes(x = REASON, fill = reason_text)) +
+    geom_bar(show.legend = TRUE) +
+    theme_minimal() +
+  facet_wrap(~RACE) 
+  #theme(legend.title = element_text(hjust = 1))
 ```
