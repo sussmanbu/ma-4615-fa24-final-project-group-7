@@ -76,3 +76,63 @@ summary(mod1)
 #   ggplot(aes(x = C4_RACE, y = PROPER)) +
 #   geom_
 ```
+
+``` {r}
+library(tidyverse)
+library(reshape2)
+
+# Categorizing variables based on their types
+#removed "CONTACT" and "ERROR" due to "Warning in cor(numeric_data, use = "complete.obs") : the standard deviation is zero" error
+binary_columns <- c("MALE", "WORK_LW", "HHPOV", "PUB_HOUSE", "PUB_HOUSE_SUB", "REGION", 
+                    "INPERSON", "VICAR_CITIZEN", "VICAR_PRO_AUTO", "VICAR_PRO_PERS", 
+                    "VICAR_OTH_CONT", "VICAR_IMPROPER", "D_HH_P23", "PROPER")
+ordinal_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE", "MSA_STATUS")
+continuous_columns <- c("AGE", "EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", 
+                        "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", 
+                        "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
+
+# Selecting data by type
+binary_data <- filtered %>%
+  select(all_of(binary_columns)) %>%
+  select(where(is.numeric))
+
+ordinal_data <- filtered %>%
+  select(all_of(ordinal_columns)) %>%
+  select(where(is.numeric))
+
+continuous_data <- filtered %>%
+  select(all_of(continuous_columns)) %>%
+  select(where(is.numeric))
+
+# Calculating correlation matrices with appropriate methods
+cor_binary <- cor(binary_data, use = "pairwise.complete.obs", method = "pearson")
+cor_ordinal <- cor(ordinal_data, use = "pairwise.complete.obs", method = "spearman")
+cor_continuous <- cor(continuous_data, use = "pairwise.complete.obs", method = "pearson")
+
+# Creating a heatmap function
+plot_heatmap <- function(cor_matrix, title) {
+  cor_melted <- melt(cor_matrix)
+  ggplot(cor_melted, aes(Var1, Var2, fill = value)) +
+    geom_tile(color = "white") +
+    scale_fill_gradient2(low = "blue", high = "red", mid = "white",
+                         midpoint = 0, limit = c(-1, 1), name = "Correlation") +
+    labs(title = title, x = "Variables", y = "Variables") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          axis.text.y = element_text(angle = 45, vjust = 1))
+}
+
+# Plotting heatmaps for each correlation matrix
+if (ncol(binary_data) > 1) {
+  print(plot_heatmap(cor_binary, "Correlation Heatmap of Binary Variables"))
+}
+
+if (ncol(ordinal_data) > 1) {
+  print(plot_heatmap(cor_ordinal, "Correlation Heatmap of Ordinal Variables"))
+}
+
+if (ncol(continuous_data) > 1) {
+  print(plot_heatmap(cor_continuous, "Correlation Heatmap of Continuous Variables"))
+}
+
+```
