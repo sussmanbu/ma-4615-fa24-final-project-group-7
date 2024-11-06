@@ -3,7 +3,7 @@ title: "EDA"
 author: ""
 subtitle: ""
 description:  |
-  Blog post outlining background information related to our dataset.
+  Blog post discussing further EDA and initial thoughts on statistical modeling.
 date: "2024-11-4"
 date-modified: "2024-11-4"
 draft: FALSE
@@ -13,7 +13,6 @@ draft: FALSE
 This week, we continued exploring the dataset with a focus on relationships among different variables such as reasons for traffic stops, arrests, and the types of police contacts experienced under different demographical groups.
 
 For example, below is a plot being generated. We studied the disparities in experiences of improper police contact among different racial groups. We made a bar plot to illustrate the proportion within each racial group who reported experiencing improper police contact and the result reveals notable differences across racial groups.This insight lays the groundwork for deeper analysis to understand what factors contribute to these differences, potentially using demographic and situational variables in further modeling.
-
 
 
 ```{r}
@@ -31,7 +30,6 @@ data |>
 This is the second plot that we would like to include here: 
 We made a heatmap that visualizes the correlations between various binary variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
 This heatmap helps identify groups of binary variables that may be related or unrelated, which can be useful in modeling and to understand relationships among the data.
-
 
 ``` {r}
 library(tidyverse)
@@ -90,3 +88,5 @@ if (ncol(continuous_data) > 1) {
 }
 
 ```
+
+For modeling, 
