@@ -12,6 +12,27 @@ filtered <- read_rds("dataset/police_interaction.rds")
 
 
 ```{r}
+
+create_barplot <- function(data, col_name) {
+  ggplot(data, aes_string(x = col_name)) +
+    geom_bar(fill = "skyblue", color = "black") +
+    labs(title = paste("Barplot of", col_name),
+         x = col_name,
+         y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
+reason_key = c("Out of universe/missing", "Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
+filtered |>
+  group_by(RACE) |>
+  mutate(
+    reason_text = reason_key[REASON + 1] 
+  ) |>
+  ggplot(aes(x = REASON, fill = reason_text)) +
+    geom_bar(show.legend = TRUE) +
+    theme_minimal() +
+  facet_wrap(~RACE) 
+
 reason_key = c("Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
 # filtered_reason <- filtered %>%
 #  count(RACE , wt = reason_key, name = "ny")
@@ -37,8 +58,15 @@ ggplot(aes(x = as.factor(REASON), fill = as.factor(RACE)))+
  #    theme_minimal() +
 #  theme(legend = element_text("Reason for traffic stop"))
 
+
   #theme(legend.title = element_text(hjust = 1))
 
+filtered |>
+  filter(REASON > 0) |>
+  ggplot(aes(x = RACE, fill = as.factor(REASON))) +
+  geom_bar(position = "fill") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Proportion of Reasons for Traffic Stop by Race")
 ```
 
 
@@ -49,8 +77,15 @@ filtered |>
     geom_bar(position = "fill") +
     labs(title = "Proportion of Arrests by Race", x = "Race", y = "Arrested (0 = No, 1 = Yes)", fill = "Arrested")
 
-
-
+filtered |>
+  filter(!is.na(ARRESTED)) |>
+  group_by(RACE) |>
+  summarize(
+    arrest_proportion = sum(ARRESTED = 1) / n()
+  ) |>
+  ggplot(aes(x = RACE, y = arrest_proportion, fill = RACE)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
@@ -61,6 +96,22 @@ ggplot(filtered, aes(x = as.factor(RACE), fill = as.factor(CONTACT))) +
   labs(title = "Proportion of Race by Police Contact", x = "Race", y = "Police Contact", fill = "Police Contact") +
   scale_x_discrete(labels = c("0" = "No", "1" = "Yes")) +
   scale_y_continuous(labels = scales::percent)
+```
+
+
+```{r}
+
+ggplot(filtered, aes(x = as.factor(C_CONTCT), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Contact Type by Race", x = "Contact Type", y = "Proportion", fill = "Race") +
+  scale_x_discrete(labels = c("0" = "No contact", 
+                              "1" = "Citizen-initiated contact", 
+                              "2" = "Vehicle stop", 
+                              "3" = "Suspect-related contact", 
+                              "4" = "Other police contact")) +
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ```
 
@@ -148,4 +199,26 @@ if (ncol(continuous_data) > 1) {
   print(plot_heatmap(cor_continuous, "Correlation Heatmap of Continuous Variables"))
 }
 
+```
+
+
+Plot of the marriage data for different races
+``` {r}
+marriageData <- filtered |>
+  filter(!is.na(MAR_STAT)) |>
+  group_by(RACE) |>
+  mutate(totalPerRace = n()) |>
+  ungroup() |>
+  group_by(RACE, MAR_STAT) |>
+  select(RACE, MAR_STAT, totalPerRace) |>
+  mutate(numPerMarStatRace = n()) |>
+  filter(row_number()==1) |>
+  mutate(prop = numPerMarStatRace/totalPerRace) |>
+  select(-totalPerRace, -numPerMarStatRace) |>
+  mutate(MAR_STAT = as.factor(MAR_STAT))
+
+ggplot(data = marriageData) +
+  geom_bar(mapping = aes(x = RACE, fill = MAR_STAT, y = prop),
+           stat = "identity",
+           position = "dodge")
 ```

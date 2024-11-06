@@ -23,7 +23,8 @@ data |>
     improper_proportion = sum(PROPER == 0) / n()
   ) |>
   ggplot(aes(x = RACE, y = improper_proportion, fill = RACE)) +
-  geom_bar(stat = "identity")
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 

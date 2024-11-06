@@ -112,3 +112,5 @@ write_RDS(filtered, "filtered_data.rds")
 # 
 # filtered <- filtered |>
 #  rename(marital_status = MAR_STAT, employment_status = WORK_LW, years_of_education = EDUCATION, in_poverty = HHPOV, )
+
+
