@@ -186,9 +186,25 @@ if (ncol(continuous_data) > 1) {
 
 ```
 
+```{r}
+# Linear Model for Arrests based on Race and Gender
+modeling_data <- filtered |>
+  filter(!is.na(ARRESTED))
+  
+data_split = initial_split(modeling_data, prop = 0.8)
 
-Plot of the marriage data for different races
+training_data = training(data_split)
+testing_data = testing(data_split)
+
+model <- lm(ARRESTED ~ RACE + MALE, data = training_data)
+
+summary(model)
+
+```
+
+
 ``` {r}
+#Plot of the marriage data for different races
 marriageData <- filtered |>
   filter(!is.na(MAR_STAT)) |>
   group_by(RACE) |>
