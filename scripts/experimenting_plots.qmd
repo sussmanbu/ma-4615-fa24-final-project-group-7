@@ -71,9 +71,11 @@ filtered |>
 
 
 ```{r}
-ggplot(filtered, aes(x = as.factor(ARRESTED), fill = as.factor(RACE))) +
-  geom_bar(position = "fill") +
-  labs(title = "Proportion of Arrests by Race", x = "Arrested (0 = No, 1 = Yes)", y = "Proportion", fill = "Race")
+filtered |>
+  filter(!is.na(ARRESTED)) |>
+  ggplot(aes(x = as.factor(RACE), fill = as.factor(ARRESTED))) +
+    geom_bar(position = "fill") +
+    labs(title = "Proportion of Arrests by Race", x = "Race", y = "Arrested (0 = No, 1 = Yes)", fill = "Arrested")
 
 filtered |>
   filter(!is.na(ARRESTED)) |>
@@ -89,9 +91,9 @@ filtered |>
 
 ```{r}
 
-ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
+ggplot(filtered, aes(x = as.factor(RACE), fill = as.factor(CONTACT))) +
   geom_bar(position = "fill") +
-  labs(title = "Proportion of Race by Police Contact", x = "Police Contact", y = "Proportion", fill = "Race") +
+  labs(title = "Proportion of Race by Police Contact", x = "Race", y = "Police Contact", fill = "Police Contact") +
   scale_x_discrete(labels = c("0" = "No", "1" = "Yes")) +
   scale_y_continuous(labels = scales::percent)
 ```
@@ -118,14 +120,27 @@ ggplot(filtered, aes(x = as.factor(C_CONTCT), fill = as.factor(RACE))) +
 library(tidymodels)
 split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
 training<- training(split)
-mod1 <- lm(PROPER ~ RACE, filtered)
+predict_filtered <- filtered |>
+  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+
+mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
 summary(mod1)
+plot(mod1)
 # filtered |>
 #   # ggplot(aes(x = C4_RACE, y = PROPER)) +
 #   # geom_quantile()
 #   
 #   ggplot(aes(x = C4_RACE, y = PROPER)) +
 #   geom_
+```
+```{r}
+broom::augment(mod1)
+ggplot(mod1, aes(x = .fitted, y=.resid)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth()
+ggplot(mod1, aes(sample = rstandard(mod1))) +
+  geom_qq() + 
+  stat_qq_line()
 ```
 
 ``` {r}
