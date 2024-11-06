@@ -10,3 +10,18 @@ draft: FALSE
 
 ---
 
+This week, we continued exploring the dataset with a focus on relationships among different variables such as reasons for traffic stops, arrests, and the types of police contacts experienced under different demographical groups.
+
+For example, below is a plot being generated. We studied the disparities in experiences of improper police contact among different racial groups. We made a bar plot to illustrate the proportion within each racial group who reported experiencing improper police contact and the result reveals notable differences across racial groups.This insight lays the groundwork for deeper analysis to understand what factors contribute to these differences, potentially using demographic and situational variables in further modeling.
+
+
+```{r}
+data |>
+  filter(!is.na(PROPER)) |>
+  group_by(RACE) |>
+  summarize(
+    improper_proportion = sum(PROPER == 0) / n()
+  ) |>
+  ggplot(aes(x = RACE, y = improper_proportion, fill = RACE)) +
+  geom_bar(stat = "identity")
+```

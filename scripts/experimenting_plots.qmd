@@ -12,7 +12,7 @@ filtered <- read_rds("dataset/police_interaction.rds")
 
 
 ```{r}
-<<<<<<< HEAD
+
 create_barplot <- function(data, col_name) {
   ggplot(data, aes_string(x = col_name)) +
     geom_bar(fill = "skyblue", color = "black") +
@@ -32,7 +32,7 @@ filtered |>
     geom_bar(show.legend = TRUE) +
     theme_minimal() +
   facet_wrap(~RACE) 
-=======
+
 reason_key = c("Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
 # filtered_reason <- filtered %>%
 #  count(RACE , wt = reason_key, name = "ny")
@@ -58,7 +58,7 @@ ggplot(aes(x = as.factor(REASON), fill = as.factor(RACE)))+
  #    theme_minimal() +
 #  theme(legend = element_text("Reason for traffic stop"))
 
->>>>>>> 7df8b9a2cdb098b408aa63a2d5c6d93b5517b61e
+
   #theme(legend.title = element_text(hjust = 1))
 
 ```
@@ -100,7 +100,7 @@ ggplot(filtered, aes(x = as.factor(C_CONTCT), fill = as.factor(RACE))) +
 
 ```
 
-<<<<<<< HEAD
+
 ```{r}
 library(tidymodels)
 split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
