@@ -26,9 +26,16 @@ numNaPerVariable <- policeContactData |>
 
 filtered <- policeContactData |>
   select(!ends_with("_sub"), !starts_with("vicar_")) |>
-  select(!c(SECUCODE, WEIGHT, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, TIME2VIC_INC_P23PER)) 
-  select(!c(SECUCODE, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, ends_with("_sub"), starts_with(("vicar_")), TIME2VIC_INC_P23PER)) 
-  #select(where(~sum(is.na(.x)) < 90000)) |>
+  select(!c(SECUCODE, WEIGHT, NUM_FU_HHINT, NUM_FU_PERINT, PSTRATA, TIME2VIC_INC_P23PER)) |>
+  mutate(
+    RACE = case_when(
+      C4_RACE == 1 ~ "White, Non-Hispanic",
+      C4_RACE == 2 ~ "Black, Non-Hispanic",
+      C4_RACE == 3 ~ "Hispanic",
+      C4_RACE == 4 ~ "Other or multiracial, Non-Hispanic"
+    )
+  ) |>
+  relocate(RACE, .before = AGE)
 
 View(filtered)
 
@@ -70,7 +77,18 @@ for (col in columns) {
   print(create_outlier_boxplot(filtered, col))
 }
 
+write_rds(filtered, file = here::here("dataset", "police_interaction.rds"))
 
+# Removed columns:
+# PSTRATA: don't understand how to use it
+# SECUCODE: not necessary
+# num_fu_HHint, num_fu_perint: don't need to know number of follow-ups
+# Columns ending with "_sub": unsure what " missing  carried back from later waves " means
+# time2vic_inc_P23PER: don't want to investigate months from PPCS interview to victimization
+# 
+# QUESTIONS
+# There are many columns titled whyno[number]_inc_P23[HH for household crime, PER for personal crime] with 
+# description of Reason not reported: (insert reason), should I remove any of them?
 
 
 categorical_columns <- c("C4_RACE", "MALE", "MAR_STAT", "WORK_LW", "HHPOV", "FREQ_DRV", 
@@ -83,7 +101,11 @@ quantitative_columns <- c("AGE","EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_
                           "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
 filtered[quantitative_columns] <- filtered[quantitative_columns] |> 
-  map_df(~ as.numeric(.x)) 
+  map_df(~ as.numeric(.x))
+
+View(filtered)
+write_RDS(filtered, "filtered_data.rds")
+#   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) Commenting out this line because I'm not sure how accurate it is to replace missing values with the average value (was discussed in class)
 
 # Renaming the columns to more usable/understandable names
 # If I can't easily rename them, I will include descriptions below

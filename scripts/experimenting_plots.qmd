@@ -1,0 +1,72 @@
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+
+```
+
+
+
+```{r}
+filtered <- read_rds("dataset/police_interaction.rds")
+
+```
+
+
+```{r}
+create_barplot <- function(data, col_name) {
+  ggplot(data, aes_string(x = col_name)) +
+    geom_bar(fill = "skyblue", color = "black") +
+    labs(title = paste("Barplot of", col_name),
+         x = col_name,
+         y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
+reason_key = c("Accident", "Traffic stop-driver", "Traffic stop-passenger", "Rsp reported crime", "Police assistance", "Police investigation", "Police suspected rsp", "Other reason")
+# filtered_reason <- filtered %>%
+#  count(RACE , wt = reason_key, name = "ny")
+# filtered |>
+#   group_by(RACE) |>
+#   filter(REASON > 0) |>
+#   mutate(
+#     reason_text = reason_key[REASON + 1] 
+#   ) |>
+#   ggplot(aes(x = REASON, fill = reason_text)) +
+#     geom_bar(show.legend = TRUE) +
+#     theme_minimal() +
+#   facet_wrap(~RACE) 
+filtered |>
+  filter(REASON > 0) |>
+ggplot(aes(x = as.factor(REASON), fill = as.factor(RACE)))+
+  geom_bar(position = "fill") + 
+  labs(title = "Proportion of Reasons for Traffic Stop by Race") 
+  scale_fill_discrete(name = "Race", xlab(reason_key))
+
+ # ggplot(aes(x = REASON, y = after_stat(prop), fill = reason_text, group = reason_text)) +
+ #    geom_bar(show.legend = TRUE, color = "black", position = "dodge") +
+ #    theme_minimal() +
+#  theme(legend = element_text("Reason for traffic stop"))
+
+  #theme(legend.title = element_text(hjust = 1))
+
+```
+
+
+```{r}
+ggplot(filtered, aes(x = as.factor(ARRESTED), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Arrests by Race", x = "Arrested (0 = No, 1 = Yes)", y = "Proportion", fill = "Race")
+
+
+
+```
+
+
+```{r}
+
+ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Race by Police Contact", x = "Police Contact", y = "Proportion", fill = "Race") +
+  scale_x_discrete(labels = c("0" = "No", "1" = "Yes")) +
+  scale_y_continuous(labels = scales::percent)
+
+```

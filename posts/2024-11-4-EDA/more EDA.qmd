@@ -1,0 +1,12 @@
+---
+title: "EDA"
+author: ""
+subtitle: ""
+description:  |
+  Blog post outlining background information related to our dataset.
+date: "2024-11-4"
+date-modified: "2024-11-4"
+draft: FALSE
+
+---
+
