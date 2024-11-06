@@ -70,3 +70,25 @@ ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
   scale_y_continuous(labels = scales::percent)
 
 ```
+
+
+Plot of the marriage data for different races
+``` {r}
+marriageData <- filtered |>
+  filter(!is.na(MAR_STAT)) |>
+  group_by(RACE) |>
+  mutate(totalPerRace = n()) |>
+  ungroup() |>
+  group_by(RACE, MAR_STAT) |>
+  select(RACE, MAR_STAT, totalPerRace) |>
+  mutate(numPerMarStatRace = n()) |>
+  filter(row_number()==1) |>
+  mutate(prop = numPerMarStatRace/totalPerRace) |>
+  select(-totalPerRace, -numPerMarStatRace) |>
+  mutate(MAR_STAT = as.factor(MAR_STAT))
+
+ggplot(data = marriageData) +
+  geom_bar(mapping = aes(x = RACE, fill = MAR_STAT, y = prop),
+           stat = "identity",
+           position = "dodge")
+```
