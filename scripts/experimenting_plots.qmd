@@ -62,12 +62,12 @@ ggplot(filtered, aes(x = as.factor(CONTACT), fill = as.factor(RACE))) +
 
 ```
 
-<<<<<<< HEAD
+
 ```{r}
 library(tidymodels)
 split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
 training<- training(split)
-mod1 <- lm(PROPER ~ C4_RACE, filtered)
+mod1 <- lm(PROPER ~ RACE, filtered)
 summary(mod1)
 # filtered |>
 #   # ggplot(aes(x = C4_RACE, y = PROPER)) +
