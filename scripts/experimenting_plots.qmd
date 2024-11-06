@@ -83,13 +83,11 @@ library(reshape2)
 
 # Categorizing variables based on their types
 #removed "CONTACT" and "ERROR" due to "Warning in cor(numeric_data, use = "complete.obs") : the standard deviation is zero" error
-binary_columns <- c("MALE", "WORK_LW", "HHPOV", "PUB_HOUSE", "PUB_HOUSE_SUB", "REGION", 
-                    "INPERSON", "VICAR_CITIZEN", "VICAR_PRO_AUTO", "VICAR_PRO_PERS", 
-                    "VICAR_OTH_CONT", "VICAR_IMPROPER", "D_HH_P23", "PROPER")
-ordinal_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE", "MSA_STATUS")
-continuous_columns <- c("AGE", "EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", 
-                        "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", 
-                        "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
+binary_columns <- c("MALE", "WORK_LW", "HHPOV", "PUB_HOUSE",   "PUB_HOUSE_SUB", "REGION", "INPERSON", "VICAR_CITIZEN", "VICAR_PRO_AUTO", "VICAR_PRO_PERS", "VICAR_OTH_CONT", "VICAR_IMPROPER", "D_HH_P23", "PROPER")
+
+ordinal_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STATUS")
+
+continuous_columns <- c("AGE", "EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
 # Selecting data by type
 binary_data <- filtered %>%
