@@ -39,6 +39,12 @@ ggplot(aes(x = as.factor(REASON), fill = as.factor(RACE)))+
 
   #theme(legend.title = element_text(hjust = 1))
 
+filtered |>
+  filter(REASON > 0) |>
+  ggplot(aes(x = RACE, fill = as.factor(REASON))) +
+  geom_bar(position = "fill") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Proportion of Reasons for Traffic Stop by Race")
 ```
 
 
@@ -47,8 +53,15 @@ ggplot(filtered, aes(x = as.factor(ARRESTED), fill = as.factor(RACE))) +
   geom_bar(position = "fill") +
   labs(title = "Proportion of Arrests by Race", x = "Arrested (0 = No, 1 = Yes)", y = "Proportion", fill = "Race")
 
-
-
+filtered |>
+  filter(!is.na(ARRESTED)) |>
+  group_by(RACE) |>
+  summarize(
+    arrest_proportion = sum(ARRESTED = 1) / n()
+  ) |>
+  ggplot(aes(x = RACE, y = arrest_proportion, fill = RACE)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
