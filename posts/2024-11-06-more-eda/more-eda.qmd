@@ -28,8 +28,8 @@ data |>
 
 
 This is the second plot that we would like to include here: 
-We made a heatmap that visualizes the correlations between various binary variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
-This heatmap helps identify groups of binary variables that may be related or unrelated, which can be useful in modeling and to understand relationships among the data.
+We made a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
+This heatmap helps identify groups of continuous variables that may be related or unrelated, which can be useful in modeling and to understand relationships among the data.
 
 ``` {r}
 library(tidyverse)
@@ -76,14 +76,6 @@ plot_heatmap <- function(cor_matrix, title) {
 }
 
 # Plotting heatmaps for each correlation matrix
-if (ncol(binary_data) > 1) {
-  print(plot_heatmap(cor_binary, "Correlation Heatmap of Binary Variables"))
-}
-
-if (ncol(ordinal_data) > 1) {
-  print(plot_heatmap(cor_ordinal, "Correlation Heatmap of Ordinal Variables"))
-}
-
 if (ncol(continuous_data) > 1) {
   print(plot_heatmap(cor_continuous, "Correlation Heatmap of Continuous Variables"))
 }
@@ -101,8 +93,6 @@ predict_filtered <- training |>
   filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
 
 mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
-summary(mod1)
-plot(mod1)
 ```
 
 In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category.
@@ -113,7 +103,6 @@ predict_filtered_test <- testing |>
   filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
 
 mod2 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered_test)
-summary(mod2)
 plot(mod2)
 ```
 
