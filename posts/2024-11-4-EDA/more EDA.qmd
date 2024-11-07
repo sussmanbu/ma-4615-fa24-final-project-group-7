@@ -16,6 +16,9 @@ For example, below is a plot being generated. We studied the disparities in expe
 
 
 ```{r}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(tidymodels))
+data <- readRDS("dataset/police_interaction.rds") 
 data |>
   filter(!is.na(PROPER)) |>
   group_by(RACE) |>
@@ -43,6 +46,7 @@ ordinal_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STATUS")
 
 continuous_columns <- c("AGE", "EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
+filtered <- data
 # Selecting data by type
 binary_data <- filtered %>%
   select(all_of(binary_columns)) %>%
@@ -89,4 +93,29 @@ if (ncol(continuous_data) > 1) {
 
 ```
 
-For modeling, 
+For modeling, we used a linear model to try to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. We separated the data into a train and test set with an 80% split. 
+In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.
+
+```{r Training Summary:}
+split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
+training<- training(split)
+testing <- testing(split)
+predict_filtered <- training |>
+  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+
+mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
+summary(mod1)
+plot(mod1)
+```
+
+In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category.
+
+```{r Testing Summary:}
+
+predict_filtered_test <- testing |>
+  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+
+mod2 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered_test)
+summary(mod2)
+plot(mod2)
+```
