@@ -10,7 +10,7 @@ draft: FALSE
 
 ---
 
-This week, we continued exploring the dataset with a focus on relationships among different variables such as reasons for traffic stops, arrests, and the types of police contacts experienced under different demographical groups.
+This week, we continued exploring the dataset with a focus on relationships among different variables such as reasons for traffic stops, arrests, and the types of police contacts experienced under different demographic groups.
 
 For example, below is a plot being generated. We studied the disparities in experiences of improper police contact among different racial groups. We made a bar plot to illustrate the proportion within each racial group who reported experiencing improper police contact and the result reveals notable differences across racial groups.This insight lays the groundwork for deeper analysis to understand what factors contribute to these differences, potentially using demographic and situational variables in further modeling.
 
@@ -108,7 +108,7 @@ summary(mod1)
 plot(mod1)
 ```
 
-In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category.
+In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category. Futhermore, the difference in performance between the testing and training data implies an overfitting that is being done by the model, that is different from actually learning the relationship.
 
 ```{r Testing Summary:}
 
