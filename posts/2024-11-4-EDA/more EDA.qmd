@@ -89,4 +89,5 @@ if (ncol(continuous_data) > 1) {
 
 ```
 
-For modeling, 
+Modeling:
+
