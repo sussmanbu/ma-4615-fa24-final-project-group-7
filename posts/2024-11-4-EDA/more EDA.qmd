@@ -7,7 +7,6 @@ description:  |
 date: "2024-11-4"
 date-modified: "2024-11-4"
 draft: FALSE
-
 ---
 
 This week, we continued exploring the dataset with a focus on relationships among different variables such as reasons for traffic stops, arrests, and the types of police contacts experienced under different demographic groups.

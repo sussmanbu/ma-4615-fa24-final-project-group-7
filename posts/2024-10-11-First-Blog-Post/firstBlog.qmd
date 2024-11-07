@@ -1,6 +1,12 @@
 ---
-title: "First Blog Post"
-editor: visual
+title: "First Blog"
+author: ""
+subtitle: ""
+description:  |
+  First Blog Post
+date: "2024-10-11"
+date-modified: "2024-10-11"
+draft: FALSE
 ---
 
 <https://www.icpsr.umich.edu/web/NACJD/studies/36370/>
