@@ -78,15 +78,6 @@ plot_heatmap <- function(cor_matrix, title) {
           axis.text.y = element_text(angle = 0, vjust = 1))
 }
 
-# Plotting heatmaps for each correlation matrix
-if (ncol(binary_data) > 1) {
-  print(plot_heatmap(cor_binary, "Correlation Heatmap of Binary Variables"))
-}
-
-if (ncol(ordinal_data) > 1) {
-  print(plot_heatmap(cor_ordinal, "Correlation Heatmap of Ordinal Variables"))
-}
-
 if (ncol(continuous_data) > 1) {
   print(plot_heatmap(cor_continuous, "Correlation Heatmap of Continuous Variables"))
 }
@@ -96,19 +87,7 @@ if (ncol(continuous_data) > 1) {
 For modeling, we used a linear model to try to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. We separated the data into a train and test set with an 80% split. 
 In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.
 
-```{r Training Summary:}
-split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
-training<- training(split)
-testing <- testing(split)
-predict_filtered <- training |>
-  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
-
-mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
-summary(mod1)
-plot(mod1)
-```
-
-In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category. Futhermore, the difference in performance between the testing and training data implies an overfitting that is being done by the model, that is different from actually learning the relationship.
+In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category. Furthermore, the difference in performance between the testing and training data implies an overfitting that is being done by the model, that is different from actually learning the relationship.
 
 ```{r Testing Summary:}
 
