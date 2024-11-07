@@ -321,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(filtered, <span class="at">prop =</span> .<span class="dv">8</span>) <span class="co">#good way to keep yourself honest. splits it by prop % being in training, 1-prop being test</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>training<span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
@@ -338,17 +338,17 @@ lm(formula = ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, data = predict_filtered
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.12000 -0.04221 -0.02379 -0.00883  1.00968 
+-0.12523 -0.04095 -0.02223 -0.00822  1.01050 
 
 Coefficients:
                                          Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)                             0.1004021  0.0092687  10.832  &lt; 2e-16
-RACEHispanic                           -0.0261129  0.0065618  -3.980 6.94e-05
-RACEOther or multiracial, Non-Hispanic -0.0315129  0.0085832  -3.671 0.000242
-RACEWhite, Non-Hispanic                -0.0267855  0.0050725  -5.281 1.31e-07
-EDUCATION                              -0.0046279  0.0005692  -8.130 4.69e-16
-HHPOV                                   0.0195789  0.0046387   4.221 2.45e-05
-MALE                                    0.0242232  0.0028143   8.607  &lt; 2e-16
+(Intercept)                             0.1036865  0.0093073  11.140  &lt; 2e-16
+RACEHispanic                           -0.0288255  0.0065745  -4.384 1.17e-05
+RACEOther or multiracial, Non-Hispanic -0.0349433  0.0085588  -4.083 4.48e-05
+RACEWhite, Non-Hispanic                -0.0299628  0.0050544  -5.928 3.15e-09
+EDUCATION                              -0.0046792  0.0005722  -8.177 3.19e-16
+HHPOV                                   0.0262417  0.0046901   5.595 2.25e-08
+MALE                                    0.0233764  0.0028250   8.275  &lt; 2e-16
                                           
 (Intercept)                            ***
 RACEHispanic                           ***
@@ -360,9 +360,9 @@ MALE                                   ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.1573 on 12579 degrees of freedom
-Multiple R-squared:  0.01699,   Adjusted R-squared:  0.01652 
-F-statistic: 36.24 on 6 and 12579 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.1576 on 12544 degrees of freedom
+Multiple R-squared:  0.01893,   Adjusted R-squared:  0.01846 
+F-statistic: 40.34 on 6 and 12544 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -405,31 +405,31 @@ lm(formula = ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, data = predict_filtered
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.15176 -0.03958 -0.02171 -0.00073  1.00821 
+-0.11420 -0.03692 -0.01962 -0.00335  0.99665 
 
 Coefficients:
                                         Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)                             0.082029   0.017405   4.713 2.55e-06
-RACEHispanic                           -0.022282   0.012550  -1.775   0.0759
-RACEOther or multiracial, Non-Hispanic -0.014435   0.015846  -0.911   0.3624
-RACEWhite, Non-Hispanic                -0.018743   0.009474  -1.978   0.0480
-EDUCATION                              -0.004468   0.001082  -4.130 3.72e-05
-HHPOV                                   0.039819   0.008779   4.536 5.96e-06
-MALE                                    0.029912   0.005348   5.593 2.43e-08
+(Intercept)                             0.067218   0.017089   3.933 8.56e-05
+RACEHispanic                           -0.009441   0.012435  -0.759    0.448
+RACEOther or multiracial, Non-Hispanic  0.000593   0.015999   0.037    0.970
+RACEWhite, Non-Hispanic                -0.004512   0.009608  -0.470    0.639
+EDUCATION                              -0.004240   0.001057  -4.010 6.21e-05
+HHPOV                                   0.013755   0.008405   1.637    0.102
+MALE                                    0.033229   0.005263   6.314 3.10e-10
                                           
 (Intercept)                            ***
-RACEHispanic                           .  
+RACEHispanic                              
 RACEOther or multiracial, Non-Hispanic    
-RACEWhite, Non-Hispanic                *  
+RACEWhite, Non-Hispanic                   
 EDUCATION                              ***
-HHPOV                                  ***
+HHPOV                                     
 MALE                                   ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.1484 on 3109 degrees of freedom
-Multiple R-squared:  0.02665,   Adjusted R-squared:  0.02477 
-F-statistic: 14.19 on 6 and 3109 DF,  p-value: 5.218e-16</code></pre>
+Residual standard error: 0.1471 on 3144 degrees of freedom
+Multiple R-squared:  0.0201,    Adjusted R-squared:  0.01823 
+F-statistic: 10.75 on 6 and 3144 DF,  p-value: 7.267e-12</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -482,20 +482,20 @@ F-statistic: 14.19 on 6 and 3109 DF,  p-value: 5.218e-16</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">augment</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12,586 × 11
-   ARRESTED RACE   EDUCATION HHPOV  MALE .fitted   .resid    .hat .sigma .cooksd
-      &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
- 1        0 White…        14     0     1 0.0330  -0.0330  1.87e-4  0.157 1.18e-6
- 2        1 White…        15     0     1 0.0284   0.972   1.97e-4  0.157 1.07e-3
- 3        0 White…        18     0     1 0.0145  -0.0145  3.85e-4  0.157 4.71e-7
- 4        0 Black…        14     1     1 0.0794  -0.0794  1.61e-3  0.157 5.86e-5
- 5        0 White…        14     0     0 0.00883 -0.00883 1.91e-4  0.157 8.59e-8
- 6        0 White…        14     0     0 0.00883 -0.00883 1.91e-4  0.157 8.59e-8
- 7        0 White…        12     0     0 0.0181  -0.0181  2.57e-4  0.157 4.85e-7
- 8        0 Other…        12     1     1 0.0572  -0.0572  2.80e-3  0.157 5.30e-5
- 9        0 White…        14     0     1 0.0330  -0.0330  1.87e-4  0.157 1.18e-6
-10        0 Black…        10     0     1 0.0783  -0.0783  1.21e-3  0.157 4.31e-5
-# ℹ 12,576 more rows
+<pre><code># A tibble: 12,551 × 11
+   ARRESTED RACE  EDUCATION HHPOV  MALE  .fitted   .resid    .hat .sigma .cooksd
+      &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1        0 Whit…        12     0     1  0.0409  -0.0409  2.44e-4  0.158 2.36e-6
+ 2        0 Blac…        12     0     0  0.0475  -0.0475  1.05e-3  0.158 1.37e-5
+ 3        0 Hisp…         7     1     1  0.0917  -0.0917  1.71e-3  0.158 8.29e-5
+ 4        0 Whit…        15     0     0  0.00354 -0.00354 1.99e-4  0.158 1.43e-8
+ 5        0 Whit…        12     0     1  0.0409  -0.0409  2.44e-4  0.158 2.36e-6
+ 6        0 Whit…        18     0     0 -0.0105   0.0105  3.78e-4  0.158 2.40e-7
+ 7        0 Whit…        16     0     0 -0.00114  0.00114 2.32e-4  0.158 1.74e-9
+ 8        0 Whit…        14     0     0  0.00822 -0.00822 1.92e-4  0.158 7.44e-8
+ 9        0 Whit…         9     0     0  0.0316  -0.0316  5.52e-4  0.158 3.18e-6
+10        0 Whit…        12     1     0  0.0438  -0.0438  8.71e-4  0.158 9.64e-6
+# ℹ 12,541 more rows
 # ℹ 1 more variable: .std.resid &lt;dbl&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mod1, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y=</span>.resid)) <span class="sc">+</span></span>
