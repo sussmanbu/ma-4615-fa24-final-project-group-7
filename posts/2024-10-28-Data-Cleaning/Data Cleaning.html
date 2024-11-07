@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-10-28">
 <meta name="description" content="Blog post outlining specifics of the data and how we went about cleaning it, additionally discussing the data for equity principles, as well as related article.">
 
-<title>MA [46]15 Final Project - Group 7 - Data Cleaning and Loading &amp; Data for Equity</title>
+<title>Data Cleaning and Loading &amp; Data for Equity – MA [46]15 Final Project - Group 7</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -159,9 +159,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This week, we finalized the data description and characterization before beginning the process of loading and cleaning the data. The data, which was collected from the Bureau of Justic Stastics (BJS), is a person-level and household-level dataset characterizing police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. The raw data consists of 110 variables and 105273 unique observations.</p>
+<p>This week, we finalized the data description and characterization before beginning the process of loading and cleaning the data. The data, which was collected from the Bureau of Justice Statistics (BJS), is a person-level and household-level dataset characterizing police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. The raw data consists of 110 variables and 105273 unique observations.</p>
 <p>The first step in the process of loading &amp; cleaning the data was converting the tsv file we found online to a R dataset. We did so through the <code>read_tsv</code> tidyverse function, and the process went smoothly. There were no errors, unusual values, or oddly formatted data other than NA, or missing, values. After performing this initial data import, we decided to filter out specific variables that we didn’t intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation because of the differences in sizes of the dataset in different years. We decided to remove these variables because we figured it would be better if we could control.</p>
-<p>After performing this initial data import, we decided to filter out specific variables that we didn’t intend on using in our analysis. These included variables such as PSTRATA and SEUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation due to dataset size differences across different years. We decided to remove variables like these because we realized that, in order to perform analysis of the data ourselves, it would be more accurate and meaningful to calculate these parameters from scratch. That way, we would decrease the risk of performing a biased analysis with data values we didn’t fully comprehend.</p>
+<p>After performing this initial data import, we decided to filter out specific variables that we didn’t intend on using in our analysis. These included variables such as PSTRATA and SECUCODE, which are more complex values used to calculate parameters like variance, and WEIGHT, which was the relative weight given to each observation due to dataset size differences across different years. We decided to remove variables like these because we realized that, in order to perform analysis of the data ourselves, it would be more accurate and meaningful to calculate these parameters from scratch. That way, we would decrease the risk of performing a biased analysis with data values we didn’t fully comprehend.</p>
 <p>We also made the systematic decision to remove the variables corresponding to data about follow-up interviews, like NUM_FU_HHINT and NUM_FU_PERINT. We did so because we currently don’t intend to use that data in our analysis. Similarly, we decided to systematically remove the variable TIME2VIC_INC_P23PER because we don’t want to investigate data about the time between PPCS interview and victimization.</p>
 <p>Finally, we were forced to exclude certain variables from the dataset that contained values we didn’t understand. For example, all variables that ended with “_sub” were excluded because we were unsure what the entries “missing carried back from later waves” corresponded to.</p>
 <p>Additionally, an important step in the data cleaning process was to explore the data with the help of barplot showing distributions for specific variables and boxplots showing outliers. This would aid us in our analysis and further steps when working with the data. Below is a function used to create boxplots:</p>
@@ -170,8 +170,8 @@ outlier.shape = 16,<br>
 outlier.size = 2) +<br>
 labs(title = paste(“Boxplot of”, col_name, “with Outliers”), y = col_name) + theme_minimal() }</p>
 <p>Data For Equity Principles:</p>
-<p>Beneficence: The dataset we are working on is about crimes and perpetrators of those crimes. The key idea of working with this dataset is to understand who committed the crimes, why and possibly whether it would be likely that they will commit them again in the future. Thus, it is important to us to not misrepresent a certain group of people as the group that is responsible for all crime or even the most of it, there are always additional factors involved apart from a specific statistic of a group commiting more crimes. It is important to represent the data objectively, discussing its implicatons and results within a wider scope and context, signifying that there are always variables left out of scope that can influence the results nevertheless.</p>
-<p>Respect for Persons: The analysis that we aim to do for this dataset should by no means be definitive, but still leave open-ended questions and perhaps concerns. We do not want to create a bias for the viewers of this analysis and give them the power to make their own decisions about this data. It is again important taht we bring this unbiased view as means of displaying accurate and unbiased results (giving respect to teh groups showcased in the data), however also allowing for the viewers the right to consider and decide whether they agree with us or not, without forcing any bias on them.</p>
+<p>Beneficence: The dataset we are working on is about crimes and how interactions with police can influence how, why, or if people report them. It is important to us to not misrepresent a certain group of people as more prone to positive or negative interactions with police, removing any personal bias in how we analyze the data. We must represent the data objectively, discussing its implications and results within a wider scope and context, signifying that there are always variables left out of scope that can influence the results nevertheless.</p>
+<p>Respect for Persons: The analysis that we aim to do for this dataset should by no means be definitive, but still leave open-ended questions and perhaps concerns. We do not want to create a bias for the viewers of this analysis and give them the power to make their own decisions about this data. It is again important that we bring this unbiased view as means of displaying accurate and unbiased results (giving respect to the groups showcased in the data), however also allowing for the viewers the right to consider and decide whether they agree with us or not, without forcing any bias on them.</p>
 
 
 
@@ -211,18 +211,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -254,7 +243,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/sussmanbu\.github\.io\/ma-4615-fa24-final-project-group-7\/");
@@ -262,7 +273,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
