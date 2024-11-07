@@ -120,12 +120,32 @@ ggplot(filtered, aes(x = as.factor(C_CONTCT), fill = as.factor(RACE))) +
 library(tidymodels)
 split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
 training<- training(split)
-predict_filtered <- filtered |>
+testing <- testing(split)
+predict_filtered <- training |>
   filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
 
 mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
 summary(mod1)
 plot(mod1)
+
+predict_filtered_test <- testing |>
+  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+
+mod2 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered_test)
+summary(mod2)
+plot(mod2)
+# predict_filtered <- filtered |>
+#   filter(!is.na(ARRESTED) & !is.na(HHPOV) & !is.na(MALE))
+# 
+# mod2 <- lm(ARRESTED ~ HHPOV + MALE, predict_filtered)
+# summary(mod2)
+# plot(mod2)
+# predict_filtered <- filtered |>
+#   filter(!is.na(ARRESTED) & !is.na(RACE))
+# 
+# mod2 <- lm(ARRESTED ~ RACE, predict_filtered)
+# summary(mod2)
+# plot(mod2)
 # filtered |>
 #   # ggplot(aes(x = C4_RACE, y = PROPER)) +
 #   # geom_quantile()
