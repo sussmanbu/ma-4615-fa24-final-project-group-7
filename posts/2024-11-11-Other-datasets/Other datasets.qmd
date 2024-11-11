@@ -8,3 +8,17 @@ date: "2024-11-11"
 date-modified: "2024-11-11"
 draft: FALSE
 ---
+
+
+Dataset:
+https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about
+
+Description of the Dataset:
+The Tempe Police Sentiment Survey dataset captures detailed perceptions of safety and trust in the Tempe community, categorized by demographics such as race, age, gender, education, and income levels. Also, data is catagorized by different geographical areas within Tempe, including patrol zones and beats. The metrics include community members' feelings of safety and levels of trust and respect towards the police. Responses are broken down further to reflect sentiments within specific demographic groups, covering general and respect-focused trust levels. Each record includes start and end dates for when the survey data was collected, providing a time-based context for analyzing sentiment changes over time.
+The weakness of the dataset is that the data does not align with our original dataset. Our original dataset's date is from 2002-2011, and this dataset is more recent, with data afte 2020. We're not sure if this works.
+
+Combination of the Dataset:
+We haven't started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.
+
+
+
