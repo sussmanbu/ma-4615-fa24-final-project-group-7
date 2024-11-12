@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="">
+<meta name="dcterms.date" content="2024-11-11">
+<meta name="description" content="Blog post describing other datasets we found and our initial thoughts to combine them.">
 
-<title>MA [46]15 Final Project – MA [46]15 Final Project - Group 7</title>
+<title>Other datasets – MA [46]15 Final Project - Group 7</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,77 +69,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">MA [46]15 Final Project - Group 7</span>
     </a>
   </div>
@@ -149,19 +92,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./big_picture.html"> 
+    <a class="nav-link" href="../../big_picture.html"> 
 <span class="menu-text">Big Picture</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./analysis.html"> 
+    <a class="nav-link" href="../../analysis.html"> 
 <span class="menu-text">Analysis</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./data.html"> 
+    <a class="nav-link" href="../../data.html"> 
 <span class="menu-text">Data</span></a>
   </li>  
 </ul>
@@ -174,291 +117,55 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">MA [46]15 Final Project</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Other datasets</h1>
+                  <div>
+        <div class="description">
+          <p>Blog post describing other datasets we found and our initial thoughts to combine them.</p>
+        </div>
+      </div>
+                </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 11, 2024</p>
+      </div>
+    </div>
     
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">November 11, 2024</p>
+      </div>
+    </div>
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<p><img src="images/data-science.png" class="img-fluid"></p>
-<section id="final-project-due-may-7-2024-at-1159pm." class="level1">
-<h1>Final Project due May 7, 2024 at 11:59pm.</h1>
+<p>Dataset: https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about</p>
+<p>Description of the Dataset: The Tempe Police Sentiment Survey dataset captures detailed perceptions of safety and trust in the Tempe community, categorized by demographics such as race, age, gender, education, and income levels. Also, data is catagorized by different geographical areas within Tempe, including patrol zones and beats. The metrics include community members’ feelings of safety and levels of trust and respect towards the police. Responses are broken down further to reflect sentiments within specific demographic groups, covering general and respect-focused trust levels. Each record includes start and end dates for when the survey data was collected, providing a time-based context for analyzing sentiment changes over time. The weakness of the dataset is that the data does not align with our original dataset. Our original dataset’s date is from 2002-2011, and this dataset is more recent, with data afte 2020. We’re not sure if this works.</p>
+<p>Combination of the Dataset: We haven’t started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.</p>
 
 
 
-</section>
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1731301200000" data-listing-file-modified-sort="1731365303023" data-listing-date-modified-sort="1731301200000" data-listing-reading-time-sort="2" data-listing-word-count-sort="245">
-<div class="thumbnail">
-<p><a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external"></a></p><a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external">Other datasets</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external">Blog post describing other datasets we found and our initial thoughts to combine them. </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-11-11-Other-datasets/Other datasets.html" class="no-external">
-<div class="listing-date">
-Nov 11, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1730869200000" data-listing-file-modified-sort="1731078179824" data-listing-date-modified-sort="1730869200000" data-listing-reading-time-sort="4" data-listing-word-count-sort="718">
-<div class="thumbnail">
-<p><a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external"></a></p><a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external">
-<p class="card-img-top"><img src="posts/2024-11-06-more-eda/more-eda_files/figure-html/unnamed-chunk-1-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external">more EDA</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external">More EDA and Initial thoughts </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-11-06-more-eda/more-eda.html" class="no-external">
-<div class="listing-date">
-Nov 6, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1730696400000" data-listing-file-modified-sort="1731078179824" data-listing-date-modified-sort="1730696400000" data-listing-reading-time-sort="4" data-listing-word-count-sort="690">
-<div class="thumbnail">
-<p><a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external"></a></p><a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external">
-<p class="card-img-top"><img src="posts/2024-11-4-EDA/more-EDA_files/figure-html/unnamed-chunk-1-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external">EDA</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external">Blog post discussing further EDA and initial thoughts on statistical modeling. </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-11-4-EDA/more EDA.html" class="no-external">
-<div class="listing-date">
-Nov 4, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1730088000000" data-listing-file-modified-sort="1730729696932" data-listing-date-modified-sort="1730088000000" data-listing-reading-time-sort="4" data-listing-word-count-sort="751">
-<div class="thumbnail">
-<p><a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external"></a></p><a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external">Data Cleaning and Loading &amp; Data for Equity</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external">Blog post outlining specifics of the data and how we went about cleaning it, additionally discussing the data for equity principles, as well as related article. </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-10-28-Data-Cleaning/Data Cleaning.html" class="no-external">
-<div class="listing-date">
-Oct 28, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1728964800000" data-listing-file-modified-sort="1729916794238" data-listing-date-modified-sort="1728964800000" data-listing-reading-time-sort="2" data-listing-word-count-sort="362">
-<div class="thumbnail">
-<p><a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external"></a></p><a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external">Data Background</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external">Blog post outlining background information related to our dataset. </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-10-15-Data-Background/Data Background.html" class="no-external">
-<div class="listing-date">
-Oct 15, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1728619200000" data-listing-file-modified-sort="1731078179823" data-listing-date-modified-sort="1728619200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="531">
-<div class="thumbnail">
-<p><a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external"></a></p><a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external">First Blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external">First Blog Post </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-10-11-First-Blog-Post/firstBlog.html" class="no-external">
-<div class="listing-date">
-Oct 11, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="" data-listing-date-sort="1708923600000" data-listing-file-modified-sort="1728307692555" data-listing-date-modified-sort="1708923600000" data-listing-reading-time-sort="1" data-listing-word-count-sort="56">
-<div class="thumbnail">
-<p><a href="./posts/2023-12-20-examples/examples.html" class="no-external"></a></p><a href="./posts/2023-12-20-examples/examples.html" class="no-external">
-<p class="card-img-top"><img src="posts/2023-12-20-examples/examples_files/figure-html/unnamed-chunk-1-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2023-12-20-examples/examples.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2023-12-20-examples/examples.html" class="no-external">Examples</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2023-12-20-examples/examples.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-</div>
-<div class="listing-description">
-<a href="./posts/2023-12-20-examples/examples.html" class="no-external">Here are some examples of changing the size of a figure.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2023-12-20-examples/examples.html" class="no-external">
-<div class="listing-date">
-Feb 26, 2024
-</div>
-<div class="listing-author">
-Daniel Sussman
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="" data-listing-date-sort="1708664400000" data-listing-file-modified-sort="1728307692555" data-listing-date-modified-sort="1708664400000" data-listing-reading-time-sort="3" data-listing-word-count-sort="402">
-<div class="thumbnail">
-<p><a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external"></a></p><a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external">Getting started</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-</div>
-<div class="listing-description">
-<a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external">Directions to set up your website and create your first post. </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2023-10-15-getting-started/getting-started.html" class="no-external">
-<div class="listing-date">
-Feb 23, 2024
-</div>
-<div class="listing-author">
-Daniel Sussman
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-categories="" data-listing-date-sort="1708491600000" data-listing-file-modified-sort="1728307692554" data-listing-date-modified-sort="1708491600000" data-listing-reading-time-sort="3" data-listing-word-count-sort="404">
-<div class="thumbnail">
-<p><a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external"></a></p><a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external">
-<p><img loading="lazy" src="./posts/2023-10-13-first-team-meeting/a-business-team-giving-fist-bump-in-agreement.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external">First Team Meeting</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-</div>
-<div class="listing-description">
-<a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external">This post details the steps you’ll take for your first team meeting. </a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2023-10-13-first-team-meeting/first-team-meeting.html" class="no-external">
-<div class="listing-date">
-Feb 21, 2024
-</div>
-<div class="listing-author">
-Daniel Sussman
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
