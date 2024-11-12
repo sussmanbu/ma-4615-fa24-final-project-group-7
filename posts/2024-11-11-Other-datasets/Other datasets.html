@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-11-11">
 <meta name="description" content="Blog post describing other datasets we found and our initial thoughts to combine them.">
 
-<title>Other datasets – MA [46]15 Final Project - Group 7</title>
+<title>MA [46]15 Final Project - Group 7 - Other datasets</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -159,9 +159,13 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Dataset: https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about</p>
-<p>Description of the Dataset: The Tempe Police Sentiment Survey dataset captures detailed perceptions of safety and trust in the Tempe community, categorized by demographics such as race, age, gender, education, and income levels. Also, data is catagorized by different geographical areas within Tempe, including patrol zones and beats. The metrics include community members’ feelings of safety and levels of trust and respect towards the police. Responses are broken down further to reflect sentiments within specific demographic groups, covering general and respect-focused trust levels. Each record includes start and end dates for when the survey data was collected, providing a time-based context for analyzing sentiment changes over time. The weakness of the dataset is that the data does not align with our original dataset. Our original dataset’s date is from 2002-2011, and this dataset is more recent, with data afte 2020. We’re not sure if this works.</p>
-<p>Combination of the Dataset: We haven’t started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.</p>
+<p>Dataset: <a href="https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about">Police Sentiment Survey</a></p>
+<p><strong>Description</strong> The Tempe Police Sentiment Survey dataset captures detailed perceptions of safety and trust in the Tempe community, categorized by demographics such as race, age, gender, education, and income levels. Also, data is catagorized by different geographical areas within Tempe, including patrol zones and beats. The metrics include community members’ feelings of safety and levels of trust and respect towards the police. Responses are broken down further to reflect sentiments within specific demographic groups, covering general and respect-focused trust levels. Each record includes start and end dates for when the survey data was collected, providing a time-based context for analyzing sentiment changes over time. The weakness of the dataset is that the data does not align with our original dataset. Our original dataset’s date is from 2002-2011, and this dataset is more recent, with data afte 2020. We’re not sure if this works.</p>
+<p><strong>Combination</strong> We haven’t started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.</p>
+<p>Dataset: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10514438/">State-Level Household Gun Ownership Proxy Dataset</a></p>
+<p><strong>Description</strong> This dataset holds the count and population-adjusted rate of suicides, firearm suicides, homicides, and firearm homicides, among other figures. In general it was created by extending an existing proxy for U.S. household gun ownership rates. Most importantly this data was not compiled from self-reporting data, which can be heavily skewed based on the bias of those who choose to report. This extended proxy represents the most comprehensive report of state-level gun ownership rates and trends.</p>
+<p><strong>Combination</strong> We wanted to check if this dataset would be compatible with our previous dataset. In terms of combining them into a its own study we would look to see how the gun-ownership of individuals may affect their view on their interactions with the police. In doing so we can see if those individuals in higher gun ownership states are more comfortable or apprehensive in their interactions with law enforcement. In the same affect we can see if the presence of a gun owner changes the way that law enforcement approach interactions with the public. In doing a more detailed analysis we can see if gun ownership improves the relationship of law enforcement and those they serve and protect.</p>
+<p>Furthermore we may also see how trends in gun ownership across time correlate to patterns in the original survey we studied. This can be used in comprehension with regional changes to better study any pattern that may exist. Having multiple means of doing so would reduce the likelihood of chance being the root cause of any patterns.</p>
 
 
 
@@ -201,7 +205,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -233,29 +248,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/sussmanbu\.github\.io\/ma-4615-fa24-final-project-group-7\/");
@@ -263,7 +256,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
