@@ -9,16 +9,23 @@ date-modified: "2024-11-11"
 draft: FALSE
 ---
 
-
 Dataset:
-https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about
+[Police Sentiment Survey](https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about)
 
-Description of the Dataset:
+**Description**
 The Tempe Police Sentiment Survey dataset captures detailed perceptions of safety and trust in the Tempe community, categorized by demographics such as race, age, gender, education, and income levels. Also, data is catagorized by different geographical areas within Tempe, including patrol zones and beats. The metrics include community members' feelings of safety and levels of trust and respect towards the police. Responses are broken down further to reflect sentiments within specific demographic groups, covering general and respect-focused trust levels. Each record includes start and end dates for when the survey data was collected, providing a time-based context for analyzing sentiment changes over time.
 The weakness of the dataset is that the data does not align with our original dataset. Our original dataset's date is from 2002-2011, and this dataset is more recent, with data afte 2020. We're not sure if this works.
 
-Combination of the Dataset:
+**Combination**
 We haven't started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.
 
+Dataset:
+[State-Level Household Gun Ownership Proxy Dataset](https://pmc.ncbi.nlm.nih.gov/articles/PMC10514438/)
 
+**Description**
+This dataset holds the count and population-adjusted rate of suicides, firearm suicides, homicides, and firearm homicides, among other figures. In general it was created by extending an existing proxy for U.S. household gun ownership rates. Most importantly this data was not compiled from self-reporting data, which can be heavily skewed based on the bias of those who choose to report. This extended proxy represents the most comprehensive report of state-level gun ownership rates and trends.
 
+**Combination**
+We wanted to check if this dataset would be compatible with our previous dataset. In terms of combining them into a its own study we would look to see how the gun-ownership of individuals may affect their view on their interactions with the police. In doing so we can see if those individuals in higher gun ownership states are more comfortable or apprehensive in their interactions with law enforcement. In the same affect we can see if the presence of a gun owner changes the way that law enforcement approach interactions with the public. In doing a more detailed analysis we can see if gun ownership improves the relationship of law enforcement and those they serve and protect. 
+
+Furthermore we may also see how trends in gun ownership across time correlate to patterns in the original survey we studied. This can be used in comprehension with regional changes to better study any pattern that may exist. Having multiple means of doing so would reduce the likelihood of chance being the root cause of any patterns.
