@@ -19,19 +19,17 @@ The weakness of the dataset is that the data does not align with our original da
 **Combination**
 We haven't started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.
 
-<<<<<<< HEAD
-Dataset:
-[State-Level Household Gun Ownership Proxy Dataset](https://pmc.ncbi.nlm.nih.gov/articles/PMC10514438/)
-=======
-Dataset 2: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD, 
+Dataset:[Firearm Suicide Proxy for Household Gun Ownership](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD)
 
-Description of the Dataset:
+**Description**
 This dataset describes the number of homocides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020. These numbers, particularly the FSS (the ratio of the number of suicides done with firearms/the total number of suicides) is used as a much less biased estimator of the total gun ownership in the US than traditional voluntary surveys, in which people underestimate the number of guns they own out of social desirability bias. Advantages of linking this particular dataset include the overlap of the demographics, state variables, and time as well as a probable connection between gun ownership and crime prevalence within communities. Luckily, this dataset has few missing values and the time periods analyzed closely correspond to those in our original dataset.
 Nevertheless, if used, we anticipate some problems. One problem arises from the fact that the demographic data is only split between whites and non-whites, which may prevent us from understanding the true role of demographics on police reporting data. Another problem arises from the fact that FSS is used as an estimate of gun ownership rates instead of definite numbers of guns per person/household. A separate dataset might need to be used to link FSS to gun ownership rates.
 
-Combination of the dataset:
+**Combination**
 Although we haven't started to combine the dataset, we plan on observing whether there exists a correlation between FSS (which correlates with the number of guns per capita) and crime reporting prevalence in various communities. We would expect a positive correlation, but confounding variables (demographics, safety, etc.) may make the correlation less obvious. We also plan on analyzing the differences between the FSS of whites and non-whites within different states and whether that correlates with the number of crimes reported by separate demographics. Finally, we plan on determining whether a correlation can be observed between homocide rate and general crime rate in different states.
->>>>>>> fa0f35daaaa3ace4f9b1cc801ac8578aeafa48c8
+
+Dataset:
+[State-Level Household Gun Ownership Proxy Dataset](https://pmc.ncbi.nlm.nih.gov/articles/PMC10514438/)
 
 **Description**
 This dataset holds the count and population-adjusted rate of suicides, firearm suicides, homicides, and firearm homicides, among other figures. In general it was created by extending an existing proxy for U.S. household gun ownership rates. Most importantly this data was not compiled from self-reporting data, which can be heavily skewed based on the bias of those who choose to report. This extended proxy represents the most comprehensive report of state-level gun ownership rates and trends.
