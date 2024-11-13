@@ -104,7 +104,7 @@ filtered[quantitative_columns] <- filtered[quantitative_columns] |>
   map_df(~ as.numeric(.x))
 
 View(filtered)
-write_RDS(filtered, "filtered_data.rds")
+# write_RDS(filtered, "filtered_data.rds")
 #   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) Commenting out this line because I'm not sure how accurate it is to replace missing values with the average value (was discussed in class)
 
 # Renaming the columns to more usable/understandable names
@@ -112,5 +112,14 @@ write_RDS(filtered, "filtered_data.rds")
 # 
 # filtered <- filtered |>
 #  rename(marital_status = MAR_STAT, employment_status = WORK_LW, years_of_education = EDUCATION, in_poverty = HHPOV, )
+
+firearm_sh_ds <- read.csv("dataset/Firearm_suicide_homicide_dataset.csv")
+
+firearm_sh_ds <- firearm_sh_ds |>
+  filter(year == 2002 | year == 2008 | year == 2011) |>
+  select(!ends_with("fss")) |>
+  select(!c(division, firearm_suicides, total_suicides))
+
+write_RDS(firearm_sh_ds, "firearm_data.rds")
 
 
