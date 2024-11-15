@@ -1,13 +1,15 @@
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
-
+suppressPackageStartupMessages(library(sf))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(viridis))
+suppressPackageStartupMessages(library(maps))
 ```
 
 
 
 ```{r}
 filtered <- read_rds("dataset/police_interaction.rds")
-
 ```
 
 
@@ -242,3 +244,46 @@ ggplot(data = marriageData) +
            stat = "identity",
            position = "dodge")
 ```
+
+```{r}
+firearm_data <- read_rds("dataset/firearm_sh_ds.rds")
+```
+
+
+Working on basic EDA for Second Dataset
+```{r}
+firearm_data <- firearm_data |>
+  mutate(firearm_homicide_rate = as.numeric(firearm_homicide_rate),
+         state = tolower(state)) |>
+  filter(!is.na(firearm_homicide_rate))
+
+us_states <- map_data("state") |>
+  as_tibble() |>
+  st_as_sf(coords = c("long", "lat"), crs = 4326) |>
+  group_by(region) |>
+  summarise(geometry = st_union(geometry)) |>
+  st_transform(crs = 5070)
+
+us_states <- us_states |>
+  st_cast("POLYGON")
+
+map_data <- us_states |>
+  rename(state = region) |>
+  left_join(firearm_data, by = "state")
+
+colnames(map_data)
+
+map_data$log_firearm_homicide_rate <- log(map_data$firearm_homicide_rate + 1)
+
+ggplot(map_data) +
+  geom_sf(aes(fill = log_firearm_homicide_rate), color = "black", size = 0.2) +
+  scale_fill_viridis_c(option = "plasma", name = "Homicide Rate") +
+  theme_minimal() +
+  labs(
+    title = "Firearm Homicide Rate by State",
+    fill = "Rate"
+  ) +
+  facet_wrap(~year)
+
+```
+

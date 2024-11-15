@@ -120,6 +120,5 @@ firearm_sh_ds <- firearm_sh_ds |>
   select(!ends_with("fss")) |>
   select(!c(division, firearm_suicides, total_suicides))
 
-write_RDS(firearm_sh_ds, "firearm_data.rds")
-
+write_rds(firearm_sh_ds, file = here::here("dataset", "firearm_sh_ds.rds"))
 
