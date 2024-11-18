@@ -11,7 +11,7 @@ suppressPackageStartupMessages(library(maps))
 
 
 ```{r}
-filtered <- read_csv("/Users/jessie/Desktop/ma415/ma-4615-fa24-final-project-group-7/dataset/Police_Sentiment_Survey.csv")
+filtered <- read_csv("dataset/Police_Sentiment_Survey.csv")
 ```
 
 # Remove unnecessary columns and rename them for clarity
