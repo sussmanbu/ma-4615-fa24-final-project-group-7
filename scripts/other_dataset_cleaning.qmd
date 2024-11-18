@@ -1,0 +1,72 @@
+
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(sf))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(viridis))
+suppressPackageStartupMessages(library(maps))
+
+```
+
+
+```{r}
+filtered <- read_csv("/Users/jessie/Desktop/ma415/ma-4615-fa24-final-project-group-7/dataset/Police_Sentiment_Survey.csv")
+```
+
+# Remove unnecessary columns and rename them for clarity
+
+```{r}
+filtered <- filtered %>%
+  rename_with(tolower) %>%
+  mutate_all(~ ifelse(. == "NA" | . == "", NA, .))  # Replace blank/empty strings with NA
+
+```
+
+# Remove duplicate rows
+```{r}
+filtered <- filtered %>% distinct()
+```
+
+# Drop columns with more than 50% missing data
+
+```{r}
+filtered <- filtered %>% select_if(~ mean(!is.na(.)) > 0.5)
+```
+
+
+```{r}
+summary_stats <- filtered %>%
+  select_if(is.numeric) %>%
+  summary()
+```
+
+# Distribution of safety scores
+```{r}
+ggplot(filtered, aes(x = safety)) +
+  geom_histogram(binwidth = 2, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Safety Scores", x = "Safety", y = "Frequency")
+```
+
+# Distribution of 'trust' scores
+```{r}
+ggplot(filtered, aes(x = trust)) +
+  geom_histogram(binwidth = 2, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Trust Scores", x = "Trust", y = "Frequency")
+```
+
+```{r}
+# Average safety and trust scores by race
+average_scores_by_race <- filtered %>%
+  summarise(
+    African_American_Safety = mean(safety_race_african_american, na.rm = TRUE),
+    Asian_American_Safety = mean(safety_race_asian_american, na.rm = TRUE),
+    Other_Race_Safety = mean(safety_race_other, na.rm = TRUE),
+    Hispanic_Safety = mean(safety_race_hispanic, na.rm = TRUE),
+    White_Safety = mean(safety_race_white, na.rm = TRUE)
+  )
+print(average_scores_by_race)
+
+```
+
+
