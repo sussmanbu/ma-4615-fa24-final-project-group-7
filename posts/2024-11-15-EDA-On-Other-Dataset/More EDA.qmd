@@ -8,3 +8,51 @@ date-modified: "2024-11-17"
 draft: FALSE
 ---
 
+This week, we picked one dataset from the two other dataset we found last week. We've picked the firearm suicide dataset. This dataset describes the number of homocides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020. We picked this dataset since it is easier to combine by locations.
+
+Dataset:[Firearm Suicide Proxy for Household Gun Ownership](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD)
+
+First of all, we did some EDA on the second dataset. 
+
+```{r}
+firearm_data <- read_rds("dataset/firearm_sh_ds.rds")
+```
+
+
+```{r}
+firearm_data <- firearm_data |>
+  mutate(firearm_homicide_rate = as.numeric(firearm_homicide_rate),
+         state = tolower(state)) |>
+  filter(!is.na(firearm_homicide_rate))
+
+us_states <- map_data("state") |>
+  as_tibble() |>
+  st_as_sf(coords = c("long", "lat"), crs = 4326) |>
+  group_by(region) |>
+  summarise(geometry = st_union(geometry)) |>
+  st_transform(crs = 5070)
+
+us_states <- us_states |>
+  st_cast("POLYGON")
+
+map_data <- us_states |>
+  rename(state = region) |>
+  left_join(firearm_data, by = "state")
+
+colnames(map_data)
+
+map_data$log_firearm_homicide_rate <- log(map_data$firearm_homicide_rate + 1)
+
+ggplot(map_data) +
+  geom_sf(aes(fill = log_firearm_homicide_rate), color = "black", size = 0.2) +
+  scale_fill_viridis_c(option = "plasma", name = "Homicide Rate") +
+  theme_minimal() +
+  labs(
+    title = "Firearm Homicide Rate by State",
+    fill = "Rate"
+  ) +
+  facet_wrap(~year)
+
+```
+
+Then, we started to combine the two datasets. We decided to combine based on locations. The first dataset was divided into four regions: Northeast, Midwest, South, and West while the second dataset was divided into different states. We planned to categorize the the states in the second dataset into regions just like the first dataset.
