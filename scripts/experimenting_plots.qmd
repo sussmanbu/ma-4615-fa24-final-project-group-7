@@ -284,6 +284,26 @@ ggplot(map_data) +
     fill = "Rate"
   ) +
   facet_wrap(~year)
-
+```
+```{r}
+# Combining the Two Datasets into a summary of regions
+police_sentiment_regions <- filtered |>
+  group_by(REGION, PPCS_YEAR) |>
+  summarize(
+    total_count = n(),
+    WHITE_NH_PROP = sum(C4_RACE == 1) / n(),
+    B_NH_PROP = sum(C4_RACE == 2) / n(),
+    HISPANIC_PROP = sum(C4_RACE == 3) / n(),
+    OTHER_MULTI_NH_PROP = sum(C4_RACE == 4) / n(),
+    CONTACT_FREQ = sum(C_CONTCT != 0, na.rm = TRUE),
+    OC_FRISK_PROP = sum(OC_FRISK == 1, na.rm = TRUE) / CONTACT_FREQ,
+    TC_FRISK_PROP = sum(TS_FRISK == 1, na.rm = TRUE) / CONTACT_FREQ,
+    VSRCH_PROP = sum(TS_VSRCH == 1, na.rm = TRUE) / CONTACT_FREQ,
+    ARREST_PROP = sum(ARRESTED == 1, na.rm = TRUE) / CONTACT_FREQ,
+    CUFFED_PROP = sum(CUFFED == 1, na.rm = TRUE) / CONTACT_FREQ,
+    PROPER_PROP = sum(PROPER == 1, na.rm = TRUE) / CONTACT_FREQ,
+    IMPROPER_PROP = sum(PROPER == 0, na.rm = TRUE) / CONTACT_FREQ,
+    AVG_CONT = sum(NUM_CONT, na.rm = TRUE) / total_count
+  )
 ```
 
