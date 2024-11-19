@@ -7,12 +7,20 @@ date: "2024-11-18"
 date-modified: "2024-11-18"
 draft: FALSE
 ---
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(sf))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(viridis))
+suppressPackageStartupMessages(library(maps))
+```
+
 
 This week, we picked one dataset from the two other dataset we found last week. We've picked the firearm suicide dataset. This dataset describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020. We picked this dataset since it is easier to combine by locations.
 
 Dataset:[Firearm Suicide Proxy for Household Gun Ownership](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD)
 
-First of all, we did some EDA on the second dataset. 
+First of all, we did some EDA on the second dataset. This map represents the rate of homicides by firearm  by state. We were having some issues working with the mapping functions, which we have to fix. As the map borders do not currently line up with the data coordinates which is causing the coloring to be misaligned with the borders, but we are still working through solving this issue.
 
 ```{r}
 firearm_data <- read_rds("dataset/firearm_sh_ds.rds")
@@ -39,8 +47,6 @@ map_data <- us_states |>
   rename(state = region) |>
   left_join(firearm_data, by = "state")
 
-colnames(map_data)
-
 map_data$log_firearm_homicide_rate <- log(map_data$firearm_homicide_rate + 1)
 
 ggplot(map_data) +
@@ -60,7 +66,7 @@ Then, we started to combine the two datasets. We decided to combine based on loc
 In combining the dataset we decided to do so by grouping data from both datasets by region and year. Our original dataset used regions instead of states, so by converting from states to region we used the regional definitions used by the [Census Bureau Designated Regions](https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States).
 For each region and year we summarized the data into categories that include proportional data for certain types of incidents related to police contact, racial distributions, homicide rate, etc.
 
-The combination of the data is shown below, and done using the code in "/scripts/load_and_clean_data.R". Below is a table, which displays each new column and its description. Followed by the new combined data itself.
+The combination of the data is done using the code in "/scripts/load_and_clean_data.R". Below is a table, which displays each new column and its description. Followed by the new combined data itself.
 
 ```{r}
 variable_table <- tibble(
@@ -68,6 +74,6 @@ variable_table <- tibble(
   Variable_Description = c("Region the data is from", "Year the data is from", "Total number of responses in the police sentiment dataset", "White non-hispanic proportion of responses for police sentiment", "Black non-hispanic proportion of responses for police sentiment", "Hispanic proportion of responses for police sentiment survey", "Other/multiracial/Non-hispanic proportion of responses for police sentiment survey", "Proportion of responders who had contact with law enforcement", "Proportion of stop and frisks for non-traffic stops", "Proportion of stop and frisks for traffic stops", "Proportion of vehicle searchs", "Proportions of contacts that ended in arrest", "Proportion of contacts that included cuffing", "Proportion of contacts deemed handled proper", "Proportion of contacts deemed unproperly handled", "Average number of contacts in the last year", "Total region population from US census", "Number of Firearm homicides", "Number of non-firearm homicides", "number of homidides", "firearm homicides per 100,000", "non-firearm homicides per 100,000", "homicides per 100,000")
 )
 
-view(variable_table)
+print(variable_table, n = Inf)
 ```
 
