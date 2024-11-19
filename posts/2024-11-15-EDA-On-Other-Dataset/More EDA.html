@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="">
-<meta name="dcterms.date" content="2024-11-11">
-<meta name="description" content="Blog post describing other datasets we found and our initial thoughts to combine them with our origial dataset.">
+<meta name="dcterms.date" content="2024-11-18">
+<meta name="description" content="More EDA on other datasets">
 
-<title>MA [46]15 Final Project - Group 7 - Other datasets</title>
+<title>MA [46]15 Final Project - Group 7 - more EDA on Other Datasets</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -118,10 +152,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Other datasets</h1>
+      <h1 class="title">more EDA on Other Datasets</h1>
                   <div>
         <div class="description">
-          <p>Blog post describing other datasets we found and our initial thoughts to combine them with our origial dataset.</p>
+          <p>More EDA on other datasets</p>
         </div>
       </div>
                 </div>
@@ -134,14 +168,14 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 11, 2024</p>
+        <p class="date">November 18, 2024</p>
       </div>
     </div>
     
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">November 11, 2024</p>
+        <p class="date-modified">November 18, 2024</p>
       </div>
     </div>
       
@@ -159,16 +193,103 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Dataset: <a href="https://data.tempe.gov/datasets/tempegov::police-sentiment-survey-detail-1/about">Police Sentiment Survey</a></p>
-<p><strong>Description</strong> The Tempe Police Sentiment Survey dataset captures detailed perceptions of safety and trust in the Tempe community, categorized by demographics such as race, age, gender, education, and income levels. Also, data is catagorized by different geographical areas within Tempe, including patrol zones and beats. The metrics include community members’ feelings of safety and levels of trust and respect towards the police. Responses are broken down further to reflect sentiments within specific demographic groups, covering general and respect-focused trust levels. Each record includes start and end dates for when the survey data was collected, providing a time-based context for analyzing sentiment changes over time. The weakness of the dataset is that the data does not align with our original dataset. Our original dataset’s date is from 2002-2011, and this dataset is more recent, with data afte 2020. We’re not sure if this works.</p>
-<p><strong>Combination</strong> We haven’t started to combine the dataset yet, but we have some initial thoughts. For example, we can do some incident-based analysis. We can examine how specific types of police-public interactions (e.g., arrests, traffic stops) affect sentiment. We can match by incident identifiers and by combining incidents from both datasets, we can analyze whether particular types of police interactions correlate with higher or lower levels of trust and safety sentiments within specific demographics or locations. Also, this dataset includes many socioeconomic factors such as race, education level, income, and age, etc. We can also take these factors into account.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(sf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sf' was built under R version 4.4.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(viridis))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'viridis' was built under R version 4.4.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(maps))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This week, we picked one dataset from the two other dataset we found last week. We’ve picked the firearm suicide dataset. This dataset describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites &amp; nonwhites within different states from 1949 to 2020. We picked this dataset since it is easier to combine by locations.</p>
 <p>Dataset:<a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD">Firearm Suicide Proxy for Household Gun Ownership</a></p>
-<p><strong>Description</strong> This dataset describes the number of homocides, the number of suicides, and the number of suicides done with firearms for whites &amp; nonwhites within different states from 1949 to 2020. These numbers, particularly the FSS (the ratio of the number of suicides done with firearms/the total number of suicides) is used as a much less biased estimator of the total gun ownership in the US than traditional voluntary surveys, in which people underestimate the number of guns they own out of social desirability bias. Advantages of linking this particular dataset include the overlap of the demographics, state variables, and time as well as a probable connection between gun ownership and crime prevalence within communities. Luckily, this dataset has few missing values and the time periods analyzed closely correspond to those in our original dataset. Nevertheless, if used, we anticipate some problems. One problem arises from the fact that the demographic data is only split between whites and non-whites, which may prevent us from understanding the true role of demographics on police reporting data. Another problem arises from the fact that FSS is used as an estimate of gun ownership rates instead of definite numbers of guns per person/household. A separate dataset might need to be used to link FSS to gun ownership rates.</p>
-<p><strong>Combination</strong> Although we haven’t started to combine the dataset, we plan on observing whether there exists a correlation between FSS (which correlates with the number of guns per capita) and crime reporting prevalence in various communities. We would expect a positive correlation, but confounding variables (demographics, safety, etc.) may make the correlation less obvious. We also plan on analyzing the differences between the FSS of whites and non-whites within different states and whether that correlates with the number of crimes reported by separate demographics. Finally, we plan on determining whether a correlation can be observed between homocide rate and general crime rate in different states.</p>
-<p>Dataset: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10514438/">State-Level Household Gun Ownership Proxy Dataset</a></p>
-<p><strong>Description</strong> This dataset holds the count and population-adjusted rate of suicides, firearm suicides, homicides, and firearm homicides, among other figures. In general it was created by extending an existing proxy for U.S. household gun ownership rates. Most importantly this data was not compiled from self-reporting data, which can be heavily skewed based on the bias of those who choose to report. This extended proxy represents the most comprehensive report of state-level gun ownership rates and trends.</p>
-<p><strong>Combination</strong> We wanted to check if this dataset would be compatible with our previous dataset. In terms of combining them into a its own study we would look to see how the gun-ownership of individuals may affect their view on their interactions with the police. In doing so we can see if those individuals in higher gun ownership states are more comfortable or apprehensive in their interactions with law enforcement. In the same affect we can see if the presence of a gun owner changes the way that law enforcement approach interactions with the public. In doing a more detailed analysis we can see if gun ownership improves the relationship of law enforcement and those they serve and protect.</p>
-<p>Furthermore we may also see how trends in gun ownership across time correlate to patterns in the original survey we studied. This can be used in comprehension with regional changes to better study any pattern that may exist. Having multiple means of doing so would reduce the likelihood of chance being the root cause of any patterns.</p>
+<p>First of all, we did some EDA on the second dataset. This map represents the rate of homicides by firearm by state. We were having some issues working with the mapping functions, which we have to fix. As the map borders do not currently line up with the data coordinates which is causing the coloring to be misaligned with the borders, but we are still working through solving this issue.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>firearm_data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"dataset/firearm_sh_ds.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>firearm_data <span class="ot">&lt;-</span> firearm_data <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">firearm_homicide_rate =</span> <span class="fu">as.numeric</span>(firearm_homicide_rate),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">tolower</span>(state)) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(firearm_homicide_rate))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>us_states <span class="ot">&lt;-</span> <span class="fu">map_data</span>(<span class="st">"state"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"long"</span>, <span class="st">"lat"</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">geometry =</span> <span class="fu">st_union</span>(geometry)) <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">5070</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>us_states <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>map_data <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">state =</span> region) <span class="sc">|&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(firearm_data, <span class="at">by =</span> <span class="st">"state"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>map_data<span class="sc">$</span>log_firearm_homicide_rate <span class="ot">&lt;-</span> <span class="fu">log</span>(map_data<span class="sc">$</span>firearm_homicide_rate <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(map_data) <span class="sc">+</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> log_firearm_homicide_rate), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"Homicide Rate"</span>) <span class="sc">+</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Firearm Homicide Rate by State"</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Rate"</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="More-EDA_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Then, we started to combine the two datasets. We decided to combine based on locations. The first dataset was divided into four regions: Northeast, Midwest, South, and West while the second dataset was divided into different states. We planned to categorize the the states in the second dataset into regions just like the first dataset.</p>
+<p>In combining the dataset we decided to do so by grouping data from both datasets by region and year. Our original dataset used regions instead of states, so by converting from states to region we used the regional definitions used by the <a href="https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States">Census Bureau Designated Regions</a>. For each region and year we summarized the data into categories that include proportional data for certain types of incidents related to police contact, racial distributions, homicide rate, etc.</p>
+<p>The combination of the data is done using the code in “/scripts/load_and_clean_data.R”. Below is a table, which displays each new column and its description. Followed by the new combined data itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>variable_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Name =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"total_count"</span>, <span class="st">"WHITE_NH_PROP"</span>, <span class="st">"B_NH_PROP"</span>, <span class="st">"HISPANIC_PROP"</span>, <span class="st">"OTHER_MULTI_NH_PROP"</span>, <span class="st">"CONTACT_FREQ"</span>, <span class="st">"OC_FRISK_PROP"</span>, <span class="st">"TC_FRISK_PROP"</span>, <span class="st">"VSRCH_PROP"</span>, <span class="st">"ARREST_PROP"</span>, <span class="st">"CUFFED_PROP"</span>, <span class="st">"PROPER_PROP"</span>, <span class="st">"IMPROPER_PROP"</span>, <span class="st">"AVG_CONT"</span>, <span class="st">"population"</span>, <span class="st">"fa_homicides"</span>, <span class="st">"nfa_homicides"</span>, <span class="st">"homicides"</span>, <span class="st">"fa_homicide_rate"</span>, <span class="st">"nfa_homicide_rate"</span>, <span class="st">"homicide_rate"</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Description =</span> <span class="fu">c</span>(<span class="st">"Region the data is from"</span>, <span class="st">"Year the data is from"</span>, <span class="st">"Total number of responses in the police sentiment dataset"</span>, <span class="st">"White non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Black non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Other/multiracial/Non-hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Proportion of responders who had contact with law enforcement"</span>, <span class="st">"Proportion of stop and frisks for non-traffic stops"</span>, <span class="st">"Proportion of stop and frisks for traffic stops"</span>, <span class="st">"Proportion of vehicle searchs"</span>, <span class="st">"Proportions of contacts that ended in arrest"</span>, <span class="st">"Proportion of contacts that included cuffing"</span>, <span class="st">"Proportion of contacts deemed handled proper"</span>, <span class="st">"Proportion of contacts deemed unproperly handled"</span>, <span class="st">"Average number of contacts in the last year"</span>, <span class="st">"Total region population from US census"</span>, <span class="st">"Number of Firearm homicides"</span>, <span class="st">"Number of non-firearm homicides"</span>, <span class="st">"number of homidides"</span>, <span class="st">"firearm homicides per 100,000"</span>, <span class="st">"non-firearm homicides per 100,000"</span>, <span class="st">"homicides per 100,000"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(variable_table, <span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 2
+   Variable_Name       Variable_Description                                     
+   &lt;chr&gt;               &lt;chr&gt;                                                    
+ 1 region              Region the data is from                                  
+ 2 year                Year the data is from                                    
+ 3 total_count         Total number of responses in the police sentiment dataset
+ 4 WHITE_NH_PROP       White non-hispanic proportion of responses for police se…
+ 5 B_NH_PROP           Black non-hispanic proportion of responses for police se…
+ 6 HISPANIC_PROP       Hispanic proportion of responses for police sentiment su…
+ 7 OTHER_MULTI_NH_PROP Other/multiracial/Non-hispanic proportion of responses f…
+ 8 CONTACT_FREQ        Proportion of responders who had contact with law enforc…
+ 9 OC_FRISK_PROP       Proportion of stop and frisks for non-traffic stops      
+10 TC_FRISK_PROP       Proportion of stop and frisks for traffic stops          
+11 VSRCH_PROP          Proportion of vehicle searchs                            
+12 ARREST_PROP         Proportions of contacts that ended in arrest             
+13 CUFFED_PROP         Proportion of contacts that included cuffing             
+14 PROPER_PROP         Proportion of contacts deemed handled proper             
+15 IMPROPER_PROP       Proportion of contacts deemed unproperly handled         
+16 AVG_CONT            Average number of contacts in the last year              
+17 population          Total region population from US census                   
+18 fa_homicides        Number of Firearm homicides                              
+19 nfa_homicides       Number of non-firearm homicides                          
+20 homicides           number of homidides                                      
+21 fa_homicide_rate    firearm homicides per 100,000                            
+22 nfa_homicide_rate   non-firearm homicides per 100,000                        
+23 homicide_rate       homicides per 100,000                                    </code></pre>
+</div>
+</div>
 
 
 

@@ -104,7 +104,7 @@ filtered[quantitative_columns] <- filtered[quantitative_columns] |>
   map_df(~ as.numeric(.x))
 
 View(filtered)
-write_RDS(filtered, "filtered_data.rds")
+# write_RDS(filtered, "filtered_data.rds")
 #   map_df(~ ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) Commenting out this line because I'm not sure how accurate it is to replace missing values with the average value (was discussed in class)
 
 # Renaming the columns to more usable/understandable names
@@ -113,4 +113,79 @@ write_RDS(filtered, "filtered_data.rds")
 # filtered <- filtered |>
 #  rename(marital_status = MAR_STAT, employment_status = WORK_LW, years_of_education = EDUCATION, in_poverty = HHPOV, )
 
+firearm_sh_ds <- read.csv("dataset/Firearm_suicide_homicide_dataset.csv")
+
+firearm_sh_ds <- firearm_sh_ds |>
+  filter(year == 2002 | year == 2008 | year == 2011) |>
+  select(!ends_with("fss")) |>
+  select(!c(division, firearm_suicides, total_suicides))
+
+write_rds(firearm_sh_ds, file = here::here("dataset", "firearm_sh_ds.rds"))
+
+firearm_data <- firearm_sh_ds |>
+  mutate(firearm_homicide_rate = as.numeric(firearm_homicide_rate),
+         state = tolower(state)) |>
+  filter(!is.na(firearm_homicide_rate))
+
+filtered <- read_rds("dataset/police_interaction.rds")
+
+# Combining the Two Datasets into a summary of regions
+police_sentiment_regions <- filtered |>
+  group_by(REGION, PPCS_YEAR) |>
+  summarize(
+    total_count = n(),
+    WHITE_NH_PROP = sum(C4_RACE == 1) / n(),
+    B_NH_PROP = sum(C4_RACE == 2) / n(),
+    HISPANIC_PROP = sum(C4_RACE == 3) / n(),
+    OTHER_MULTI_NH_PROP = sum(C4_RACE == 4) / n(),
+    CONTACT_FREQ = sum(C_CONTCT != 0, na.rm = TRUE),
+    OC_FRISK_PROP = sum(OC_FRISK == 1, na.rm = TRUE) / CONTACT_FREQ,
+    TC_FRISK_PROP = sum(TS_FRISK == 1, na.rm = TRUE) / CONTACT_FREQ,
+    VSRCH_PROP = sum(TS_VSRCH == 1, na.rm = TRUE) / CONTACT_FREQ,
+    ARREST_PROP = sum(ARRESTED == 1, na.rm = TRUE) / CONTACT_FREQ,
+    CUFFED_PROP = sum(CUFFED == 1, na.rm = TRUE) / CONTACT_FREQ,
+    PROPER_PROP = sum(PROPER == 1, na.rm = TRUE) / CONTACT_FREQ,
+    IMPROPER_PROP = sum(PROPER == 0, na.rm = TRUE) / CONTACT_FREQ,
+    AVG_CONT = sum(NUM_CONT, na.rm = TRUE) / total_count
+  ) |>
+  mutate(
+    REGION = case_when(
+      REGION == 1 ~ "northeast",
+      REGION == 2 ~ "midwest",
+      REGION == 3 ~ "south",
+      REGION == 4 ~ "west"
+    )
+  ) |>
+  rename(year = PPCS_YEAR,
+         region = REGION)
+
+regional_firearm <- firearm_data |>
+  mutate(
+    region = case_when(
+      state %in% c("connecticut", "maine", "massachusetts", "new hampshire", "rhode island", "vermont") ~ "northeast",
+      state %in% c("new jersey", "new york", "pennsylvania", "maryland", "delaware") ~ "northeast",
+      state %in% c("illinois", "indiana", "michigan", "ohio", "wisconsin") ~ "midwest",
+      state %in% c("iowa", "kansas", "minnesota", "missouri", "nebraska", "north dakota", "south dakota") ~ "midwest",
+      state %in% c("florida", "georgia", "north carolina", "south carolina", "virginia", "west virginia", "district of columbia") ~ "south",
+      state %in% c("alabama", "kentucky", "mississippi", "tennessee") ~ "south",
+      state %in% c("arkansas", "louisiana", "oklahoma", "texas") ~ "south",
+      state %in% c("arizona", "colorado", "idaho", "montana", "nevada", "new mexico", "utah", "wyoming") ~ "west",
+      state %in% c("alaska", "california", "hawaii", "oregon", "washington") ~ "west",
+      TRUE ~ "other"  # A fallback if the state doesn't match
+    )) |>
+  group_by(region, year) |>
+  summarize(
+    population = sum(total_population, na.rm = TRUE),
+    fa_homicides = sum(firearm_homicides, na.rm = TRUE),
+    nfa_homicides = sum(nonfirearm_homicides, na.rm = TRUE),
+    homicides = sum(total_homicides, na.rm = TRUE),
+    fa_homicide_rate = ((fa_homicides / population) * 100000),
+    nfa_homicide_rate = ((nfa_homicides / population) * 100000),
+    homicide_rate = ((homicides / population) * 100000)
+  )
+
+combined_regional <- police_sentiment_regions |>
+  full_join(regional_firearm, by = c("region", "year"))
+
+write_rds(combined_regional, file = here::here("dataset", "combined_regional_data.rds"))
 
