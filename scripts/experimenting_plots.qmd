@@ -285,6 +285,7 @@ ggplot(map_data) +
   ) +
   facet_wrap(~year)
 ```
+
 ```{r}
 # Loading the combined data
 new_data <- read_rds("dataset/combined_regional_data.rds")
@@ -292,3 +293,111 @@ new_data <- read_rds("dataset/combined_regional_data.rds")
 view(new_data)
 ```
 
+```{r}
+# Scatter plot for firearm homicide rate and racial proportions
+ggplot(new_data, aes(x = fa_homicide_rate)) +
+  geom_point(aes(y = WHITE_NH_PROP, color = "White NH"), size = 2, alpha = 0.7) +
+  geom_point(aes(y = B_NH_PROP, color = "Black NH"), size = 2, alpha = 0.7) +
+  geom_point(aes(y = HISPANIC_PROP, color = "Hispanic"), size = 2, alpha = 0.7) +
+  geom_point(aes(y = OTHER_MULTI_NH_PROP, color = "Other/Multi NH"), size = 2, alpha = 0.7) +
+  facet_wrap(~ region) + # Optional: Facet by region
+  labs(
+    title = "Firearm Homicide Rate by Racial Proportions",
+    x = "Firearm Homicide Rate",
+    y = "Proportion of Racial Group",
+    color = "Racial Group"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like.
+ggplot(new_data, aes(x = year)) +
+  geom_line(aes(y = fa_homicide_rate * 10, color = "Firearm Homicide Rate * 10"), size = 1) +
+  geom_line(aes(y = WHITE_NH_PROP * 100, color = "White NH Prop"), linetype = "dashed", size = 0.8) +
+  geom_line(aes(y = B_NH_PROP * 100, color = "Black NH Prop"), linetype = "dashed", size = 0.8) +
+  facet_wrap(~ region) +
+  labs(
+    title = "Trends in Firearm Homicide Rate and Racial Proportions Over Time",
+    x = "Year",
+    y = "Rate (%)",
+    color = "Variable"
+  ) +
+  theme_minimal()
+
+```
+
+
+```{r}
+library(shiny)
+library(ggplot2)
+library(readr) # For reading your .rds file
+
+# Define server logic ----
+server <- function(input, output) {
+  # Load the data
+  # Replace this URL with the actual URL of your .rds file on GitHub Pages
+  data <- new_data
+    # read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset/combined_regional_data.rds")
+    # Have to configure to get this to link to the dataset
+  
+    # Render the interactive plot
+  output$scatterPlot <- renderPlot({
+    ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
+      geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years
+      geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points
+      facet_wrap(~ region) + # Optional: Facet by region
+      labs(
+        title = paste("Firearm Homicide Rate vs", input$selected_race),
+        x = "Firearm Homicide Rate",
+        y = "Proportion",
+        color = "Year"
+      ) +
+      theme_minimal() +
+      theme(
+        legend.position = "bottom",       # Place legend at the bottom
+        legend.box = "horizontal",        # Align legend items horizontally
+        legend.text = element_text(size = 10), # Adjust legend text size
+        legend.title = element_text(size = 12), # Adjust legend title size
+        legend.key.width = unit(1, "cm"), # Add space between legend items
+        legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing
+      ) +
+      guides(
+        color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend
+      )
+  })
+}
+
+# Define UI for the application ----
+ui <- fluidPage(
+  # Application title
+  titlePanel("Interactive Scatter Plot: Firearm Homicide Rate and Racial Proportions"),
+  
+  # Sidebar layout with input and output
+  sidebarLayout(
+    # Sidebar panel for inputs
+    sidebarPanel(
+      # Dropdown menu for selecting racial group
+      selectInput(
+        inputId = "selected_race",
+        label = "Select a Racial Group:",
+        choices = c(
+          "White NH" = "WHITE_NH_PROP",
+          "Black NH" = "B_NH_PROP",
+          "Hispanic" = "HISPANIC_PROP",
+          "Other/Multi NH" = "OTHER_MULTI_NH_PROP"
+        ),
+        selected = "WHITE_NH_PROP"
+      )
+    ),
+    
+    # Main panel for displaying outputs
+    mainPanel(
+      plotOutput(outputId = "scatterPlot")
+    )
+  )
+)
+
+# Run the application ----
+shinyApp(ui = ui, server = server)
+```
