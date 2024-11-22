@@ -311,6 +311,14 @@ ggplot(new_data, aes(x = fa_homicide_rate)) +
 ```
 
 ```{r}
+# Loading libraries
+library(shiny)
+library(shinylive)
+library(ggplot2)
+library(readr) # For reading your .rds file
+```
+
+```{r}
 # This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like.
 ggplot(new_data, aes(x = year)) +
   geom_line(aes(y = fa_homicide_rate * 10, color = "Firearm Homicide Rate * 10"), size = 1) +
@@ -328,16 +336,13 @@ ggplot(new_data, aes(x = year)) +
 ```
 
 
-```{r}
-library(shiny)
-library(ggplot2)
-library(readr) # For reading your .rds file
 
+```{r}
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
   # Replace this URL with the actual URL of your .rds file on GitHub Pages
-  data <- new_data
+   data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
     # read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset/combined_regional_data.rds")
     # Have to configure to get this to link to the dataset
   
