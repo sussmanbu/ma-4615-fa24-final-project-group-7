@@ -1,8 +1,0 @@
-```{r}
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(sf))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(viridis))
-suppressPackageStartupMessages(library(maps))
-
-```

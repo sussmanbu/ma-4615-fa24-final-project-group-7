@@ -20,6 +20,7 @@ suppressPackageStartupMessages(library(tidyverse)) #For data wrangling, manipula
 suppressPackageStartupMessages(library(viridis)) #For visual themes
 suppressPackageStartupMessages(library(sf)) 
 suppressPackageStartupMessages(library(maps)) #For maps
+suppressPackageStartupMessages(library(DT))
 
 data <- read_rds(here::here("dataset/police_interaction.rds"))
 ```
@@ -228,6 +229,9 @@ server <- function(input, output) {
   })
 }
 
+
+
+
 # Define UI for the application ----
 ui <- fluidPage(
   # Application title
@@ -262,6 +266,69 @@ ui <- fluidPage(
 shinyApp(ui = ui, server = server)
 ```
 
+```{r}
+# Define the server logic
+server <- function(input, output) {
+  # Simulated example dataset (replace with actual dataset)
+  data <- data.frame(
+    year = rep(2000:2020, each = 4),
+    region = rep(c("North", "South", "East", "West"), times = 21),
+    fa_homicide_rate = runif(84, 0, 10),
+    WHITE_NH_PROP = runif(84, 0, 1),
+    B_NH_PROP = runif(84, 0, 1),
+    HISPANIC_PROP = runif(84, 0, 1),
+    OTHER_MULTI_NH_PROP = runif(84, 0, 1)
+  )
+  
+  # Reactive filtered data
+  filtered_data <- reactive({
+    data %>%
+      filter(year >= 2000 & year <= 2020) %>%
+      filter(region %in% c("North", "South", "East", "West"))
+  })
+  
+  # Render the summary table
+  output$summaryTable <- DT::renderDataTable({
+    filtered_data() %>%
+      summarise(
+        `Mean Homicide Rate` = mean(fa_homicide_rate, na.rm = TRUE),
+        `Median Homicide Rate` = median(fa_homicide_rate, na.rm = TRUE),
+        `Std Dev Homicide Rate` = sd(fa_homicide_rate, na.rm = TRUE),
+        `Mean Proportion` = mean(.data[[input$selected_race]], na.rm = TRUE),
+        `Median Proportion` = median(.data[[input$selected_race]], na.rm = TRUE),
+        `Std Dev Proportion` = sd(.data[[input$selected_race]], na.rm = TRUE)
+      )
+  })
+}
+
+# Define the UI
+ui <- fluidPage(
+  titlePanel("Shiny App with Summary Table"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "selected_race",
+        label = "Select a Racial Group:",
+        choices = c(
+          "White NH" = "WHITE_NH_PROP",
+          "Black NH" = "B_NH_PROP",
+          "Hispanic" = "HISPANIC_PROP",
+          "Other/Multi NH" = "OTHER_MULTI_NH_PROP"
+        ),
+        selected = "WHITE_NH_PROP"
+      )
+    ),
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Summary Table", DT::dataTableOutput(outputId = "summaryTable"))
+      )
+    )
+  )
+)
+
+# Run the application
+shinyApp(ui = ui, server = server)
+```
 
 <!-- This comes from the file `analysis.qmd`. -->
 
