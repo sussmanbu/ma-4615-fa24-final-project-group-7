@@ -129,22 +129,17 @@ firearm_data <- firearm_data |>
          state = tolower(state)) |>
   filter(!is.na(firearm_homicide_rate))
 
-us_states <- map_data("state") |>
-  as_tibble() |>
-  st_as_sf(coords = c("long", "lat"), crs = 4326) |>
-  group_by(region) |>
-  summarise(geometry = st_union(geometry)) |>
-  st_transform(crs = 5070)
+us_states <- st_as_sf(maps::map("state", plot = FALSE, fill = TRUE)) %>%
+  mutate(region = tolower(ID)) %>% # Convert state names to lowercase
+  select(region, geom) # Retain only state name and geometry columns
 
-us_states <- us_states |>
-  st_cast("POLYGON")
 
 map_data <- us_states |>
   rename(state = region) |>
   left_join(firearm_data, by = "state")
 
 map_data$log_firearm_homicide_rate <- log(map_data$firearm_homicide_rate + 1)
-
+ 
 ggplot(map_data) +
   geom_sf(aes(fill = log_firearm_homicide_rate), color = "black", size = 0.2) +
   scale_fill_viridis_c(option = "plasma", name = "Homicide Rate") +
@@ -156,7 +151,6 @@ ggplot(map_data) +
   facet_wrap(~year)
 
 ```
-
 We combined the two datasets based on locations. The first dataset was divided into four regions: Northeast, Midwest, South, and West while the second dataset was divided into different states. 
 
 We grouped data from both datasets by region and year using the regional definitions from the [Census Bureau Designated Regions](https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States).
