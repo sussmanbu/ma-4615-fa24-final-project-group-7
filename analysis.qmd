@@ -185,7 +185,7 @@ ggplot(data, aes(x = year)) +
 ```
 
 
-This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions.
+This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the south, with similar firearm homicide rate in the midwest and northeast, and the lowest rate of firearm homicides in the west. However, this dataset lacks data on the race of the homicide victims.
 
 ```{r}
 # Define server logic ----
