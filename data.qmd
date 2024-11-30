@@ -6,8 +6,9 @@ draft: false
 ---
 
 ![](images/data-import-cheatsheet-thumbs.png)
+***Before we begin, all of the cleaning and combining for our datasets is done with the code in [this load and clean file](\scripts\load_and_clean_data.R), so please head there for a more detailed breakdown of how all of this was done.***
 
-The Dataset we picked: 
+**First Data Set:**  
 The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) 
 [Dataset Link](https://www.icpsr.umich.edu/web/NACJD/studies/36370/)
 
@@ -34,85 +35,49 @@ Columns ending with "_sub": Data wasn't originally collected, and carried back l
 
 time2vic_inc_P23PER: We don't want to investigate months from PPCS interview to victimization
 
-This is all done in our [cleaning script](\scripts\load_and_clean_data.R). In this script we start by removing certain columns, and then outlining the remaining columns as numerical or categorical, in order to check for inconsistent data values and providing default values to missing data. For most cases, we consider missing data to be okay, as na values may be interpreted as such in our analysis but we have considered adding certain default values like the average for numerical values such that it wouldn't affect the average of the entire dataset.
+This is all done in our [cleaning script](\scripts\load_and_clean_data.R). In this script we start by removing certain columns, and then outlining the remaining columns as numerical or categorical, in order to check for inconsistent data values and providing default values to missing data. For most cases, we consider missing data to be okay.
 
+**Second Data Set:**
+Firearm Suicide Proxy for Household Gun Ownership, 1949-2020
+[Dataset Link](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD)
 
+This dataset was collected by Megan Kang and can be found on the Harvard Dataverse collection. The proxy measures household gun ownership trends at a state level. Notably it is not reliant on self reported data, which can be prone to certain biases. This dataset ranges a long period of time from 1949-2020 and represents the longest-ranging database of state-level gun ownership. 
 
+Particularly this dataset includes information across districts, states, and years, and contains comprehensive variables that allow us to study the complex relationship between geography and household gun ownership and misuse. At the district-level we have variables that show the total population of the district and homicide/suicide rates caused by firearms and non-firearms.
 
+Our goal with this dataset was to combine it with our original dataset related to police sentiment. In doing so we did very minor initial cleaning by removing the following columns:
 
-This comes from the file `data.qmd`.
+*fss* - a metric irrelevant to our analysis
+*districts* - our original dataset uses regions, so we can construct those regions using the state level descriptions
+*suicide related metrics* - we felt that homicide information was more relevant to the way police may choose to approach situations
 
-Your first steps in this project will be to find data to work on.
+As well as removing all years besides the years which were present in our original dataset. 
 
-I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.
+**Combination**
+In combining the datasets we chose to combine information such that we would display information based on the region and year combinations. This is because the original data was presented across 4 different regions: Northeast, Midwest, South, and West as well as 3 years: 2002, 2008, and 2011.
 
-
-Initially, you will study _one dataset_ but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable.
-Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.
-
-
-## What makes a good data set?
-
-* Data you are interested in and care about.
-* Data where there are a lot of potential questions that you can explore.
-* A data set that isn't completely cleaned already.
-* Multiple sources for data that you can combine.
-* Some type of time and/or location component.
-
-
-## Where to keep data?
-
-
-Below 50mb: In `dataset` folder
-
-Above 50mb: In `dataset_ignore` folder. This folder will be ignored by `git` so you'll have to manually sync these files across your team.
-
-### Sharing your data
-
-
-For small datasets (<50mb), you can use the `dataset` folder that is tracked by github. Add the files just like you would any other file.
-
-If you create a folder named `data` this will cause problems.
-
-For larger datasets, you'll need to create a new folder in the project root directory named `dataset-ignore`. This will be ignored by git (based off the `.gitignore` file in the project root directory) which will help you avoid issues with Github's size limits. Your team will have to manually make sure the data files in `dataset-ignore` are synced across team members.
-
-Your [load_and_clean_data.R](/scripts/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
-
+Our final combined dataset includes the following variables
 ```{r}
-# source(
-  # "scripts/load_and_clean_data.R",
-  #echo = FALSE # Use echo=FALSE or omit it to avoid code output  
-#)
+suppressPackageStartupMessages(library(tidyverse))
+variable_table <- tibble(
+  Variable_Name = c("region", "year", "total_count", "WHITE_NH_PROP", "B_NH_PROP", "HISPANIC_PROP", "OTHER_MULTI_NH_PROP", "CONTACT_FREQ", "OC_FRISK_PROP", "TC_FRISK_PROP", "VSRCH_PROP", "ARREST_PROP", "CUFFED_PROP", "PROPER_PROP", "IMPROPER_PROP", "AVG_CONT", "population", "fa_homicides", "nfa_homicides", "homicides", "fa_homicide_rate", "nfa_homicide_rate", "homicide_rate"),
+  Variable_Description = c("Region the data is from", "Year the data is from", "Total number of responses in the police sentiment dataset", "White non-hispanic proportion of responses for police sentiment", "Black non-hispanic proportion of responses for police sentiment", "Hispanic proportion of responses for police sentiment survey", "Other/multiracial/Non-hispanic proportion of responses for police sentiment survey", "Proportion of responders who had contact with law enforcement", "Proportion of stop and frisks for non-traffic stops", "Proportion of stop and frisks for traffic stops", "Proportion of vehicle searchs", "Proportions of contacts that ended in arrest", "Proportion of contacts that included cuffing", "Proportion of contacts deemed handled proper", "Proportion of contacts deemed unproperly handled", "Average number of contacts in the last year", "Total region population from US census", "Number of Firearm homicides", "Number of non-firearm homicides", "number of homidides", "firearm homicides per 100,000", "non-firearm homicides per 100,000", "homicides per 100,000")
+)
+
+print(variable_table, n = Inf)
 ```
-You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\MA415\\Final_Project\`).
 
-You might consider using the `here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
 
-### Load and clean data script
+The first step of doing so was to find the information for each region x year combination that we wanted to keep from the first dataset. This corresponds to the variables ranging from 3-16 in the table above.
 
-The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them.
-This file might create a derivative data set that you then use for your subsequent analysis.
-Note that you don't need to run this script from every post/page.
-Instead, you can load in the results of this script, which could be plain text files or `.RData` files. In your data page you'll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use `[cleaning script](/scripts/load_and_clean_data.R)` wich appears as [cleaning script](/scripts/load_and_clean_data.R). 
+For these variables there are a few main categories:
 
-----
+*total_count* - a metric taken directly from the original data 
+*racial demographics* - which were taken by finding the proportion of certain races against the entire population
+*event proportions* - which were taken by finding the average number of occurrences across the total number of police contacts
 
-## Rubric: On this page
+Next we had to transform the firearm dataset to follow the same region x year format. Since our firearm dataset came broken down by states we would have to use these states to reconstruct the original corresponding regions. To do this designation we used the Census Designated Regions of the United States. This is a potential point of error in our analysis as we could not find certain information about the regional breakdown in the first dataset. Then we simply grouped by region x year and recalculated the simple metrics in the original dataset but across the new breakdown. 
 
-You will
+Finally we used full_join to combine our two transformed data sets to create a new combined dataset that shared the same grouping breakdowns. 
 
-* Describe where/how to find data.
-  * You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.
-  * Why was the data collected/curated? Who put it together? (This is important, if you don't know why it was collected then that might not be a good dataset to look at.
-* Describe the different data files used and what each variable means. 
-  * If you have many variables then only describe the most relevant ones and summarize the rest.
-* Describe any cleaning you had to do for your data.
-  * You *must* include a link to your `load_and_clean_data.R` file.
-  * Rrename variables and recode factors to make data more clear.
-  * Also, describe any additional R packages you used outside of those covered in class.
-  * Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.
-  * Some repetition of what you do in your `load_and_clean_data.R` file is fine and encouraged if it helps explain what you did.
-* Organization, clarity, cleanliness of the page
-  * Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.
-  * This page should be self-contained.
+
