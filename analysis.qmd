@@ -166,7 +166,7 @@ variable_table <- tibble(
 
 print(variable_table, n = Inf)
 ```
-This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like.
+This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like. From the plots, we can tell that the south and west regions have quite different firearm homicide rate * 10.
 ```{r}
 data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
 ggplot(data, aes(x = year)) +
