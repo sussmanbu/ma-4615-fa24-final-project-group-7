@@ -26,7 +26,7 @@ suppressPackageStartupMessages(library(DT))
 data <- read_rds(here::here("dataset/police_interaction.rds"))
 ```
 
-One initial step in conducting EDA is by looking at the "PROPER" variable, which outlines whether or not the police behaved properly during the interaction, and seeing how the proportion of improper actions differs between individuals of different races. 
+The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. Here, we see how the proportion of improper police actions differs among different race populations. 
 
 ```{r}
 data |>
@@ -39,6 +39,8 @@ data |>
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+The plot shows that the black population experienced a much higher proportion of improper police interactions, with about 15% of reported interactions classified as improper. Among Hispianic and Other or multifacial, Non-Hispanic populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the White, Non-Hispanic population was about 7%.
+
 This second plot is a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
 
 ``` {r}
@@ -122,7 +124,7 @@ Loading our Firearm dataset.
 firearm_data <- read_rds("dataset/firearm_sh_ds.rds")
 ```
 
-This map represents the rate of homicides by firearm by state.
+This map represents the rate of homicides by firearm by state. There are different levels of colors to represent the homicide rate by state, and the diagrams are split into 2002, 2008, and 2011.
 
 ```{r}
 firearm_data <- firearm_data |>
@@ -167,7 +169,7 @@ variable_table <- tibble(
 
 print(variable_table, n = Inf)
 ```
-This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like.
+This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like. From the plots, we can tell that the south and west regions have quite different firearm homicide rate * 10.
 ```{r}
 data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
 ggplot(data, aes(x = year)) +
@@ -261,69 +263,6 @@ ui <- fluidPage(
 shinyApp(ui = ui, server = server)
 ```
 
-```{r}
-# Define the server logic
-server <- function(input, output) {
-  # Simulated example dataset (replace with actual dataset)
-  data <- data.frame(
-    year = rep(2000:2020, each = 4),
-    region = rep(c("North", "South", "East", "West"), times = 21),
-    fa_homicide_rate = runif(84, 0, 10),
-    WHITE_NH_PROP = runif(84, 0, 1),
-    B_NH_PROP = runif(84, 0, 1),
-    HISPANIC_PROP = runif(84, 0, 1),
-    OTHER_MULTI_NH_PROP = runif(84, 0, 1)
-  )
-  
-  # Reactive filtered data
-  filtered_data <- reactive({
-    data %>%
-      filter(year >= 2000 & year <= 2020) %>%
-      filter(region %in% c("North", "South", "East", "West"))
-  })
-  
-  # Render the summary table
-  output$summaryTable <- DT::renderDataTable({
-    filtered_data() %>%
-      summarise(
-        `Mean Homicide Rate` = mean(fa_homicide_rate, na.rm = TRUE),
-        `Median Homicide Rate` = median(fa_homicide_rate, na.rm = TRUE),
-        `Std Dev Homicide Rate` = sd(fa_homicide_rate, na.rm = TRUE),
-        `Mean Proportion` = mean(.data[[input$selected_race]], na.rm = TRUE),
-        `Median Proportion` = median(.data[[input$selected_race]], na.rm = TRUE),
-        `Std Dev Proportion` = sd(.data[[input$selected_race]], na.rm = TRUE)
-      )
-  })
-}
-
-# Define the UI
-ui <- fluidPage(
-  titlePanel("Shiny App with Summary Table"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput(
-        inputId = "selected_race",
-        label = "Select a Racial Group:",
-        choices = c(
-          "White NH" = "WHITE_NH_PROP",
-          "Black NH" = "B_NH_PROP",
-          "Hispanic" = "HISPANIC_PROP",
-          "Other/Multi NH" = "OTHER_MULTI_NH_PROP"
-        ),
-        selected = "WHITE_NH_PROP"
-      )
-    ),
-    mainPanel(
-      tabsetPanel(
-        tabPanel("Summary Table", DT::dataTableOutput(outputId = "summaryTable"))
-      )
-    )
-  )
-)
-
-# Run the application
-shinyApp(ui = ui, server = server)
-```
 
 <!-- This comes from the file `analysis.qmd`. -->
 
