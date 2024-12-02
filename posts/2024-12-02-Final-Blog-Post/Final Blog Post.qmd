@@ -1,0 +1,10 @@
+---
+title: "Final Blog Post"
+author: ""
+subtitle: ""
+description:  |
+  Final Blog Post wrapping up our projects
+date: "2024-12-02"
+date-modified: "2024-12-02"
+draft: FALSE
+---
