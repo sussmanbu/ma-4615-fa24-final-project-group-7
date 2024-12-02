@@ -151,19 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#what-makes-a-good-data-set" id="toc-what-makes-a-good-data-set" class="nav-link active" data-scroll-target="#what-makes-a-good-data-set">What makes a good data set?</a></li>
-  <li><a href="#where-to-keep-data" id="toc-where-to-keep-data" class="nav-link" data-scroll-target="#where-to-keep-data">Where to keep data?</a>
-  <ul class="collapse">
-  <li><a href="#sharing-your-data" id="toc-sharing-your-data" class="nav-link" data-scroll-target="#sharing-your-data">Sharing your data</a></li>
-  <li><a href="#load-and-clean-data-script" id="toc-load-and-clean-data-script" class="nav-link" data-scroll-target="#load-and-clean-data-script">Load and clean data script</a></li>
-  </ul></li>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -192,8 +180,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"></p>
-<p>The Dataset we picked: The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) <a href="https://www.icpsr.umich.edu/web/NACJD/studies/36370/">Dataset Link</a></p>
+<p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"> <strong><em>Before we begin, all of the cleaning and combining for our datasets is done with the code in <a href="\scripts\load_and_clean_data.R">this load and clean file</a>, so please head there for a more detailed breakdown of how all of this was done.</em></strong></p>
+<p><strong>First Data Set:</strong><br>
+The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) <a href="https://www.icpsr.umich.edu/web/NACJD/studies/36370/">Dataset Link</a></p>
 <p>The dataset is collected by the Bureau of Justice Statistics (BJS), which is the primary statistical agency of the US’s Department of Justice. It was first established in 1979 in order to better understand statistics about crimes in the United States. The data collected in these studies provides information on how each individuals’ prior interactions with law enforcement, both directly and through the experiences of others, influence their decisions to report crimes. By linking data from the National Crime Victimization Survey (NCVS) with the Police-Public Contact Survey (PPCS), the researchers could explore the relationship between police encounter experiences and crime reporting behavior. The combined dataset used in this study contains data about survey participants in 2002, 2008, and 2011.</p>
 <p>The dataset comprises person-level, household-level, and police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. At the person level, variables include PER_ID(Unique person identifier), age, race, contact(if the respondent had police contact in the past 12 months), and number of face-to-face police contacts within the past year. At the household level, HH_ID identifies households, while hhpov (poverty status) and HH_size (number of household members) contextualize socioeconomic status. Police encounters are detailed with REASON (reason for contact), arrested (if the respondent was arrested), and cuffed (if handcuffed), which capture the nature of police interactions. Victimization variables like d_HH_P23 (household crime victimization), time2vic_inc_P23HH (time between police interview and crime), and notify_inc_P23HH (police notified of household crime) provide insights into subsequent incidents. Additional demographic variables such as education, mar_stat (marital status), and work_lw (employment status) add socioeconomic context.</p>
 <p>In terms of cleaning the data, we originally started by planning to remove rows with over 90,000 na values, but quickly realized that some of these highlighted rare experiences with police that are information that would be crucial to our analysis.</p>
@@ -203,76 +192,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>num_fu_HHint, num_fu_perint - Number of follow-up HH interviews post-PPCS, Number of follow-up PERSON interviews post-PPCS : The number of follow-ups for each person or household isn’t relevant to us.</p>
 <p>Columns ending with “_sub”: Data wasn’t originally collected, and carried back later on.</p>
 <p>time2vic_inc_P23PER: We don’t want to investigate months from PPCS interview to victimization</p>
-<p>This is all done in our <a href="\scripts\load_and_clean_data.R">cleaning script</a>. In this script we start by removing certain columns, and then outlining the remaining columns as numerical or categorical, in order to check for inconsistent data values and providing default values to missing data. For most cases, we consider missing data to be okay, as na values may be interpreted as such in our analysis but we have considered adding certain default values like the average for numerical values such that it wouldn’t affect the average of the entire dataset.</p>
-<p>This comes from the file <code>data.qmd</code>.</p>
-<p>Your first steps in this project will be to find data to work on.</p>
-<p>I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.</p>
-<p>Initially, you will study <em>one dataset</em> but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable. Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.</p>
-<section id="what-makes-a-good-data-set" class="level2">
-<h2 class="anchored" data-anchor-id="what-makes-a-good-data-set">What makes a good data set?</h2>
-<ul>
-<li>Data you are interested in and care about.</li>
-<li>Data where there are a lot of potential questions that you can explore.</li>
-<li>A data set that isn’t completely cleaned already.</li>
-<li>Multiple sources for data that you can combine.</li>
-<li>Some type of time and/or location component.</li>
-</ul>
-</section>
-<section id="where-to-keep-data" class="level2">
-<h2 class="anchored" data-anchor-id="where-to-keep-data">Where to keep data?</h2>
-<p>Below 50mb: In <code>dataset</code> folder</p>
-<p>Above 50mb: In <code>dataset_ignore</code> folder. This folder will be ignored by <code>git</code> so you’ll have to manually sync these files across your team.</p>
-<section id="sharing-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="sharing-your-data">Sharing your data</h3>
-<p>For small datasets (&lt;50mb), you can use the <code>dataset</code> folder that is tracked by github. Add the files just like you would any other file.</p>
-<p>If you create a folder named <code>data</code> this will cause problems.</p>
-<p>For larger datasets, you’ll need to create a new folder in the project root directory named <code>dataset-ignore</code>. This will be ignored by git (based off the <code>.gitignore</code> file in the project root directory) which will help you avoid issues with Github’s size limits. Your team will have to manually make sure the data files in <code>dataset-ignore</code> are synced across team members.</p>
-<p>Your <a href=".\scripts/load_and_clean_data.R">load_and_clean_data.R</a> file is how you will load and clean your data. Here is a an example of a very simple one.</p>
+<p>This is all done in our <a href="\scripts\load_and_clean_data.R">cleaning script</a>. In this script we start by removing certain columns, and then outlining the remaining columns as numerical or categorical, in order to check for inconsistent data values and providing default values to missing data. For most cases, we consider missing data to be okay.</p>
+<p><strong>Second Data Set:</strong> Firearm Suicide Proxy for Household Gun Ownership, 1949-2020 <a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD">Dataset Link</a></p>
+<p>This dataset was collected by Megan Kang and can be found on the Harvard Dataverse collection. The proxy measures household gun ownership trends at a state level. Notably it is not reliant on self reported data, which can be prone to certain biases. This dataset ranges a long period of time from 1949-2020 and represents the longest-ranging database of state-level gun ownership.</p>
+<p>Particularly this dataset includes information across districts, states, and years, and contains comprehensive variables that allow us to study the complex relationship between geography and household gun ownership and misuse. At the district-level we have variables that show the total population of the district and homicide/suicide rates caused by firearms and non-firearms.</p>
+<p>Our goal with this dataset was to combine it with our original dataset related to police sentiment. In doing so we did very minor initial cleaning by removing the following columns:</p>
+<p><em>fss</em> - a metric irrelevant to our analysis <em>districts</em> - our original dataset uses regions, so we can construct those regions using the state level descriptions <em>suicide related metrics</em> - we felt that homicide information was more relevant to the way police may choose to approach situations</p>
+<p>As well as removing all years besides the years which were present in our original dataset.</p>
+<p><strong>Combination</strong> In combining the datasets we chose to combine information such that we would display information based on the region and year combinations. This is because the original data was presented across 4 different regions: Northeast, Midwest, South, and West as well as 3 years: 2002, 2008, and 2011.</p>
+<p>Our final combined dataset includes the following variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># source(</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># "scripts/load_and_clean_data.R",</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#echo = FALSE # Use echo=FALSE or omit it to avoid code output  </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>variable_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Name =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"total_count"</span>, <span class="st">"WHITE_NH_PROP"</span>, <span class="st">"B_NH_PROP"</span>, <span class="st">"HISPANIC_PROP"</span>, <span class="st">"OTHER_MULTI_NH_PROP"</span>, <span class="st">"CONTACT_FREQ"</span>, <span class="st">"OC_FRISK_PROP"</span>, <span class="st">"TC_FRISK_PROP"</span>, <span class="st">"VSRCH_PROP"</span>, <span class="st">"ARREST_PROP"</span>, <span class="st">"CUFFED_PROP"</span>, <span class="st">"PROPER_PROP"</span>, <span class="st">"IMPROPER_PROP"</span>, <span class="st">"AVG_CONT"</span>, <span class="st">"population"</span>, <span class="st">"fa_homicides"</span>, <span class="st">"nfa_homicides"</span>, <span class="st">"homicides"</span>, <span class="st">"fa_homicide_rate"</span>, <span class="st">"nfa_homicide_rate"</span>, <span class="st">"homicide_rate"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Description =</span> <span class="fu">c</span>(<span class="st">"Region the data is from"</span>, <span class="st">"Year the data is from"</span>, <span class="st">"Total number of responses in the police sentiment dataset"</span>, <span class="st">"White non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Black non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Other/multiracial/Non-hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Proportion of responders who had contact with law enforcement"</span>, <span class="st">"Proportion of stop and frisks for non-traffic stops"</span>, <span class="st">"Proportion of stop and frisks for traffic stops"</span>, <span class="st">"Proportion of vehicle searchs"</span>, <span class="st">"Proportions of contacts that ended in arrest"</span>, <span class="st">"Proportion of contacts that included cuffing"</span>, <span class="st">"Proportion of contacts deemed handled proper"</span>, <span class="st">"Proportion of contacts deemed unproperly handled"</span>, <span class="st">"Average number of contacts in the last year"</span>, <span class="st">"Total region population from US census"</span>, <span class="st">"Number of Firearm homicides"</span>, <span class="st">"Number of non-firearm homicides"</span>, <span class="st">"number of homidides"</span>, <span class="st">"firearm homicides per 100,000"</span>, <span class="st">"non-firearm homicides per 100,000"</span>, <span class="st">"homicides per 100,000"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(variable_table, <span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 2
+   Variable_Name       Variable_Description                                     
+   &lt;chr&gt;               &lt;chr&gt;                                                    
+ 1 region              Region the data is from                                  
+ 2 year                Year the data is from                                    
+ 3 total_count         Total number of responses in the police sentiment dataset
+ 4 WHITE_NH_PROP       White non-hispanic proportion of responses for police se…
+ 5 B_NH_PROP           Black non-hispanic proportion of responses for police se…
+ 6 HISPANIC_PROP       Hispanic proportion of responses for police sentiment su…
+ 7 OTHER_MULTI_NH_PROP Other/multiracial/Non-hispanic proportion of responses f…
+ 8 CONTACT_FREQ        Proportion of responders who had contact with law enforc…
+ 9 OC_FRISK_PROP       Proportion of stop and frisks for non-traffic stops      
+10 TC_FRISK_PROP       Proportion of stop and frisks for traffic stops          
+11 VSRCH_PROP          Proportion of vehicle searchs                            
+12 ARREST_PROP         Proportions of contacts that ended in arrest             
+13 CUFFED_PROP         Proportion of contacts that included cuffing             
+14 PROPER_PROP         Proportion of contacts deemed handled proper             
+15 IMPROPER_PROP       Proportion of contacts deemed unproperly handled         
+16 AVG_CONT            Average number of contacts in the last year              
+17 population          Total region population from US census                   
+18 fa_homicides        Number of Firearm homicides                              
+19 nfa_homicides       Number of non-firearm homicides                          
+20 homicides           number of homidides                                      
+21 fa_homicide_rate    firearm homicides per 100,000                            
+22 nfa_homicide_rate   non-firearm homicides per 100,000                        
+23 homicide_rate       homicides per 100,000                                    </code></pre>
 </div>
-<p>You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\MA415\\Final_Project\</code>).</p>
-<p>You might consider using the <code>here</code> function from the <a href="https://here.r-lib.org/articles/here.html"><code>here</code> package</a> to avoid path problems.</p>
-</section>
-<section id="load-and-clean-data-script" class="level3">
-<h3 class="anchored" data-anchor-id="load-and-clean-data-script">Load and clean data script</h3>
-<p>The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them. This file might create a derivative data set that you then use for your subsequent analysis. Note that you don’t need to run this script from every post/page. Instead, you can load in the results of this script, which could be plain text files or <code>.RData</code> files. In your data page you’ll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes. To link to this file, you can use <code>[cleaning script](/scripts/load_and_clean_data.R)</code> wich appears as <a href=".\scripts/load_and_clean_data.R">cleaning script</a>.</p>
-<hr>
-</section>
-</section>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
-<ul>
-<li>Describe where/how to find data.
-<ul>
-<li>You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.</li>
-<li>Why was the data collected/curated? Who put it together? (This is important, if you don’t know why it was collected then that might not be a good dataset to look at.</li>
-</ul></li>
-<li>Describe the different data files used and what each variable means.
-<ul>
-<li>If you have many variables then only describe the most relevant ones and summarize the rest.</li>
-</ul></li>
-<li>Describe any cleaning you had to do for your data.
-<ul>
-<li>You <em>must</em> include a link to your <code>load_and_clean_data.R</code> file.</li>
-<li>Rrename variables and recode factors to make data more clear.</li>
-<li>Also, describe any additional R packages you used outside of those covered in class.</li>
-<li>Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.</li>
-<li>Some repetition of what you do in your <code>load_and_clean_data.R</code> file is fine and encouraged if it helps explain what you did.</li>
-</ul></li>
-<li>Organization, clarity, cleanliness of the page
-<ul>
-<li>Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.</li>
-<li>This page should be self-contained.</li>
-</ul></li>
-</ul>
+</div>
+<p>The first step of doing so was to find the information for each region x year combination that we wanted to keep from the first dataset. This corresponds to the variables ranging from 3-16 in the table above.</p>
+<p>For these variables there are a few main categories:</p>
+<p><em>total_count</em> - a metric taken directly from the original data <em>racial demographics</em> - which were taken by finding the proportion of certain races against the entire population <em>event proportions</em> - which were taken by finding the average number of occurrences across the total number of police contacts</p>
+<p>Next we had to transform the firearm dataset to follow the same region x year format. Since our firearm dataset came broken down by states we would have to use these states to reconstruct the original corresponding regions. To do this designation we used the Census Designated Regions of the United States. This is a potential point of error in our analysis as we could not find certain information about the regional breakdown in the first dataset. Then we simply grouped by region x year and recalculated the simple metrics in the original dataset but across the new breakdown.</p>
+<p>Finally we used full_join to combine our two transformed data sets to create a new combined dataset that shared the same grouping breakdowns.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

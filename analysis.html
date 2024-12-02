@@ -151,15 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#example-of-loading-data" id="toc-example-of-loading-data" class="nav-link active" data-scroll-target="#example-of-loading-data">Example of loading data</a></li>
-  <li><a href="#note-on-attribution" id="toc-note-on-attribution" class="nav-link" data-scroll-target="#note-on-attribution">Note on Attribution</a></li>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -188,34 +180,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg" class="img-fluid"> Loading our Police Interaction dataset.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg" class="img-fluid"> Loading our Police Interaction dataset and all libraries.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidymodels))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(reshape2)) <span class="co">#For models</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(ggplot2)) <span class="co">#For plots</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(shiny))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(shinylive)) <span class="co">#For interactive plots</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(readr)) <span class="co"># For reading .rds files</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse)) <span class="co">#For data wrangling, manipulation, etc.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(viridis)) <span class="co">#For visual themes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre><code>Warning: package 'viridis' was built under R version 4.4.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/police_interaction.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(sf)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sf' was built under R version 4.4.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(maps)) <span class="co">#For maps</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(DT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'DT' was built under R version 4.4.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/police_interaction.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>One initial step in conducting EDA is by looking at the “PROPER” variable, which outlines whether or not the police behaved properly during the interaction, and seeing how the proportion of improper actions differs between individuals of different races.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(PROPER)) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(RACE) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">improper_proportion =</span> <span class="fu">sum</span>(PROPER <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">n</span>()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> RACE, <span class="at">y =</span> improper_proportion, <span class="at">fill =</span> RACE)) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(PROPER)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(RACE) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">improper_proportion =</span> <span class="fu">sum</span>(PROPER <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">n</span>()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> RACE, <span class="at">y =</span> improper_proportion, <span class="at">fill =</span> RACE)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -224,65 +224,397 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This comes from the file <code>analysis.qmd</code>.</p>
-<p>We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You’ll also reflect on next steps and further analysis.</p>
-<p>The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc.</p>
-<p>While the exact number of figures and tables will vary and depend on your analysis, you should target around 5 to 6. An overly long analysis could lead to losing points. If you want you can link back to your blog posts or create separate pages with more details.</p>
-<p>The style of this paper should aim to be that of an academic paper. I don’t expect this to be of publication quality but you should keep that aim in mind. Avoid using “we” too frequently, for example “We also found that …”. Describe your methodology and your findings but don’t describe your whole process.</p>
-<section id="example-of-loading-data" class="level3">
-<h3 class="anchored" data-anchor-id="example-of-loading-data">Example of loading data</h3>
-<p>The code below shows an example of loading the loan refusal data set (which you should delete at some point).</p>
-</section>
-<section id="note-on-attribution" class="level2">
-<h2 class="anchored" data-anchor-id="note-on-attribution">Note on Attribution</h2>
-<p>In general, you should try to provide links to relevant resources, especially those that helped you. You don’t have to link to every StackOverflow post you used but if there are explainers on aspects of the data or specific models that you found helpful, try to link to those. Also, try to link to other sources that might support (or refute) your analysis. These can just be regular hyperlinks. You don’t need a formal citation.</p>
-<p>If you are directly quoting from a source, please make that clear. You can show quotes using <code>&gt;</code> like this</p>
-<pre><code>&gt; To be or not to be.</code></pre>
-<blockquote class="blockquote">
-<p>To be or not to be.</p>
-</blockquote>
-<hr>
-</section>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
-<ul>
-<li>Introduce what motivates your Data Analysis (DA)
-<ul>
-<li>Which variables and relationships are you most interested in?</li>
-<li>What questions are you interested in answering?</li>
-<li>Provide context for the rest of the page. This will include figures/tables that illustrate aspects of the data of your question.</li>
-</ul></li>
-<li>Modeling and Inference
-<ul>
-<li>The page will include some kind of formal statistical model. This could be a linear regression, logistic regression, or another modeling framework.</li>
-<li>Explain the ideas and techniques you used to choose the predictors for your model. (Think about including interaction terms and other transformations of your variables.)</li>
-<li>Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.</li>
-</ul></li>
-<li>Explain the flaws and limitations of your analysis
-<ul>
-<li>Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions?</li>
-</ul></li>
-<li>Clarity Figures
-<ul>
-<li>Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?</li>
-<li>Each figure should provide a key insight. Too many figures or other data summaries can detract from this. (While not a hard limit, around 5 total figures is probably a good target.)</li>
-<li>Default <code>lm</code> output and plots are typically not acceptable.</li>
-</ul></li>
-<li>Clarity of Explanations
-<ul>
-<li>How well do you explain each figure/result?</li>
-<li>Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?</li>
-</ul></li>
-<li>Organization and cleanliness.
-<ul>
-<li>Make sure to remove excessive warnings, hide most or all code, organize with sections or multiple pages, use bullets, etc.</li>
-<li>This page should be self-contained, i.e.&nbsp;provide a description of the relevant data.</li>
-</ul></li>
-</ul>
+<p>This second plot is a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Categorizing variables based on their types</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#removed "CONTACT" and "ERROR" due to "Warning in cor(numeric_data, use = "complete.obs") : the standard deviation is zero" error</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>binary_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"MALE"</span>, <span class="st">"WORK_LW"</span>, <span class="st">"HHPOV"</span>, <span class="st">"PUB_HOUSE"</span>,   <span class="st">"PUB_HOUSE_SUB"</span>, <span class="st">"REGION"</span>, <span class="st">"INPERSON"</span>, <span class="st">"VICAR_CITIZEN"</span>, <span class="st">"VICAR_PRO_AUTO"</span>, <span class="st">"VICAR_PRO_PERS"</span>, <span class="st">"VICAR_OTH_CONT"</span>, <span class="st">"VICAR_IMPROPER"</span>, <span class="st">"D_HH_P23"</span>, <span class="st">"PROPER"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ordinal_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"C4_RACE"</span>, <span class="st">"MAR_STAT"</span>, <span class="st">"FREQ_DRV"</span>, <span class="st">"TENURE"</span>,  <span class="st">"MSA_STATUS"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>continuous_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AGE"</span>, <span class="st">"EDUCATION"</span>, <span class="st">"EDUCATION_SUB"</span>, <span class="st">"NUM_MOVES"</span>, <span class="st">"NUM_CONT"</span>, <span class="st">"HH_SIZE"</span>, <span class="st">"PPCS_YEAR"</span>, <span class="st">"N_HH_P1"</span>, <span class="st">"N_PERS_P1"</span>, <span class="st">"NUM_CITIZEN_HH"</span>, <span class="st">"NUM_PRO_AUTO_HH"</span>, <span class="st">"NUM_PRO_PERS_HH"</span>, <span class="st">"NUM_OTH_CONT_HH"</span>, <span class="st">"NUM_IMPROPER_HH"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>filtered <span class="ot">&lt;-</span> data</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting data by type</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>binary_data <span class="ot">&lt;-</span> filtered <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(binary_columns)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>ordinal_data <span class="ot">&lt;-</span> filtered <span class="sc">%&gt;%</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(ordinal_columns)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>continuous_data <span class="ot">&lt;-</span> filtered <span class="sc">%&gt;%</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(continuous_columns)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating correlation matrices with appropriate methods</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>cor_binary <span class="ot">&lt;-</span> <span class="fu">cor</span>(binary_data, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>, <span class="at">method =</span> <span class="st">"pearson"</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>cor_ordinal <span class="ot">&lt;-</span> <span class="fu">cor</span>(ordinal_data, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>, <span class="at">method =</span> <span class="st">"spearman"</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>cor_continuous <span class="ot">&lt;-</span> <span class="fu">cor</span>(continuous_data, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>, <span class="at">method =</span> <span class="st">"pearson"</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a heatmap function</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>plot_heatmap <span class="ot">&lt;-</span> <span class="cf">function</span>(cor_matrix, title) {</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  cor_melted <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_matrix)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(cor_melted, <span class="fu">aes</span>(Var1, Var2, <span class="at">fill =</span> value)) <span class="sc">+</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">mid =</span> <span class="st">"white"</span>,</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                         <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">limit =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">name =</span> <span class="st">"Correlation"</span>) <span class="sc">+</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"Variables"</span>, <span class="at">y =</span> <span class="st">"Variables"</span>) <span class="sc">+</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>))</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting heatmaps for each correlation matrix</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">ncol</span>(continuous_data) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">plot_heatmap</span>(cor_continuous, <span class="st">"Correlation Heatmap of Continuous Variables"</span>))</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For modeling, we used a linear model with an 80% split train and test set to try to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(filtered, <span class="at">prop =</span> .<span class="dv">8</span>) <span class="co">#good way to keep yourself honest. splits it by prop % being in training, 1-prop being test</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>training<span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>testing <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>predict_filtered <span class="ot">&lt;-</span> training <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ARRESTED) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(RACE) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(EDUCATION) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(HHPOV) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(MALE))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ARRESTED <span class="sc">~</span> RACE <span class="sc">+</span> EDUCATION <span class="sc">+</span> HHPOV <span class="sc">+</span> MALE, predict_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn’t a significant relationship on average between these race categories and being arrested, although, for “Other or multiracial, Non-Hispanic”, that could be skewed by the much smaller sample size of the category compared to the other races in the category.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>predict_filtered_test <span class="ot">&lt;-</span> testing <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ARRESTED) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(RACE) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(EDUCATION) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(HHPOV) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(MALE))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ARRESTED <span class="sc">~</span> RACE <span class="sc">+</span> EDUCATION <span class="sc">+</span> HHPOV <span class="sc">+</span> MALE, predict_filtered_test)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/Testing Summary--1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/Testing Summary--2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/Testing Summary--3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/Testing Summary--4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We added another dataset that describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites &amp; nonwhites within different states from 1949 to 2020.</p>
+<p>Dataset:<a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD">Firearm Suicide Proxy for Household Gun Ownership</a></p>
+<p>Loading our Firearm dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>firearm_data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"dataset/firearm_sh_ds.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This map represents the rate of homicides by firearm by state.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>firearm_data <span class="ot">&lt;-</span> firearm_data <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">firearm_homicide_rate =</span> <span class="fu">as.numeric</span>(firearm_homicide_rate),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">tolower</span>(state)) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(firearm_homicide_rate))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>us_states <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(maps<span class="sc">::</span><span class="fu">map</span>(<span class="st">"state"</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">tolower</span>(ID)) <span class="sc">%&gt;%</span> <span class="co"># Convert state names to lowercase</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(region, geom) <span class="co"># Retain only state name and geometry columns</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>map_data <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">state =</span> region) <span class="sc">|&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(firearm_data, <span class="at">by =</span> <span class="st">"state"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>map_data<span class="sc">$</span>log_firearm_homicide_rate <span class="ot">&lt;-</span> <span class="fu">log</span>(map_data<span class="sc">$</span>firearm_homicide_rate <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(map_data) <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> log_firearm_homicide_rate), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"Homicide Rate"</span>) <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Firearm Homicide Rate by State"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Rate"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We combined the two datasets based on locations. The first dataset was divided into four regions: Northeast, Midwest, South, and West while the second dataset was divided into different states.</p>
+<p>We grouped data from both datasets by region and year using the regional definitions from the <a href="https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States">Census Bureau Designated Regions</a>. For each region and year the data was summarized into categories that include proportional data for certain types of incidents related to police contact, racial distributions, homicide rate, etc.</p>
+<p>The combination of the data is done using the code in “/scripts/load_and_clean_data.R”. Below is a table, which displays each new column and its description. Followed by the new combined data itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>variable_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Name =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"total_count"</span>, <span class="st">"WHITE_NH_PROP"</span>, <span class="st">"B_NH_PROP"</span>, <span class="st">"HISPANIC_PROP"</span>, <span class="st">"OTHER_MULTI_NH_PROP"</span>, <span class="st">"CONTACT_FREQ"</span>, <span class="st">"OC_FRISK_PROP"</span>, <span class="st">"TC_FRISK_PROP"</span>, <span class="st">"VSRCH_PROP"</span>, <span class="st">"ARREST_PROP"</span>, <span class="st">"CUFFED_PROP"</span>, <span class="st">"PROPER_PROP"</span>, <span class="st">"IMPROPER_PROP"</span>, <span class="st">"AVG_CONT"</span>, <span class="st">"population"</span>, <span class="st">"fa_homicides"</span>, <span class="st">"nfa_homicides"</span>, <span class="st">"homicides"</span>, <span class="st">"fa_homicide_rate"</span>, <span class="st">"nfa_homicide_rate"</span>, <span class="st">"homicide_rate"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Description =</span> <span class="fu">c</span>(<span class="st">"Region the data is from"</span>, <span class="st">"Year the data is from"</span>, <span class="st">"Total number of responses in the police sentiment dataset"</span>, <span class="st">"White non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Black non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Other/multiracial/Non-hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Proportion of responders who had contact with law enforcement"</span>, <span class="st">"Proportion of stop and frisks for non-traffic stops"</span>, <span class="st">"Proportion of stop and frisks for traffic stops"</span>, <span class="st">"Proportion of vehicle searchs"</span>, <span class="st">"Proportions of contacts that ended in arrest"</span>, <span class="st">"Proportion of contacts that included cuffing"</span>, <span class="st">"Proportion of contacts deemed handled proper"</span>, <span class="st">"Proportion of contacts deemed unproperly handled"</span>, <span class="st">"Average number of contacts in the last year"</span>, <span class="st">"Total region population from US census"</span>, <span class="st">"Number of Firearm homicides"</span>, <span class="st">"Number of non-firearm homicides"</span>, <span class="st">"number of homidides"</span>, <span class="st">"firearm homicides per 100,000"</span>, <span class="st">"non-firearm homicides per 100,000"</span>, <span class="st">"homicides per 100,000"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(variable_table, <span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 2
+   Variable_Name       Variable_Description                                     
+   &lt;chr&gt;               &lt;chr&gt;                                                    
+ 1 region              Region the data is from                                  
+ 2 year                Year the data is from                                    
+ 3 total_count         Total number of responses in the police sentiment dataset
+ 4 WHITE_NH_PROP       White non-hispanic proportion of responses for police se…
+ 5 B_NH_PROP           Black non-hispanic proportion of responses for police se…
+ 6 HISPANIC_PROP       Hispanic proportion of responses for police sentiment su…
+ 7 OTHER_MULTI_NH_PROP Other/multiracial/Non-hispanic proportion of responses f…
+ 8 CONTACT_FREQ        Proportion of responders who had contact with law enforc…
+ 9 OC_FRISK_PROP       Proportion of stop and frisks for non-traffic stops      
+10 TC_FRISK_PROP       Proportion of stop and frisks for traffic stops          
+11 VSRCH_PROP          Proportion of vehicle searchs                            
+12 ARREST_PROP         Proportions of contacts that ended in arrest             
+13 CUFFED_PROP         Proportion of contacts that included cuffing             
+14 PROPER_PROP         Proportion of contacts deemed handled proper             
+15 IMPROPER_PROP       Proportion of contacts deemed unproperly handled         
+16 AVG_CONT            Average number of contacts in the last year              
+17 population          Total region population from US census                   
+18 fa_homicides        Number of Firearm homicides                              
+19 nfa_homicides       Number of non-firearm homicides                          
+20 homicides           number of homidides                                      
+21 fa_homicide_rate    firearm homicides per 100,000                            
+22 nfa_homicide_rate   non-firearm homicides per 100,000                        
+23 homicide_rate       homicides per 100,000                                    </code></pre>
+</div>
+</div>
+<p>This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset"</span>, <span class="st">"combined_regional_data.rds"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> fa_homicide_rate <span class="sc">*</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"Firearm Homicide Rate * 10"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> WHITE_NH_PROP <span class="sc">*</span> <span class="dv">100</span>, <span class="at">color =</span> <span class="st">"White NH Prop"</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> B_NH_PROP <span class="sc">*</span> <span class="dv">100</span>, <span class="at">color =</span> <span class="st">"Black NH Prop"</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> region) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Trends in Firearm Homicide Rate and Racial Proportions Over Time"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rate (%)"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Variable"</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the south, with similar firearm homicide rate in the midwest and northeast, and the lowest rate of firearm homicides in the west. However, this dataset lacks data on the race of the homicide victims.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define server logic ----</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load the data</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Replace this URL with the actual URL of your .rds file on GitHub Pages</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset"</span>, <span class="st">"combined_regional_data.rds"</span>))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset/combined_regional_data.rds")</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Have to configure to get this to link to the dataset</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Render the interactive plot</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>scatterPlot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> fa_homicide_rate, <span class="at">y =</span> .data[[input<span class="sc">$</span>selected_race]])) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(year)), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span> <span class="co"># Use color to differentiate years</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> year), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="co"># Add year annotations above points</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">facet_wrap</span>(<span class="sc">~</span> region) <span class="sc">+</span> <span class="co"># Optional: Facet by region</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Firearm Homicide Rate vs"</span>, input<span class="sc">$</span>selected_race),</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Firearm Homicide Rate"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"Year"</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,       <span class="co"># Place legend at the bottom</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.box =</span> <span class="st">"horizontal"</span>,        <span class="co"># Align legend items horizontally</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="co"># Adjust legend text size</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>), <span class="co"># Adjust legend title size</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">"cm"</span>), <span class="co"># Add space between legend items</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"cm"</span>) <span class="co"># Increase horizontal spacing</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">guides</span>(</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="co"># Force a single-row legend</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Define UI for the application ----</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Application title</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Interactive Scatter Plot: Firearm Homicide Rate and Racial Proportions"</span>),</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sidebar layout with input and output</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sidebar panel for inputs</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Dropdown menu for selecting racial group</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">inputId =</span> <span class="st">"selected_race"</span>,</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Select a Racial Group:"</span>,</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>          <span class="st">"White NH"</span> <span class="ot">=</span> <span class="st">"WHITE_NH_PROP"</span>,</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Black NH"</span> <span class="ot">=</span> <span class="st">"B_NH_PROP"</span>,</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Hispanic"</span> <span class="ot">=</span> <span class="st">"HISPANIC_PROP"</span>,</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Other/Multi NH"</span> <span class="ot">=</span> <span class="st">"OTHER_MULTI_NH_PROP"</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">selected =</span> <span class="st">"WHITE_NH_PROP"</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Main panel for displaying outputs</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="at">outputId =</span> <span class="st">"scatterPlot"</span>)</span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the application ----</span></span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p></p><div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div><p></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the server logic</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Simulated example dataset (replace with actual dataset)</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">rep</span>(<span class="dv">2000</span><span class="sc">:</span><span class="dv">2020</span>, <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>), <span class="at">times =</span> <span class="dv">21</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fa_homicide_rate =</span> <span class="fu">runif</span>(<span class="dv">84</span>, <span class="dv">0</span>, <span class="dv">10</span>),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">WHITE_NH_PROP =</span> <span class="fu">runif</span>(<span class="dv">84</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">B_NH_PROP =</span> <span class="fu">runif</span>(<span class="dv">84</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">HISPANIC_PROP =</span> <span class="fu">runif</span>(<span class="dv">84</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">OTHER_MULTI_NH_PROP =</span> <span class="fu">runif</span>(<span class="dv">84</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reactive filtered data</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  filtered_data <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    data <span class="sc">%&gt;%</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2020</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>))</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Render the summary table</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>summaryTable <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDataTable</span>({</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filtered_data</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Mean Homicide Rate</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(fa_homicide_rate, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Median Homicide Rate</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">median</span>(fa_homicide_rate, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Std Dev Homicide Rate</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(fa_homicide_rate, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Mean Proportion</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(.data[[input<span class="sc">$</span>selected_race]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Median Proportion</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">median</span>(.data[[input<span class="sc">$</span>selected_race]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Std Dev Proportion</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(.data[[input<span class="sc">$</span>selected_race]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the UI</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Shiny App with Summary Table"</span>),</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">inputId =</span> <span class="st">"selected_race"</span>,</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Select a Racial Group:"</span>,</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>          <span class="st">"White NH"</span> <span class="ot">=</span> <span class="st">"WHITE_NH_PROP"</span>,</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Black NH"</span> <span class="ot">=</span> <span class="st">"B_NH_PROP"</span>,</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Hispanic"</span> <span class="ot">=</span> <span class="st">"HISPANIC_PROP"</span>,</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Other/Multi NH"</span> <span class="ot">=</span> <span class="st">"OTHER_MULTI_NH_PROP"</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">selected =</span> <span class="st">"WHITE_NH_PROP"</span></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tabPanel</span>(<span class="st">"Summary Table"</span>, DT<span class="sc">::</span><span class="fu">dataTableOutput</span>(<span class="at">outputId =</span> <span class="st">"summaryTable"</span>))</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the application</span></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p></p><div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div><p></p>
+</div>
+</div>
+<!-- This comes from the file `analysis.qmd`. -->
+<!-- We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You'll also reflect on next steps and further analysis. -->
+<!-- The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc.  -->
+<!-- While the exact number of figures and tables will vary and depend on your analysis, you should target around 5 to 6. An overly long analysis could lead to losing points. -->
+<!-- If you want you can link back to your blog posts or create separate pages with more details. -->
+<!-- The style of this paper should aim to be that of an academic paper.  -->
+<!-- I don't expect this to be of publication quality but you should keep that aim in mind. -->
+<!-- Avoid using "we" too frequently, for example "We also found that ...". Describe your methodology and your findings but don't describe your whole process. -->
+<!-- ### Example of loading data -->
+<!-- The code below shows an example of loading the loan refusal data set (which you should delete at some point). -->
+<!-- ## Note on Attribution -->
+<!-- In general, you should try to provide links to relevant resources, especially those that helped you. You don't have to link to every StackOverflow post you used but if there are explainers on aspects of the data or specific models that you found helpful, try to link to those. Also, try to link to other sources that might support (or refute) your analysis. These can just be regular hyperlinks. You don't need a formal citation. -->
+<!-- If you are directly quoting from a source, please make that clear. You can show quotes using `>` like this -->
+<!-- ```          -->
+<!-- > To be or not to be. -->
+<!-- ``` -->
+<!-- > To be or not to be. -->
+<!-- ------------------------------------------------------------------------ -->
+<!-- ## Rubric: On this page -->
+<!-- You will -->
+<!-- -   Introduce what motivates your Data Analysis (DA) -->
+<!--     -   Which variables and relationships are you most interested in? -->
+<!--     -   What questions are you interested in answering? -->
+<!--     -   Provide context for the rest of the page. This will include figures/tables that illustrate aspects of the data of your question. -->
+<!-- -   Modeling and Inference -->
+<!--     -   The page will include some kind of formal statistical model. This could be a linear regression, logistic regression, or another modeling framework. -->
+<!--     -   Explain the ideas and techniques you used to choose the predictors for your model. (Think about including interaction terms and other transformations of your variables.) -->
+<!--     -   Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions. -->
+<!-- -   Explain the flaws and limitations of your analysis -->
+<!--     -   Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions? -->
+<!-- -   Clarity Figures -->
+<!--     -   Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc? -->
+<!--     -   Each figure should provide a key insight. Too many figures or other data summaries can detract from this. (While not a hard limit, around 5 total figures is probably a good target.) -->
+<!--     -   Default `lm` output and plots are typically not acceptable. -->
+<!-- -   Clarity of Explanations -->
+<!--     -   How well do you explain each figure/result? -->
+<!--     -   Do you provide interpretations that suggest further analysis or explanations for observed phenomenon? -->
+<!-- -   Organization and cleanliness. -->
+<!--     -   Make sure to remove excessive warnings, hide most or all code, organize with sections or multiple pages, use bullets, etc. -->
+<!--     -   This page should be self-contained, i.e. provide a description of the relevant data. -->
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
