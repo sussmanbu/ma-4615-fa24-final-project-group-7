@@ -121,7 +121,7 @@ Loading our Firearm dataset.
 firearm_data <- read_rds("dataset/firearm_sh_ds.rds")
 ```
 
-This map represents the rate of homicides by firearm by state.
+This map represents the rate of homicides by firearm by state. There are different levels of colors to represent the homicide rate by state, and the diagrams are split into 2002, 2008, and 2011.
 
 ```{r}
 firearm_data <- firearm_data |>
