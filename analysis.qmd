@@ -25,7 +25,7 @@ suppressPackageStartupMessages(library(DT))
 data <- read_rds(here::here("dataset/police_interaction.rds"))
 ```
 
-One initial step in conducting EDA is by looking at the "PROPER" variable, which outlines whether or not the police behaved properly during the interaction, and seeing how the proportion of improper actions differs between individuals of different races. 
+The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. Here, we see how the proportion of improper police actions differs among different race populations. 
 
 ```{r}
 data |>
@@ -38,6 +38,8 @@ data |>
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+The plot shows that the black population experienced a much higher proportion of improper police interactions, with about 15% of reported interactions classified as improper. Among Hispianic and Other or multifacial, Non-Hispanic populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the White, Non-Hispanic population was about 7%.
+
 This second plot is a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
 
 ``` {r}
