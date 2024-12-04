@@ -3,6 +3,12 @@ title: Analysis
 description: Here we provide a detailed analysis using more sophisticated statistics techniques.
 toc: true
 draft: false
+format:
+  html:
+    resources: 
+      - shinylive-sw.js
+filters:
+  - shinylive
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
@@ -157,21 +163,6 @@ ggplot(map_data) +
   facet_wrap(~year)
 
 ```
-We combined the two datasets based on locations. The first dataset was divided into four regions: Northeast, Midwest, South, and West while the second dataset was divided into different states. 
-
-We grouped data from both datasets by region and year using the regional definitions from the [Census Bureau Designated Regions](https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States).
-For each region and year the data was summarized into categories that include proportional data for certain types of incidents related to police contact, racial distributions, homicide rate, etc.
-
-The combination of the data is done using the code in "/scripts/load_and_clean_data.R". Below is a table, which displays each new column and its description. Followed by the new combined data itself.
-
-```{r}
-variable_table <- tibble(
-  Variable_Name = c("region", "year", "total_count", "WHITE_NH_PROP", "B_NH_PROP", "HISPANIC_PROP", "OTHER_MULTI_NH_PROP", "CONTACT_FREQ", "OC_FRISK_PROP", "TC_FRISK_PROP", "VSRCH_PROP", "ARREST_PROP", "CUFFED_PROP", "PROPER_PROP", "IMPROPER_PROP", "AVG_CONT", "population", "fa_homicides", "nfa_homicides", "homicides", "fa_homicide_rate", "nfa_homicide_rate", "homicide_rate"),
-  Variable_Description = c("Region the data is from", "Year the data is from", "Total number of responses in the police sentiment dataset", "White non-hispanic proportion of responses for police sentiment", "Black non-hispanic proportion of responses for police sentiment", "Hispanic proportion of responses for police sentiment survey", "Other/multiracial/Non-hispanic proportion of responses for police sentiment survey", "Proportion of responders who had contact with law enforcement", "Proportion of stop and frisks for non-traffic stops", "Proportion of stop and frisks for traffic stops", "Proportion of vehicle searchs", "Proportions of contacts that ended in arrest", "Proportion of contacts that included cuffing", "Proportion of contacts deemed handled proper", "Proportion of contacts deemed unproperly handled", "Average number of contacts in the last year", "Total region population from US census", "Number of Firearm homicides", "Number of non-firearm homicides", "number of homidides", "firearm homicides per 100,000", "non-firearm homicides per 100,000", "homicides per 100,000")
-)
-
-print(variable_table, n = Inf)
-```
 This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like. From the plots, we can tell that the south and west regions have quite different firearm homicide rate * 10.
 ```{r}
 data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
@@ -191,17 +182,14 @@ ggplot(data, aes(x = year)) +
 ```
 
 
-This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the south, with similar firearm homicide rate in the midwest and northeast, and the lowest rate of firearm homicides in the west. However, this dataset lacks data on the race of the homicide victims.
+This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
-```{r}
+```{shinylive-r}
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
-  # Replace this URL with the actual URL of your .rds file on GitHub Pages
   data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
-    # read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset/combined_regional_data.rds")
-    # Have to configure to get this to link to the dataset
-  
+
     # Render the interactive plot
   output$scatterPlot <- renderPlot({
     ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
@@ -228,9 +216,6 @@ server <- function(input, output) {
       )
   })
 }
-
-
-
 
 # Define UI for the application ----
 ui <- fluidPage(
