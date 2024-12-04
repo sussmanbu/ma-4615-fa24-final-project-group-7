@@ -40,7 +40,7 @@ data |>
 ```
 The plot shows that the black population experienced a much higher proportion of improper police interactions, with about 15% of reported interactions classified as improper. Among Hispianic and Other or multifacial, Non-Hispanic populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the White, Non-Hispanic population was about 7%.
 
-This second plot is a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation (with red indicating positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
+This second plot is a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation. In this plot, red indicates positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
 
 ``` {r}
 # Categorizing variables based on their types
