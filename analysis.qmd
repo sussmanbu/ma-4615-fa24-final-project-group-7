@@ -6,8 +6,9 @@ draft: false
 runtime: shiny
 ---
 
-![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
-Loading our Police Interaction dataset and all libraries.
+![](images/analysis.jpg)
+
+### Loading Datasets and Libraries.
 
 ```{r}
 suppressPackageStartupMessages(library(tidymodels))
@@ -23,13 +24,19 @@ suppressPackageStartupMessages(library(sf))
 suppressPackageStartupMessages(library(maps)) #For maps
 suppressPackageStartupMessages(library(DT))
 
-data <- read_rds(here::here("dataset/police_interaction.rds"))
+police_interaction <- read_rds(here::here("dataset/police_interaction.rds"))
+firearm_ds <- read_rds(here::here("dataset/firearm_sh_ds.rds"))
+
+combined_regional_ds <- read_rds(here::here("dataset/combined_regional_data.rds"))
 ```
 
+### Police Interation Data Analysis
+
+#### Proper Conduct
 The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. Here, we see how the proportion of improper police actions differs among different race populations. 
 
 ```{r}
-data |>
+police_interaction |>
   filter(!is.na(PROPER)) |>
   group_by(RACE) |>
   summarize(
@@ -41,97 +48,46 @@ data |>
 ```
 The plot shows that the "Black, Non-Hispanic" population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among "Hispanic" and "Other or multiracial, Non-Hispanic" populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the "White, Non-Hispanic" population was about 7%.
 
-This second plot of our EDA is a heatmap that displays the correlations between various numerical categorical variables in the dataset, where the color intensity represents the strength and direction of the correlation. In this plot, red indicates positive correlations and blue indicating negative correlations. 
+In making this observation it is important to note that the numbers could be skewed due to the number of responses recieved for each group, and also the nature with which the data was collected as a survey. Which may prompt those who felt racially discriminated against to be more likely to reply to the survey in the first place. 
 
-``` {r}
-# Categorizing variables based on their types
-# There are 3 types of categorical variables we are considering: binary, categorical, and numerical categorical
-#removed "CONTACT" and "ERROR" due to "Warning in cor(numeric_data, use = "complete.obs") : the standard deviation is zero" error
-binary_columns <- c("MALE", "WORK_LW", "HHPOV", "PUB_HOUSE",   "PUB_HOUSE_SUB", "REGION", "INPERSON", "VICAR_CITIZEN", "VICAR_PRO_AUTO", "VICAR_PRO_PERS", "VICAR_OTH_CONT", "VICAR_IMPROPER", "D_HH_P23", "PROPER")
-
-categorical_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STATUS", "EDUCATION")
-
-num_categorical_columns <- c("AGE", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
-
-filtered <- data
-# Selecting data by type
-binary_data <- filtered %>%
-  select(all_of(binary_columns)) %>%
-  select(where(is.numeric))
-
-categorical_data <- filtered %>%
-  select(all_of(categorical_columns)) %>%
-  select(where(is.numeric))
-
-num_categorical_data <- filtered %>%
-  select(all_of(num_categorical_columns)) %>%
-  select(where(is.numeric))
-
-# Calculating correlation matrices with appropriate methods
-cor_binary <- cor(binary_data, use = "pairwise.complete.obs", method = "pearson")
-cor_categorical <- cor(categorical_data, use = "pairwise.complete.obs", method = "spearman")
-cor_num_categorical <- cor(num_categorical_data, use = "pairwise.complete.obs", method = "pearson")
-
-# Creating a heatmap function
-plot_heatmap <- function(cor_matrix, title) {
-  cor_melted <- melt(cor_matrix)
-  ggplot(cor_melted, aes(Var1, Var2, fill = value)) +
-    geom_tile(color = "white") +
-    scale_fill_gradient2(low = "blue", high = "red", mid = "white",
-                         midpoint = 0, limit = c(-1, 1), name = "Correlation") +
-    labs(title = title, x = "Variables", y = "Variables") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1),
-          axis.text.y = element_text(angle = 0, vjust = 1))
-}
-
-# Plotting heatmaps for each correlation matrix
-if (ncol(num_categorical_data) > 1) {
-  print(plot_heatmap(cor_num_categorical, "Correlation Heatmap of Categorical Numerical Variables"))
-}
-
-```
-One notable positive correlation from the graph above is the relation between NUM_IMPROPER, the nmber of people in households who experienced improper contact, and NUM_PRO_PERS_HH, the number of people in households with suspect-related police-intiated contact.
-
-Some notable negative correlations from the graph include the relation between age & household size and age & NUM_MOVES, which is a variable describing how many times an individual has moved in the past 5 years.
+#### Modeling
 
 For data modeling, we decided to split the data into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
-In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.
 
 ```{r Training Summary:}
-split <- initial_split(filtered, prop = .8) #good way to keep yourself honest. splits it by prop % being in training, 1-prop being test
+# Split data
+split <- initial_split(police_interaction, prop = .8)
+
+# Splits
 training<- training(split)
 testing <- testing(split)
-predict_filtered <- training |>
+
+# Filter out some bad rows
+filtered_training_data <- training |>
+  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+filtered_testing_data <- testing |>
   filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
 
-mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
+# Train model
+model <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, filtered_training_data)
+
+summary(model)
 ```
 
-In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category.
+We note that it is not necessary to actually test our model as it will not be used to make predictions, but instead to simply example the relationship between the predictors and the ARRESTED metric.
 
-```{r Testing Summary:}
+The summary of this model denotes that there are very small p-values associated with the predicters. This means there is significant evidence that the predictors of our model have an effect on the likelihood of being arrested. 
 
-predict_filtered_test <- testing |>
-  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+From the model summary we actually notice that between the difference races there is not much difference in their relationship with being arrested. However we see that there is a strong correlation for the Education, Household Poverty, and Gender of the individual involved in the police interaction. The model shows that those who are less educated are more likely to be arrested, alongside those from lower household incomes, and individuals who are males. 
 
-mod2 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered_test)
-plot(mod2)
-```
+### Firearm Proxy Dataset
 
 We added another dataset that describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020.
-
-Dataset:[Firearm Suicide Proxy for Household Gun Ownership](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD)
-
-Loading our Firearm dataset.
-```{r}
-firearm_data <- read_rds("dataset/firearm_sh_ds.rds")
-```
 
 This map represents the rate of homicides by firearm by state. There are different levels of colors to represent the homicide rate by state, and the diagrams are split into 2002, 2008, and 2011.
 
 ```{r}
-firearm_data <- firearm_data |>
+firearm_ds <- firearm_ds |>
   mutate(firearm_homicide_rate = as.numeric(firearm_homicide_rate),
          state = tolower(state)) |>
   filter(!is.na(firearm_homicide_rate))
@@ -143,7 +99,7 @@ us_states <- st_as_sf(maps::map("state", plot = FALSE, fill = TRUE)) %>%
 
 map_data <- us_states |>
   rename(state = region) |>
-  left_join(firearm_data, by = "state")
+  left_join(firearm_ds, by = "state")
 
 map_data$log_firearm_homicide_rate <- log(map_data$firearm_homicide_rate + 1)
  
@@ -156,25 +112,126 @@ ggplot(map_data) +
     fill = "Rate"
   ) +
   facet_wrap(~year)
-
 ```
-This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like. From the plots, we can tell that the south and west regions have quite different firearm homicide rate * 10.
+ 
+From this map, we notice that across the 3 years we seek to observe, its generally true that states along the southern and midwestern parts of the United States have the highest rate of firearm homicide. 
+ 
+This is useful to understand as we can use this inforation to dig deeper into the causes behind negative police behavior. This may help us determine if race is potentially superceded by gun violence in terms of causes for the focus of our study.
+
+#### Combined Regional Dataset
+
+The plot below shows a breakdown of the firearm homicide rates for each region across the years relevant to our analysis.
+
 ```{r}
-data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
-ggplot(data, aes(x = year)) +
-  geom_line(aes(y = fa_homicide_rate * 10, color = "Firearm Homicide Rate * 10"), linewidth = 1) +
-  geom_line(aes(y = WHITE_NH_PROP * 100, color = "White NH Prop"), linetype = "dashed", linewidth = 0.8) +
-  geom_line(aes(y = B_NH_PROP * 100, color = "Black NH Prop"), linetype = "dashed", linewidth = 0.8) +
-  facet_wrap(~ region) +
+ggplot(combined_regional_ds, 
+       aes(
+         x = year,
+         y = fa_homicide_rate,
+         color = region
+       )) +
+  geom_line() +  # Create a line for each region
   labs(
-    title = "Trends in Firearm Homicide Rate and Racial Proportions Over Time",
+    title = "Firearm Homicide Rate by Year and Region",
     x = "Year",
-    y = "Rate (%)",
-    color = "Variable"
+    y = "Firearm Homicide Rate"
   ) +
-  theme_minimal()
-
+  theme_minimal() +  # Clean theme for the plot
+  theme(
+    legend.title = element_blank(), 
+    legend.position = "bottom"  
+  )
 ```
+
+This shows that like we expected the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
+
+```{r}
+# Plot for WHITE_NH_PROP
+ggplot(combined_regional_ds, 
+       aes(
+         x = year,
+         y = WHITE_NH_PROP,
+         color = region
+       )) +
+  geom_line() +  # Create a line for each region
+  labs(
+    title = "Proportion of White Non-Hispanic Population by Year and Region",
+    x = "Year",
+    y = "Proportion of White Non-Hispanic Population"
+  ) +
+  theme_minimal() +  # Clean theme for the plot
+  theme(
+    legend.title = element_blank(), 
+    legend.position = "bottom"  
+  )
+
+# Plot for B_NH_PROP (Black Non-Hispanic Proportion)
+ggplot(combined_regional_ds, 
+       aes(
+         x = year,
+         y = B_NH_PROP,
+         color = region
+       )) +
+  geom_line() +  # Create a line for each region
+  labs(
+    title = "Proportion of Black Non-Hispanic Population by Year and Region",
+    x = "Year",
+    y = "Proportion of Black Non-Hispanic Population"
+  ) +
+  theme_minimal() +  # Clean theme for the plot
+  theme(
+    legend.title = element_blank(), 
+    legend.position = "bottom"  
+  )
+
+# Plot for HISPANIC_PROP (Hispanic Population Proportion)
+ggplot(combined_regional_ds, 
+       aes(
+         x = year,
+         y = HISPANIC_PROP,
+         color = region
+       )) +
+  geom_line() +  # Create a line for each region
+  labs(
+    title = "Proportion of Hispanic Population by Year and Region",
+    x = "Year",
+    y = "Proportion of Hispanic Population"
+  ) +
+  theme_minimal() +  # Clean theme for the plot
+  theme(
+    legend.title = element_blank(), 
+    legend.position = "bottom"  
+  )
+
+# Plot for OTHER_MULTI_NH_PROP (Other/Multi Non-Hispanic Proportion)
+ggplot(combined_regional_ds, 
+       aes(
+         x = year,
+         y = OTHER_MULTI_NH_PROP,
+         color = region
+       )) +
+  geom_line() +  # Create a line for each region
+  labs(
+    title = "Proportion of Other/Multi Non-Hispanic Population by Year and Region",
+    x = "Year",
+    y = "Proportion of Other/Multi Non-Hispanic Population"
+  ) +
+  theme_minimal() +  # Clean theme for the plot
+  theme(
+    legend.title = element_blank(), 
+    legend.position = "bottom"  
+  )
+```
+
+These plots above show the changes in the percentage of each racial group across the three years, which our study spans. We can combine all of the information in these plots by creating a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. 
+
+```{r}
+model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP + WHITE_NH_PROP, combined_regional_ds)
+
+summary(model)
+```
+
+
+
 
 This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
