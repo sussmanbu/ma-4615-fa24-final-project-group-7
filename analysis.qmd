@@ -38,18 +38,19 @@ data |>
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-The plot shows that the black population experienced a much higher proportion of improper police interactions, with about 15% of reported interactions classified as improper. Among Hispianic and Other or multifacial, Non-Hispanic populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the White, Non-Hispanic population was about 7%.
+The plot shows that the "Black, Non-Hispanic" population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among "Hispanic" and "Other or multiracial, Non-Hispanic" populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the "White, Non-Hispanic" population was about 7%.
 
-This second plot is a heatmap that visualizes the correlations between various continuous variables in the dataset, where the color intensity represents the strength and direction of the correlation. In this plot, red indicates positive correlations and blue indicating negative correlations). There are notable positive correlations such as HHPOV and WORK_LW and notable negative correlations such as WORK_LW and any high-income indicator.
+This second plot of our EDA is a heatmap that displays the correlations between various numerical categorical variables in the dataset, where the color intensity represents the strength and direction of the correlation. In this plot, red indicates positive correlations and blue indicating negative correlations. 
 
 ``` {r}
 # Categorizing variables based on their types
+# There are 3 types of categorical variables we are considering: binary, categorical, and numerical categorical
 #removed "CONTACT" and "ERROR" due to "Warning in cor(numeric_data, use = "complete.obs") : the standard deviation is zero" error
 binary_columns <- c("MALE", "WORK_LW", "HHPOV", "PUB_HOUSE",   "PUB_HOUSE_SUB", "REGION", "INPERSON", "VICAR_CITIZEN", "VICAR_PRO_AUTO", "VICAR_PRO_PERS", "VICAR_OTH_CONT", "VICAR_IMPROPER", "D_HH_P23", "PROPER")
 
-ordinal_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STATUS")
+categorical_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STATUS", "EDUCATION")
 
-continuous_columns <- c("AGE", "EDUCATION", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
+num_categorical_columns <- c("AGE", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
 filtered <- data
 # Selecting data by type
@@ -57,18 +58,18 @@ binary_data <- filtered %>%
   select(all_of(binary_columns)) %>%
   select(where(is.numeric))
 
-ordinal_data <- filtered %>%
-  select(all_of(ordinal_columns)) %>%
+categorical_data <- filtered %>%
+  select(all_of(categorical_columns)) %>%
   select(where(is.numeric))
 
-continuous_data <- filtered %>%
-  select(all_of(continuous_columns)) %>%
+num_categorical_data <- filtered %>%
+  select(all_of(num_categorical_columns)) %>%
   select(where(is.numeric))
 
 # Calculating correlation matrices with appropriate methods
 cor_binary <- cor(binary_data, use = "pairwise.complete.obs", method = "pearson")
-cor_ordinal <- cor(ordinal_data, use = "pairwise.complete.obs", method = "spearman")
-cor_continuous <- cor(continuous_data, use = "pairwise.complete.obs", method = "pearson")
+cor_categorical <- cor(categorical_data, use = "pairwise.complete.obs", method = "spearman")
+cor_num_categorical <- cor(num_categorical_data, use = "pairwise.complete.obs", method = "pearson")
 
 # Creating a heatmap function
 plot_heatmap <- function(cor_matrix, title) {
@@ -84,13 +85,16 @@ plot_heatmap <- function(cor_matrix, title) {
 }
 
 # Plotting heatmaps for each correlation matrix
-if (ncol(continuous_data) > 1) {
-  print(plot_heatmap(cor_continuous, "Correlation Heatmap of Continuous Variables"))
+if (ncol(num_categorical_data) > 1) {
+  print(plot_heatmap(cor_num_categorical, "Correlation Heatmap of Categorical Numerical Variables"))
 }
 
 ```
+One notable positive correlation from the graph above is the relation between NUM_IMPROPER, the nmber of people in households who experienced improper contact, and NUM_PRO_PERS_HH, the number of people in households with suspect-related police-intiated contact.
 
-For modeling, we used a linear model with an 80% split train and test set to try to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
+Some notable negative correlations from the graph include the relation between age & household size and age & NUM_MOVES, which is a variable describing how many times an individual has moved in the past 5 years.
+
+For data modeling, we decided to split the data into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
 In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.
 
 ```{r Training Summary:}
@@ -103,7 +107,7 @@ predict_filtered <- training |>
 mod1 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered)
 ```
 
-In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable but the intercept being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category.
+In the test set, the F-statistic is much lower and the p-values and t-stats rise for each variable, with the p-value for each race variable being over 0.1. This finding implies that there isn't a significant relationship on average between these race categories and being arrested, although, for "Other or multiracial, Non-Hispanic", that could be skewed by the much smaller sample size of the category compared to the other races in the category.
 
 ```{r Testing Summary:}
 
@@ -172,9 +176,9 @@ This chart normalizes racial proportions by multiplying by 100 to plot alongside
 ```{r}
 data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
 ggplot(data, aes(x = year)) +
-  geom_line(aes(y = fa_homicide_rate * 10, color = "Firearm Homicide Rate * 10"), size = 1) +
-  geom_line(aes(y = WHITE_NH_PROP * 100, color = "White NH Prop"), linetype = "dashed", size = 0.8) +
-  geom_line(aes(y = B_NH_PROP * 100, color = "Black NH Prop"), linetype = "dashed", size = 0.8) +
+  geom_line(aes(y = fa_homicide_rate * 10, color = "Firearm Homicide Rate * 10"), linewidth = 1) +
+  geom_line(aes(y = WHITE_NH_PROP * 100, color = "White NH Prop"), linetype = "dashed", linewidth = 0.8) +
+  geom_line(aes(y = B_NH_PROP * 100, color = "Black NH Prop"), linetype = "dashed", linewidth = 0.8) +
   facet_wrap(~ region) +
   labs(
     title = "Trends in Firearm Homicide Rate and Racial Proportions Over Time",
