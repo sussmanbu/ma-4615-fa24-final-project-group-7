@@ -179,10 +179,19 @@ ggplot(data, aes(x = year)) +
 This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
 ```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 640 # You will have to adjust this to fit everything
+
+
+library(shiny)
+library(tidyverse)
+options("readr.edition" = 1) # keep this to ensure you can download the data
+
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
   data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
+  # read_rds("https://github.com/sussmanbu/ma-4615-fa24-final-project-group-7/blob/main/dataset/combined_regional_data.rds")
 
     # Render the interactive plot
   output$scatterPlot <- renderPlot({

@@ -3,10 +3,6 @@ title: "Do Police Treat Minorities Worse?"
 description: "A detailed analysis of the effect of racial demographics on police satisfaction across the regions of America."
 toc: true
 draft: FALSE
-format:
-  html:
-    resources: 
-      - shinylive-sw.js
 filters:
   - shinylive
 ---
