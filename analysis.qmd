@@ -1,6 +1,6 @@
 ---
 title: Analysis
-description: Here we provide a detailed analysis using more sophisticated statistics techniques.
+description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 toc: true
 draft: false
 format:
@@ -12,6 +12,9 @@ filters:
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
+# Motivation for Data Analysis
+
+
 Loading our Police Interaction dataset and all libraries.
 
 ```{r}
@@ -31,7 +34,7 @@ suppressPackageStartupMessages(library(DT))
 data <- read_rds(here::here("dataset/police_interaction.rds"))
 ```
 
-The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. Here, we see how the proportion of improper police actions differs among different race populations. 
+The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations. 
 
 ```{r}
 data |>
@@ -50,7 +53,7 @@ This second plot of our EDA is a heatmap that displays the correlations between 
 
 ``` {r}
 # Categorizing variables based on their types
-# There are 3 types of categorical variables we are considering: binary, categorical, and numerical categorical
+# There are 3 types of categorical variables considered: binary, categorical, and numerical categorical
 #removed "CONTACT" and "ERROR" due to "Warning in cor(numeric_data, use = "complete.obs") : the standard deviation is zero" error
 binary_columns <- c("MALE", "WORK_LW", "HHPOV", "PUB_HOUSE",   "PUB_HOUSE_SUB", "REGION", "INPERSON", "VICAR_CITIZEN", "VICAR_PRO_AUTO", "VICAR_PRO_PERS", "VICAR_OTH_CONT", "VICAR_IMPROPER", "D_HH_P23", "PROPER")
 
@@ -100,7 +103,7 @@ One notable positive correlation from the graph above is the relation between NU
 
 Some notable negative correlations from the graph include the relation between age & household size and age & NUM_MOVES, which is a variable describing how many times an individual has moved in the past 5 years.
 
-For data modeling, we decided to split the data into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
+For data modeling, the data was split into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
 In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.
 
 ```{r Training Summary:}
@@ -124,7 +127,7 @@ mod2 <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, predict_filtered_test)
 plot(mod2)
 ```
 
-We added another dataset that describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020.
+The second dataset to be incorporated describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020.
 
 Dataset:[Firearm Suicide Proxy for Household Gun Ownership](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/QVYDUD)
 
@@ -163,7 +166,9 @@ ggplot(map_data) +
   facet_wrap(~year)
 
 ```
-This chart normalizes racial proportions by multiplying by 100 to plot alongside homicide rates on the same scale, then multiplies firearm homicide rate by 10 to get a better understanding of what the trend looks like. From the plots, we can tell that the south and west regions have quite different firearm homicide rate * 10.
+
+This chart plots the firearm homicide rate * 10 and population proportion of both white and black people in various regions of the US. The firearm homicide rate was multiplied by 10 so that the trends in firearm homocides could be viewed more easily.  
+
 ```{r}
 data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
 ggplot(data, aes(x = year)) +
@@ -181,74 +186,73 @@ ggplot(data, aes(x = year)) +
 
 ```
 
+This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. From the different scatter plots, regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
-This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
-
-```{shinylive-r}
+```{r}
 # Define server logic ----
-server <- function(input, output) {
-  # Load the data
-  data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
+# server <- function(input, output) {
+#   # Load the data
+#   data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
+# 
+#     # Render the interactive plot
+#   output$scatterPlot <- renderPlot({
+#     ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
+#       geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years
+#       geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points
+#       facet_wrap(~ region) + # Optional: Facet by region
+#       labs(
+#         title = paste("Firearm Homicide Rate vs", input$selected_race),
+#         x = "Firearm Homicide Rate",
+#         y = "Proportion",
+#         color = "Year"
+#       ) +
+#       theme_minimal() +
+#       theme(
+#         legend.position = "bottom",       # Place legend at the bottom
+#         legend.box = "horizontal",        # Align legend items horizontally
+#         legend.text = element_text(size = 10), # Adjust legend text size
+#         legend.title = element_text(size = 12), # Adjust legend title size
+#         legend.key.width = unit(1, "cm"), # Add space between legend items
+#         legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing
+#       ) +
+#       guides(
+#         color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend
+#       )
+#   })
+# }
 
-    # Render the interactive plot
-  output$scatterPlot <- renderPlot({
-    ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
-      geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years
-      geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points
-      facet_wrap(~ region) + # Optional: Facet by region
-      labs(
-        title = paste("Firearm Homicide Rate vs", input$selected_race),
-        x = "Firearm Homicide Rate",
-        y = "Proportion",
-        color = "Year"
-      ) +
-      theme_minimal() +
-      theme(
-        legend.position = "bottom",       # Place legend at the bottom
-        legend.box = "horizontal",        # Align legend items horizontally
-        legend.text = element_text(size = 10), # Adjust legend text size
-        legend.title = element_text(size = 12), # Adjust legend title size
-        legend.key.width = unit(1, "cm"), # Add space between legend items
-        legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing
-      ) +
-      guides(
-        color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend
-      )
-  })
-}
-
-# Define UI for the application ----
-ui <- fluidPage(
-  # Application title
-  titlePanel("Interactive Scatter Plot: Firearm Homicide Rate and Racial Proportions"),
-  
-  # Sidebar layout with input and output
-  sidebarLayout(
-    # Sidebar panel for inputs
-    sidebarPanel(
-      # Dropdown menu for selecting racial group
-      selectInput(
-        inputId = "selected_race",
-        label = "Select a Racial Group:",
-        choices = c(
-          "White NH" = "WHITE_NH_PROP",
-          "Black NH" = "B_NH_PROP",
-          "Hispanic" = "HISPANIC_PROP",
-          "Other/Multi NH" = "OTHER_MULTI_NH_PROP"
-        ),
-        selected = "WHITE_NH_PROP"
-      )
-    ),
-    
-    # Main panel for displaying outputs
-    mainPanel(
-      plotOutput(outputId = "scatterPlot")
-    )
-  )
-)
-
-# Run the application ----
-shinyApp(ui = ui, server = server)
+# # Define UI for the application ----
+# ui <- fluidPage(
+#   # Application title
+#   titlePanel("Interactive Scatter Plot: Firearm Homicide Rate and Racial Proportions"),
+#   
+#   # Sidebar layout with input and output
+#   sidebarLayout(
+#     # Sidebar panel for inputs
+#     sidebarPanel(
+#       # Dropdown menu for selecting racial group
+#       selectInput(
+#         inputId = "selected_race",
+#         label = "Select a Racial Group:",
+#         choices = c(
+#           "White NH" = "WHITE_NH_PROP",
+#           "Black NH" = "B_NH_PROP",
+#           "Hispanic" = "HISPANIC_PROP",
+#           "Other/Multi NH" = "OTHER_MULTI_NH_PROP"
+#         ),
+#         selected = "WHITE_NH_PROP"
+#       )
+#     ),
+#     
+#     # Main panel for displaying outputs
+#     mainPanel(
+#       plotOutput(outputId = "scatterPlot")
+#     )
+#   )
+# )
+# 
+# # Run the application ----
+# shinyApp(ui = ui, server = server)
 ```
 
 
