@@ -3,10 +3,6 @@ title: Analysis
 description: Here we provide a detailed analysis using more sophisticated statistics techniques.
 toc: true
 draft: false
-format:
-  html:
-    resources: 
-      - shinylive-sw.js
 filters:
   - shinylive
 ---
@@ -184,7 +180,11 @@ ggplot(data, aes(x = year)) +
 
 This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
+<!--
 ```{shinylive-r}
+library(shiny)
+library(tidyverse)
+options("readr.edition" = 1) # keep this to ensure you can download the data
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
@@ -250,7 +250,7 @@ ui <- fluidPage(
 # Run the application ----
 shinyApp(ui = ui, server = server)
 ```
-
+-->
 
 <!-- This comes from the file `analysis.qmd`. -->
 

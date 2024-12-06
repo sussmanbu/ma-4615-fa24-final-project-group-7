@@ -3,7 +3,9 @@ title: Analysis
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 toc: true
 draft: false
-runtime: shiny
+filters:
+  - shinylive
+
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
@@ -58,7 +60,7 @@ police_interaction |>
 ```
 The plot shows that the "Black, Non-Hispanic" population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among "Hispanic" and "Other or multiracial, Non-Hispanic" populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the "White, Non-Hispanic" population was about 7%.
 
-In making this observation it is important to note that the numbers could be skewed due to the number of responses recieved for each group, and also the nature with which the data was collected as a survey. Which may prompt those who felt racially discriminated against to be more likely to reply to the survey in the first place. 
+In making this observation it is important to note that the numbers could be skewed due to the number of responses received for each group, and also the nature with which the data was collected as a survey. Which may prompt those who felt racially discriminated against to be more likely to reply to the survey in the first place. 
 
 
 ``` {r}
@@ -71,17 +73,16 @@ categorical_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STAT
 
 num_categorical_columns <- c("AGE", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
-filtered <- data
 # Selecting data by type
-binary_data <- filtered %>%
+binary_data <- police_interaction %>%
   select(all_of(binary_columns)) %>%
   select(where(is.numeric))
 
-categorical_data <- filtered %>%
+categorical_data <- police_interaction %>%
   select(all_of(categorical_columns)) %>%
   select(where(is.numeric))
 
-num_categorical_data <- filtered %>%
+num_categorical_data <- police_interaction %>%
   select(all_of(num_categorical_columns)) %>%
   select(where(is.numeric))
 
@@ -109,7 +110,7 @@ if (ncol(num_categorical_data) > 1) {
 }
 
 ```
-One notable positive correlation from the graph above is the relation between NUM_IMPROPER, the nmber of people in households who experienced improper contact, and NUM_PRO_PERS_HH, the number of people in households with suspect-related police-intiated contact.
+One notable positive correlation from the graph above is the relation between NUM_IMPROPER, the number of people in households who experienced improper contact, and NUM_PRO_PERS_HH, the number of people in households with suspect-related police-initiated contact.
 
 Some notable negative correlations from the graph include the relation between age & household size and age & NUM_MOVES, which is a variable describing how many times an individual has moved in the past 5 years.
 
@@ -143,7 +144,7 @@ summary(model)
 
 We note that it is not necessary to actually test our model as it will not be used to make predictions, but instead to simply example the relationship between the predictors and the ARRESTED metric.
 
-The summary of this model denotes that there are very small p-values associated with the predicters. This means there is significant evidence that the predictors of our model have an effect on the likelihood of being arrested. 
+The summary of this model denotes that there are very small p-values associated with the predictors. This means there is significant evidence that the predictors of our model have an effect on the likelihood of being arrested. 
 
 From the model summary we actually notice that between the difference races there is not much difference in their relationship with being arrested. However we see that there is a strong correlation for the Education, Household Poverty, and Gender of the individual involved in the police interaction. The model shows that those who are less educated are more likely to be arrested, alongside those from lower household incomes, and individuals who are males. 
 
@@ -350,7 +351,7 @@ options("readr.edition" = 1) # keep this to ensure you can download the data
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
-  data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
+  data <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
   # read_rds("https://github.com/sussmanbu/ma-4615-fa24-final-project-group-7/blob/main/dataset/combined_regional_data.rds")asd
 
 # Define UI for the application ----
