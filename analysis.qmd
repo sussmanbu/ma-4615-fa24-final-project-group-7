@@ -3,7 +3,9 @@ title: Analysis
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 toc: true
 draft: false
-runtime: shiny
+filters:
+  - shinylive
+
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
@@ -56,7 +58,7 @@ police_interaction |>
 ```
 The plot shows that the "Black, Non-Hispanic" population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among "Hispanic" and "Other or multiracial, Non-Hispanic" populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the "White, Non-Hispanic" population was about 7%.
 
-In making this observation it is important to note that the numbers could be skewed due to the number of responses recieved for each group, and also the nature with which the data was collected as a survey. Which may prompt those who felt racially discriminated against to be more likely to reply to the survey in the first place. 
+In making this observation it is important to note that the numbers could be skewed due to the number of responses received for each group, and also the nature with which the data was collected as a survey. Which may prompt those who felt racially discriminated against to be more likely to reply to the survey in the first place. 
 
 #### Modeling
 
@@ -255,7 +257,7 @@ options("readr.edition" = 1) # keep this to ensure you can download the data
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
-  data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
+  data <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
   # read_rds("https://github.com/sussmanbu/ma-4615-fa24-final-project-group-7/blob/main/dataset/combined_regional_data.rds")asd
 
 # Define UI for the application ----
