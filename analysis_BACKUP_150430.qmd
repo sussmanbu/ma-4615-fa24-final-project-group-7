@@ -6,10 +6,9 @@ draft: false
 runtime: shiny
 ---
 
+
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
-
 # Motivation for Data Analysis
-
 
 
 Loading our Police Interaction dataset and all libraries.
@@ -40,10 +39,13 @@ combined_regional_ds <- read_rds(here::here("dataset/combined_regional_data.rds"
 ```
 
 
+The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations. 
+
 ### Police Interation Data Analysis
 
 #### Proper Conduct
-The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations. 
+The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. Here, we see how the proportion of improper police actions differs among different race populations. 
+
 
 ```{r}
 police_interaction |>
@@ -246,7 +248,6 @@ This interactive scatter plot shows the Firearm Homicide Rate relative to racial
 #       )
 #   })
 # }
-```
 
 This shows that like we expected the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
 
@@ -335,6 +336,9 @@ model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP +
 
 summary(model)
 ```
+
+
+
 
 This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
