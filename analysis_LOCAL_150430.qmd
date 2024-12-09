@@ -3,10 +3,6 @@ title: Analysis
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 toc: true
 draft: false
-format:
-  html:
-    resources: 
-      - shinylive-sw.js
 filters:
   - shinylive
 ---

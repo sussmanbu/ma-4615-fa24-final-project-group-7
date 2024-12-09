@@ -3,7 +3,6 @@ title: Analysis
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 toc: true
 draft: false
-runtime: shiny
 ---
 
 
@@ -73,7 +72,7 @@ categorical_columns <- c("C4_RACE", "MAR_STAT", "FREQ_DRV", "TENURE",  "MSA_STAT
 
 num_categorical_columns <- c("AGE", "EDUCATION_SUB", "NUM_MOVES", "NUM_CONT", "HH_SIZE", "PPCS_YEAR", "N_HH_P1", "N_PERS_P1", "NUM_CITIZEN_HH", "NUM_PRO_AUTO_HH", "NUM_PRO_PERS_HH", "NUM_OTH_CONT_HH", "NUM_IMPROPER_HH")
 
-filtered <- data
+filtered <- police_interaction
 # Selecting data by type
 binary_data <- filtered %>%
   select(all_of(binary_columns)) %>%
@@ -248,7 +247,7 @@ This interactive scatter plot shows the Firearm Homicide Rate relative to racial
 #       )
 #   })
 # }
-
+```
 This shows that like we expected the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
 
 ```{r}

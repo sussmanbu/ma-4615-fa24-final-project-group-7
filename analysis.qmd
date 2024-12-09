@@ -3,7 +3,9 @@ title: Analysis
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 toc: true
 draft: false
-runtime: shiny
+filters:
+  - shinylive
+
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
@@ -12,21 +14,24 @@ runtime: shiny
 
 Overview of Data Analysis:
 
-Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homocide rates for both white and non-whites in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun statistics.
+Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homocide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homocide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
 
-The variables we are most interested in analyzing are the rate of improper police interactions and the rate at which people are arrested, and we want to determine how those are impacted by factors such as race (in particular), education, household income, sex, and the homocide rate & gun ownership levels in different regions of the US.
-Some questions:
+The variables we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homocide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these variables are impacted by demographic factors, particularly race, education, household income, sex, and minority population.
+
+Here are some questions that we seek to answer in this EDA:
 How does the rate of improper police interactions vary among populations of different races?
-How does the homocide rate vary by region and by time period (from 2002 to 2011)?
+How does the homocide rate throughout the US vary by region and over time from 2002 to 2011?
 To what extent can variations in the homocide rate & gun ownership levels be explained by variations in racial demographics across different regions of the US?
-Do variations in the firearm homocide rate across different regiosn correlate with statistics about improper police behavior? 
+Do variations in the firearm homocide rate across different regiosn correlate with statistics about improper police behavior or arrests? 
 
 Modeling and Inference:
 We ran two models on our dataset.
-The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race.
+The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included.
+The second model was ran on the combined dataset, and it examines the extent to which firearm homocide statistics can be explained by the racial demographic variations in different regions of the US. 
+!!!! We don't have info on it rn but we should get (or eliminate this model)
 
 
-Code:
+# Code:
 
 Here, our Police Interaction dataset and all libraries are loaded.
 
@@ -110,9 +115,7 @@ We note that, although it is not necessary to actually test our model because it
 
 The summary of this model denotes that there are very small p-values associated with the predictors. This means there is significant evidence that the predictors of our model have an effect on the likelihood of being arrested. 
 
-From the model summary we actually notice that, between the difference races, there is not much difference in their relationship with being arrested. However we see that there is a strong correlation for the Education, Household Poverty, and Gender of the individual involved in the police interaction. This indicates that those who are less educated, from lower household income, and are males are more likely to be arrested. 
-
-
+From the model summary we actually notice that, between the difference races, there is not much difference in their relationship with being arrested. However we see that there is a strong correlation for the education, household poverty, and gender of the individual involved in the police interaction. This indicates that those who are less educated, from lower household income, and are males are more likely to be arrested. 
 
 ### Firearm Proxy Dataset
 
@@ -148,11 +151,9 @@ ggplot(map_data) +
   facet_wrap(~year)
 ```
 
-This chart plots the firearm homicide rate * 10 and population proportion of both white and black people in various regions of the US. The firearm homicide rate was multiplied by 10 so that the trends in firearm homocides could be viewed more easily.  
+From this map, we notice that across the 3 years we seek to observe, its generally true that states within the southern and midwestern regions of the United States have the highest rate of firearm homicide. 
  
-From this map, we notice that across the 3 years we seek to observe, its generally true that states along the southern and midwestern parts of the United States have the highest rate of firearm homicide. 
- 
-This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence is a better indicator for particular aspects of police behavior in our study.
+This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.
 
 #### Combined Regional Dataset
 
@@ -177,7 +178,6 @@ ggplot(combined_regional_ds,
     legend.position = "bottom"  
   )
 ```
-
 
 This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. From the different scatter plots, regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
 
@@ -216,6 +216,8 @@ This interactive scatter plot shows the Firearm Homicide Rate relative to racial
 ```
 
 This plot shows that, like we expected, the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
+
+The plots below show changes in the overall population percentage of each racial group across the years in our original study. We use this demogrpahic information to create a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. 
 
 ```{r}
 # Plot for WHITE_NH_PROP
@@ -295,7 +297,7 @@ ggplot(combined_regional_ds,
   )
 ```
 
-These plots above show the changes in the percentage of each racial group across the three years, which our study spans. We can combine all of the information in these plots by creating a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. 
+
 
 ```{r}
 model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP + WHITE_NH_PROP, combined_regional_ds)
@@ -303,54 +305,4 @@ model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP +
 summary(model)
 ```
 
-This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
-
-```{shinylive-r}
-#| standalone: true
-#| viewerHeight: 640 # You will have to adjust this to fit everything
-
-
-library(shiny)
-library(tidyverse)
-options("readr.edition" = 1) # keep this to ensure you can download the data
-
-# Define server logic ----
-server <- function(input, output) {
-  # Load the data
-  data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
-  # read_rds("https://github.com/sussmanbu/ma-4615-fa24-final-project-group-7/blob/main/dataset/combined_regional_data.rds")asd
-
-# Define UI for the application ----
-ui <- fluidPage(
-  # Application title
-  titlePanel("Interactive Scatter Plot: Firearm Homicide Rate and Racial Proportions"),
-
-  # Sidebar layout with input and output
-  sidebarLayout(
-    # Sidebar panel for inputs
-    sidebarPanel(
-      # Dropdown menu for selecting racial group
-      selectInput(
-        inputId = "selected_race",
-        label = "Select a Racial Group:",
-        choices = c(
-          "White NH" = "WHITE_NH_PROP",
-          "Black NH" = "B_NH_PROP",
-          "Hispanic" = "HISPANIC_PROP",
-          "Other/Multi NH" = "OTHER_MULTI_NH_PROP"
-        ),
-        selected = "WHITE_NH_PROP"
-      )
-    ),
-
-    # Main panel for displaying outputs
-    mainPanel(
-      plotOutput(outputId = "scatterPlot")
-    )
-  )
-)
-
-# Run the application ----
-shinyApp(ui = ui, server = server)
-```
 
