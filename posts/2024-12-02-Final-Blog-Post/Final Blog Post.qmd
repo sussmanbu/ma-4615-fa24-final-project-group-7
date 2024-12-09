@@ -11,7 +11,8 @@ draft: FALSE
 
 For the EDA, we have done most of the analysis. For some wrapping up, we plan to add more on the combined dataset since we had enough for each single dataset. Also, we will do more EDA that is related to the thesis.
 
-Tentative thesis: Regions with higher Non-White Proportion has higher police contact and firearm homicide. 
+Tentative thesis: Regions with higher Non-White Proportion have higher police contact in a negative context, contributing to higher mistrust of local police departments and subsequent decreased contact of them during emergencies like commitment of crime, allowing for more crime like firearm homicide.
+
 For example, we had some EDA regarding the relationship between race and improper police contact and computed the trends in firearm homicide rate for different races in different states. These can all work for the tentative thesis.
 
 To polish our visualization and tables, we plan to do the following:
@@ -22,3 +23,6 @@ To polish our visualization and tables, we plan to do the following:
 
 - Potential changes:
   Use the gt Package for Enhanced Table Formatting. It can transform raw data frames into visually appealing and readable tables. Also for an interactive table display, where users can sort, search, and filter data, the DT package is a great choice. 
+
+
+

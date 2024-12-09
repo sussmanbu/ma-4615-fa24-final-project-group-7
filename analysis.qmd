@@ -6,8 +6,31 @@ filters:
   - shinylive
 
 ---
-
 ![](images/analysis.jpg)
+# Motivation for Data Analysis
+
+Overview of Data Analysis:
+
+Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homocide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homocide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
+
+The variables we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homocide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these variables are impacted by demographic factors, particularly race, education, household income, sex, and minority population.
+
+Here are some questions that we seek to answer in this EDA:
+How does the rate of improper police interactions vary among populations of different races?
+How does the homocide rate throughout the US vary by region and over time from 2002 to 2011?
+To what extent can variations in the homocide rate & gun ownership levels be explained by variations in racial demographics across different regions of the US?
+Do variations in the firearm homocide rate across different regiosn correlate with statistics about improper police behavior or arrests? 
+
+Modeling and Inference:
+We ran two models on our dataset.
+The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included.
+The second model was ran on the combined dataset, and it examines the extent to which firearm homocide statistics can be explained by the racial demographic variations in different regions of the US. 
+!!!! We don't have info on it rn but we should get (or eliminate this model)
+
+
+# Code:
+
+Here, our Police Interaction dataset and all libraries are loaded.
 
 ### Loading Datasets and Libraries.
 
@@ -49,14 +72,19 @@ police_interaction |>
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
 The plot shows that the "Black, Non-Hispanic" population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among "Hispanic" and "Other or multiracial, Non-Hispanic" populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the "White, Non-Hispanic" population was about 7%.
 
-In making this observation it is important to note that the numbers could be skewed due to the number of responses received for each group, and also the nature with which the data was collected as a survey. Which may prompt those who felt racially discriminated against to be more likely to reply to the survey in the first place. 
+In making this observation, it is important to note that the proportions could be skewed due to the number of responses received for each group and the nature of data collection through a survey, which may have prompted individuals who experienced racial discrimination to be more likely to respond.
 
 #### Modeling
 
-For data modeling, we decided to split the data into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
+For data modeling, the data was split into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
 
+We chose the variables of race, years of education, and poverty to construct our model because these variables are numerical or boolean values, are present in most or all of the participant data, and display the strongest correlation with the probability of being arrested. While other variables, such as the number of years being married, could have been used, variables like these are usually not present for many survey participants and don't provide much correlation with the probability of being arrested. 
+
+In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant. 
+!!!! <-- WAIT can we check if this last statement is true Cause we say that race doesn't display a significant correlation with the probability of being arrested...
 
 ```{r Training Summary:}
 # Split data
@@ -78,13 +106,11 @@ model <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, filtered_training_data)
 summary(model)
 ```
 
-We note that it is not necessary to actually test our model as it will not be used to make predictions, but instead to simply example the relationship between the predictors and the ARRESTED metric.
+We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the ARRESTED metric.
 
 The summary of this model denotes that there are very small p-values associated with the predictors. This means there is significant evidence that the predictors of our model have an effect on the likelihood of being arrested. 
 
-We notice that in relation to the baseline race group which was "Black or African American and Non-Hispanic" all of the other racial groups had a slightly negative P-Value, denoting that they are slightly less likely to be arrested. 
-
-However we see that there is a strong correlation for the Education, Household Poverty, and Gender of the individual involved in the police interaction. The model shows that those who are less educated are more likely to be arrested, alongside those from lower household incomes, and individuals who are males. 
+From the model summary we actually notice that, between the difference races, there is not much difference in their relationship with being arrested. However we see that there is a strong correlation for the education, household poverty, and gender of the individual involved in the police interaction. This indicates that those who are less educated, from lower household income, and are males are more likely to be arrested. 
 
 ### Firearm Proxy Dataset
 
@@ -120,9 +146,9 @@ ggplot(map_data) +
   facet_wrap(~year)
 ```
 
-From this map, we notice that across the 3 years we seek to observe, its generally true that states along the southern and midwestern parts of the United States have the highest rate of firearm homicide. 
+From this map, we notice that across the 3 years we seek to observe, its generally true that states within the southern and midwestern regions of the United States have the highest rate of firearm homicide. 
  
-This is useful to understand as we can use this inforation to dig deeper into the causes behind negative police behavior. This may help us determine if race is potentially superceded by gun violence in terms of causes for the focus of our study.
+This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.
 
 #### Combined Regional Dataset
 
@@ -148,7 +174,45 @@ ggplot(combined_regional_ds,
   )
 ```
 
-This shows that like we expected the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
+This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. From the different scatter plots, regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
+
+```{r}
+# Define server logic ----
+# server <- function(input, output) {
+#   # Load the data
+#   data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
+# 
+#     # Render the interactive plot
+#   output$scatterPlot <- renderPlot({
+#     ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
+#       geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years
+#       geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points
+#       facet_wrap(~ region) + # Optional: Facet by region
+#       labs(
+#         title = paste("Firearm Homicide Rate vs", input$selected_race),
+#         x = "Firearm Homicide Rate",
+#         y = "Proportion",
+#         color = "Year"
+#       ) +
+#       theme_minimal() +
+#       theme(
+#         legend.position = "bottom",       # Place legend at the bottom
+#         legend.box = "horizontal",        # Align legend items horizontally
+#         legend.text = element_text(size = 10), # Adjust legend text size
+#         legend.title = element_text(size = 12), # Adjust legend title size
+#         legend.key.width = unit(1, "cm"), # Add space between legend items
+#         legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing
+#       ) +
+#       guides(
+#         color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend
+#       )
+#   })
+# }
+```
+
+This plot shows that, like we expected, the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
+
+The plots below show changes in the overall population percentage of each racial group across the years in our original study. We use this demogrpahic information to create a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. 
 
 ```{r}
 # Plot for WHITE_NH_PROP
@@ -228,7 +292,7 @@ ggplot(combined_regional_ds,
   )
 ```
 
-These plots above show the changes in the percentage of each racial group across the three years, which our study spans. We can combine all of the information in these plots by creating a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. 
+
 
 ```{r}
 model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP + WHITE_NH_PROP, combined_regional_ds)
