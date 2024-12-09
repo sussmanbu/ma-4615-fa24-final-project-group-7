@@ -7,13 +7,6 @@ filters:
   - shinylive
 
 ---
-
-![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
-
-# Motivation for Data Analysis
-
-Loading our Police Interaction dataset and all libraries.
-
 ![](images/analysis.jpg)
 
 ### Loading Datasets and Libraries.
@@ -243,4 +236,5 @@ model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP +
 summary(model)
 ```
 
+From the summary of this model we notice that none of the variables have very low p-values. One reason for this may be that based on the way we cleaned and simplified the data there are actually very few data points now (12 rows) means that the model is very susceptible to noise. In oversimplifying our data it may have made it difficult to find significant correlations between our predictors and the variable we want to consider. 
 
