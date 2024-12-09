@@ -31,9 +31,35 @@ options("readr.edition" = 1) # keep this to ensure you can download the data
 # Define server logic ----
 server <- function(input, output) {
   # Load the data
-  data <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
-  # read_rds("https://github.com/sussmanbu/ma-4615-fa24-final-project-group-7/blob/main/dataset/combined_regional_data.rds")asd
-
+  #data <- read_rds(here::here("dataset", "combined_regional_data.rds")) 
+  data <- read_rds("https://github.com/sussmanbu/ma-4615-fa24-final-project-group-7/blob/main/dataset/combined_regional_data.rds")
+    # Render the interactive plot
+  output$scatterPlot <- renderPlot({
+    ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
+      geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years
+      geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points
+      facet_wrap(~ region) + # Optional: Facet by region
+      labs(
+        title = paste("Firearm Homicide Rate vs", input$selected_race),
+        x = "Firearm Homicide Rate",
+        y = "Proportion",
+        color = "Year"
+      ) +
+      theme_minimal() +
+      theme(
+        legend.position = "bottom",       # Place legend at the bottom
+        legend.box = "horizontal",        # Align legend items horizontally
+        legend.text = element_text(size = 10), # Adjust legend text size
+        legend.title = element_text(size = 12), # Adjust legend title size
+        legend.key.width = unit(1, "cm"), # Add space between legend items
+        legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing
+      ) +
+      guides(
+        color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend
+      )
+  })
+}
+  
 # Define UI for the application ----
 ui <- fluidPage(
   # Application title
@@ -66,4 +92,5 @@ ui <- fluidPage(
 
 # Run the application ----
 shinyApp(ui = ui, server = server)
+
 ```
