@@ -25,7 +25,10 @@ Modeling and Inference:
 We ran two models on our dataset.
 The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race.
 
-Loading our Police Interaction dataset and all libraries.
+
+Code:
+
+Here, our Police Interaction dataset and all libraries are loaded.
 
 ![](images/analysis.jpg)
 
