@@ -1,12 +1,12 @@
 ---
 title: Analysis
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
-toc: true
 draft: false
 filters:
   - shinylive
 
 ---
+
 ![](images/analysis.jpg)
 
 ### Loading Datasets and Libraries.

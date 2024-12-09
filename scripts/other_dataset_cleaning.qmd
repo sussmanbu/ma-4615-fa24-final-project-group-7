@@ -1,3 +1,12 @@
+---
+title: Other
+toc: true
+eval: false
+draft: true
+filters:
+  - shinylive
+
+---
 
 
 ```{r}
