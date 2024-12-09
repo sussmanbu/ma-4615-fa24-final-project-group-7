@@ -12,7 +12,7 @@ runtime: shiny
 
 Overview of Data Analysis:
 
-Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homocide rates for both white and non-whites in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and the various factors that influence their 
+Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homocide rates for both white and non-whites in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun statistics.
 
 The variables we are most interested in analyzing are the rate of improper police interactions and the rate at which people are arrested, and we want to determine how those are impacted by factors such as race (in particular), education, household income, sex, and the homocide rate & gun ownership levels in different regions of the US.
 Some questions:
@@ -24,8 +24,6 @@ Do variations in the firearm homocide rate across different regiosn correlate wi
 Modeling and Inference:
 We ran two models on our dataset.
 The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race.
-
-The second 
 
 Loading our Police Interaction dataset and all libraries.
 
