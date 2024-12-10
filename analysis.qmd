@@ -11,15 +11,15 @@ filters:
 
 Overview of Data Analysis:
 
-Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homocide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homocide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
+Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homicide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homicide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
 
 The variables we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homocide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these variables are impacted by demographic factors, particularly race, education, household income, sex, and minority population.
 
 Here are some questions that we seek to answer in this EDA:
 How does the rate of improper police interactions vary among populations of different races?
-How does the homocide rate throughout the US vary by region and over time from 2002 to 2011?
-To what extent can variations in the homocide rate & gun ownership levels be explained by variations in racial demographics across different regions of the US?
-Do variations in the firearm homocide rate across different regiosn correlate with statistics about improper police behavior or arrests? 
+How does the homicide rate throughout the US vary by region and over time from 2002 to 2011?
+To what extent can variations in the homicide rate & gun ownership levels be explained by variations in racial demographics across different regions of the US?
+Do variations in the firearm homicide rate across different regions correlate with statistics about improper police behavior or arrests? 
 
 Modeling and Inference:
 We ran two models on our dataset.
