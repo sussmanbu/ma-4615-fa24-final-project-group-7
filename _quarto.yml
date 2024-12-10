@@ -2,6 +2,7 @@ project:
   type: website
   execute-dir: project
   resources: scripts
+site-url: https://sussmanbu.github.io/ma4615-fa23-final-project-group-7/
 
 website:
   title: "MA [46]15 Final Project - Group 7"
