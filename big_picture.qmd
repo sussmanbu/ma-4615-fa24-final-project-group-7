@@ -8,12 +8,26 @@ filters:
 ---
 
 ![](images/policeImage.jpg)
-We often see headlines and news articles outlining the racial discrimination that minorities across America face each and every day. There have many multiple movements throughout the history of our country relating to these issues. Specifically we saw the Black Lives Matter movement of 2020 bring into question the issue of police treatment towards minority individuals. This begs us to ask the question, are police really racist? Do they approach situations involving minorities professionally?
-
----
 
 ### Introduction
 
+We often see headlines and news articles outlining the racial discrimination that minorities across America face each and every day. There have many multiple movements throughout the history of our country relating to these issues. Specifically we saw the Black Lives Matter movement of 2020 bring into question the issue of police treatment towards minority individuals. This begs us to ask the question, are police really racist? Do they approach situations involving minorities professionally?
+
+
+### Analysis Results
+Through our analysis we found a significant correlation between multiple different factors and their likelihood to be treated properly during an interaction with the police.
+
+During this analysis we did indeed find that there was a strong correlation between a person's race and their likelihood of being arrested by police during a given encounter. This was alongside a number of other variables which found that males of Black Non-Hispanic descent, with little education, living with lower annual income are the individuals with the highest likelihood of being arrested by the police. 
+
+We also found that regions with higher populations of the Black Non-Hispanic demographic faced slightly higher rates of firearm homicide when compared to their counterparts. 
+
+While the outlined factors, like race, education, income, and gender, may be strong predictors of things like homicide or arrest rates we must be sure to not label them as causes for these things. 
+
+Even though it may be true that some police are racist, or that certain individuals are more prone to violence, its untrue to make these blanket statements about all individuals of extremely large groups across the United States. Despite the fact that certain races are more likely to be arrested, or are associated with higher rates of gun violence does not denote that police are inherently racist, or that certain races are inherently more violent.
+
+In contrast these conclusions may point out certain flaws in our Nations allocation of resources, leaving certain groups of individuals more susceptible to certain situations in their lifetime. In many cases, individuals without a high level of education or income are put in more extreme circumstances that could push them to find alternative modes of sustaining their own needs. These life circumstances could force some of these individuals to make more extreme decisions leading them to have higher rates of crime and subsequently incarceration/detainment.
+
+This issue of racial injustice in our country stems far beyond the surface cause of racism, but finds its roots in deep traditions of our country. Individuals of certain racial demographics or income levels often find themselves trapped in a cycle of poverty, and find themselves stuck in a life that leads to these unfortunate situations we often find ourselves reading about on the news. Finding ways to eliminate social injustice in our county is a challenge for all individuals to face together, regardless of our own personal life stories.
 
 ### Interactive Plot
 This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. Looking at the different scatter plots, we observed that regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.

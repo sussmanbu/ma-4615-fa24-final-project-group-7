@@ -7,9 +7,10 @@ filters:
 
 ---
 ![](images/analysis.jpg)
+
 # Motivation for Data Analysis
 
-Overview of Data Analysis:
+# Overview of Data Analysis:
 
 Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homicide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homicide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
 
@@ -26,7 +27,6 @@ We ran two models on our dataset.
 The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included.
 The second model was ran on the combined dataset, and it examines the extent to which firearm homocide statistics can be explained by the racial demographic variations in different regions of the US. 
 !!!! We don't have info on it rn but we should get (or eliminate this model)
-
 
 # Code:
 
@@ -106,12 +106,19 @@ model <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, filtered_training_data)
 summary(model)
 ```
 
-
 We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the ARRESTED metric.
 
-The logistic regression model was trained to predict whether an individual would be arrested based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of arrest, as identified through EDA. The model achieved an R-squared value of 0.019, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors. For instance, being Hispanic, White (Non-Hispanic), or from a multiracial group is associated with a lower likelihood of arrest compared to the baseline racial group, as reflected in the negative coefficient estimates. The coefficient for education suggests that additional years of education slightly decrease the probability of arrest, while poverty status and being male positively correlate with a higher likelihood of arrest. The model's residual standard error of 0.157 suggests low variability in the residuals, indicating a decent fit given the complexity of predicting arrest likelihood. Also, the summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors contributes meaningfully to explaining the likelihood of arrest.
+The logistic regression model was trained to predict whether an individual would be arrested based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of arrest, as identified through EDA. 
 
-For example, being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly lower probability of arrest compared to the baseline racial group, with coefficients of -0.0287, -0.0301, and -0.0274, respectively, all of which are statistically significant (p-values of 1.47e-05, 0.000454, 7.96e-08 respectively). However, we see a much stronger correlation for the predictors of education, household poverty, and gender. Individuals with fewer years of education are less likely to avoid arrest, as indicated by a coefficient of -0.0047 (p-value < 2e-16). Household poverty shows a positive association with being arrested, with a coefficient of 0.0238 and a p-value of 2.70e-07. Additionally, males are significantly more likely to be arrested compared to females, as indicated by a coefficient of 0.0259 (p-value < 2e-16). This suggests that individuals who are less educated, from lower-income households, and male are more likely to be arrested during police interactions.
+The model achieved an R-squared value of 0.019, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors.
+
+When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly lower probability of arrest compared to the baseline racial group (Black Non-Hispanic), with coefficients of -0.0287, -0.0301, and -0.0274, respectively, all of which are statistically significant (p-values of 1.47e-05, 0.000454, 7.96e-08 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of being arrested based on their race alone.
+
+We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with fewer years of education are less likely to avoid arrest, as indicated by a coefficient of -0.0047 (p-value < 2e-16). Household poverty shows a positive association with being arrested, with a coefficient of 0.0238 and a p-value of 2.70e-07. Additionally, males are significantly more likely to be arrested compared to females, as indicated by a coefficient of 0.0259 (p-value < 2e-16). 
+
+This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to be arrested by a police officer during any given interaction.
+
+The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors contributes meaningfully to explaining the likelihood of arrest.
 
 ### Firearm Proxy Dataset
 
