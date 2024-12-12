@@ -83,6 +83,9 @@ For data modeling, the data was split into two. 80% of the data was randomly sel
 
 We chose the variables of race, years of education, and poverty to construct our model because these variables are numerical or boolean values, are present in most or all of the participant data, and display the strongest correlation with the probability of being arrested. While other variables, such as the number of years being married, could have been used, variables like these are usually not present for many survey participants and don't provide much correlation with the probability of being arrested. 
 
+We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the ARRESTED metric.
+
+
 In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant. 
 !!!! <-- WAIT can we check if this last statement is true Cause we say that race doesn't display a significant correlation with the probability of being arrested...
 
@@ -103,11 +106,10 @@ filtered_testing_data <- testing |>
 # Train model
 model <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, filtered_training_data)
 
-summary(model)
+
 ```
 
 
-We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the ARRESTED metric.
 
 The logistic regression model was trained to predict whether an individual would be arrested based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of arrest, as identified through EDA. The model achieved an R-squared value of 0.019, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors. For instance, being Hispanic, White (Non-Hispanic), or from a multiracial group is associated with a lower likelihood of arrest compared to the baseline racial group, as reflected in the negative coefficient estimates. The coefficient for education suggests that additional years of education slightly decrease the probability of arrest, while poverty status and being male positively correlate with a higher likelihood of arrest. The model's residual standard error of 0.157 suggests low variability in the residuals, indicating a decent fit given the complexity of predicting arrest likelihood. Also, the summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors contributes meaningfully to explaining the likelihood of arrest.
 
@@ -213,87 +215,42 @@ This interactive scatter plot shows the Firearm Homicide Rate relative to racial
 
 This plot shows that, like we expected, the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
 
-The plots below show changes in the overall population percentage of each racial group across the years in our original study. We use this demogrpahic information to create a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. 
+The plots below show changes in the overall population percentage of each racial group across the years in our original study. We use this demogrpahic information to create a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. We put all the racial groups into one figure to better compare.
 
 ```{r}
-# Plot for WHITE_NH_PROP
-ggplot(combined_regional_ds, 
-       aes(
-         x = year,
-         y = WHITE_NH_PROP,
-         color = region
-       )) +
-  geom_line() +  # Create a line for each region
-  labs(
-    title = "Proportion of White Non-Hispanic Population by Year and Region",
-    x = "Year",
-    y = "Proportion of White Non-Hispanic Population"
-  ) +
-  theme_minimal() +  # Clean theme for the plot
-  theme(
-    legend.title = element_blank(), 
-    legend.position = "bottom"  
+
+long_data <- combined_regional_ds %>%
+  pivot_longer(
+    cols = c(WHITE_NH_PROP, B_NH_PROP, HISPANIC_PROP, OTHER_MULTI_NH_PROP),
+    names_to = "Group",
+    values_to = "Proportion"
   )
 
-# Plot for B_NH_PROP (Black Non-Hispanic Proportion)
-ggplot(combined_regional_ds, 
+# Combined plot
+ggplot(long_data, 
        aes(
          x = year,
-         y = B_NH_PROP,
-         color = region
+         y = Proportion,
+         color = region,
+         linetype = Group  # Differentiates groups by line type
        )) +
-  geom_line() +  # Create a line for each region
+  geom_line() +  # Create a line for each group and region
   labs(
-    title = "Proportion of Black Non-Hispanic Population by Year and Region",
+    title = "Proportion of Population Groups by Year and Region",
     x = "Year",
-    y = "Proportion of Black Non-Hispanic Population"
+    y = "Proportion",
+    color = "Region",
+    linetype = "Group"
   ) +
   theme_minimal() +  # Clean theme for the plot
   theme(
-    legend.title = element_blank(), 
-    legend.position = "bottom"  
+    legend.title = element_blank(),
+    legend.position = "bottom"
   )
 
-# Plot for HISPANIC_PROP (Hispanic Population Proportion)
-ggplot(combined_regional_ds, 
-       aes(
-         x = year,
-         y = HISPANIC_PROP,
-         color = region
-       )) +
-  geom_line() +  # Create a line for each region
-  labs(
-    title = "Proportion of Hispanic Population by Year and Region",
-    x = "Year",
-    y = "Proportion of Hispanic Population"
-  ) +
-  theme_minimal() +  # Clean theme for the plot
-  theme(
-    legend.title = element_blank(), 
-    legend.position = "bottom"  
-  )
-
-# Plot for OTHER_MULTI_NH_PROP (Other/Multi Non-Hispanic Proportion)
-ggplot(combined_regional_ds, 
-       aes(
-         x = year,
-         y = OTHER_MULTI_NH_PROP,
-         color = region
-       )) +
-  geom_line() +  # Create a line for each region
-  labs(
-    title = "Proportion of Other/Multi Non-Hispanic Population by Year and Region",
-    x = "Year",
-    y = "Proportion of Other/Multi Non-Hispanic Population"
-  ) +
-  theme_minimal() +  # Clean theme for the plot
-  theme(
-    legend.title = element_blank(), 
-    legend.position = "bottom"  
-  )
 ```
 
-
+The graph illustrates the proportion of various population groups (White Non-Hispanic, Black Non-Hispanic, Hispanic, and Other/Multi Non-Hispanic) over time across different regions from 2000 to 2010. The trends reveal that the White Non-Hispanic population proportion remains the highest in all regions, with a slight decline over the years, indicating a gradual decrease in the dominance of this demographic. In contrast, the Hispanic population proportion shows a gradual increase over the same period, suggesting growing representation in most regions. The Black Non-Hispanic and Other/Multi Non-Hispanic proportions remain relatively stable, with smaller variations across regions and years. The data highlights distinct regional patterns, as some regions experience more pronounced shifts in demographic proportions, particularly for the Hispanic and White Non-Hispanic populations. 
 
 ```{r}
 model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP + WHITE_NH_PROP, combined_regional_ds)
@@ -301,5 +258,6 @@ model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP +
 summary(model)
 ```
 
-From the summary of this model we notice that none of the variables have very low p-values. One reason for this may be that based on the way we cleaned and simplified the data there are actually very few data points now (12 rows) means that the model is very susceptible to noise. In oversimplifying our data it may have made it difficult to find significant correlations between our predictors and the variable we want to consider. 
+We modeled to predict the firearm homicide rate based on the proportions of various racial and ethnic groups within a region. The model has an r-squared value of 0.6639 and an adjusted r squared value of 0.5379, indicating that approximately 54-66% of the variability in firearm homicide rates is explained by the included predictors. The overall model is statistically significant, with a p-value of 0.02683, meaning the predictors collectively have a meaningful relationship with the firearm homicide rate. However, individually, none of the predictors except for the intercept shows statistical significance at the conventional 0.05 level. The proportion of "Other or Multiracial Non-Hispanic" population has a negative coefficient (-18.34), suggesting an inverse relationship with firearm homicide rates, though the p-value (0.3456) indicates this finding is not statistically significant. Similarly, the "Hispanic" population proportion has a positive coefficient (11.33), suggesting a potential positive relationship, but the p-value (0.1723) makes this inconclusive. The "Black Non-Hispanic" population proportion also shows a positive coefficient (6.84), but with a p-value of 0.3553, this relationship lacks statistical significance. The coefficient for "White Non-Hispanic" was not defined due to singularities, likely because of collinearity with other predictors. Overall, while the model highlights potential relationships, further refinement or additional data may be needed for stronger conclusions.
+
 
