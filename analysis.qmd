@@ -14,7 +14,7 @@ filters:
 
 Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homicide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homicide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
 
-The variables we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homocide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these variables are impacted by demographic factors, particularly race, education, household income, sex, and minority population.
+The variables we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homicide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these variables are impacted by demographic factors, particularly race, education, household income, sex, and minority population.
 
 Here are some questions that we seek to answer in this EDA:
 How does the rate of improper police interactions vary among populations of different races?
@@ -32,10 +32,9 @@ The second model was ran on the combined dataset, and it examines the extent to 
 
 Here, our Police Interaction dataset and all libraries are loaded.
 
-### Loading Datasets and Libraries.
-
 
 ```{r}
+#| echo: False
 suppressPackageStartupMessages(library(tidymodels))
 suppressPackageStartupMessages(library(reshape2)) #For models
 suppressPackageStartupMessages(library(ggplot2)) #For plots
@@ -62,6 +61,7 @@ combined_regional_ds <- read_rds(here::here("dataset/combined_regional_data.rds"
 The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations. 
 
 ```{r}
+#| echo: False
 police_interaction |>
   filter(!is.na(PROPER)) |>
   group_by(RACE) |>
@@ -83,12 +83,13 @@ For data modeling, the data was split into two. 80% of the data was randomly sel
 
 We chose the variables of race, years of education, and poverty to construct our model because these variables are numerical or boolean values, are present in most or all of the participant data, and display the strongest correlation with the probability of being arrested. While other variables, such as the number of years being married, could have been used, variables like these are usually not present for many survey participants and don't provide much correlation with the probability of being arrested. 
 
-We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the ARRESTED metric.
+We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the PROPER metric.
 
 
 In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant. 
 
 ```{r Training Summary:}
+#| echo: False
 # Split data
 split <- initial_split(police_interaction, prop = .8)
 
@@ -98,23 +99,43 @@ testing <- testing(split)
 
 # Filter out some bad rows
 filtered_training_data <- training |>
-  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+  filter(!is.na(PROPER) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
 filtered_testing_data <- testing |>
-  filter(!is.na(ARRESTED) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
+  filter(!is.na(PROPER) & !is.na(RACE) & !is.na(EDUCATION) & !is.na(HHPOV) & !is.na(MALE))
 
 # Train model
-model <- lm(ARRESTED ~ RACE + EDUCATION + HHPOV + MALE, filtered_training_data)
+model <- lm(PROPER ~ RACE + EDUCATION + HHPOV + MALE, filtered_training_data)
+
+# Extract relevant details
+model_summary <- summary(model)
+
+# Extract coefficients, p-values, R-squared values, F-statistic, and model p-value
+coefficients <- model_summary$coefficients
+r_squared <- model_summary$r.squared
+adj_r_squared <- model_summary$adj.r.squared
+f_statistic <- model_summary$fstatistic
+f_p_value <- pf(f_statistic[1], f_statistic[2], f_statistic[3], lower.tail = FALSE)
+
+# Print relevant details
+cat("Coefficients and p-values:\n")
+print(coefficients[, c("Estimate", "Pr(>|t|)")])
+cat("\nR-squared:\n")
+cat("Multiple R-squared:", r_squared, "\n")
+cat("Adjusted R-squared:", adj_r_squared, "\n")
+cat("\nF-statistic and p-value:\n")
+cat("F-statistic:", f_statistic[1], "on", f_statistic[2], "and", f_statistic[3], "DF, p-value:", f_p_value, "\n")
+
 ```
 
-The logistic regression model was trained to predict whether an individual would be arrested based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of arrest, as identified through EDA. 
+The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA. 
 
-The model achieved an R-squared value of 0.019, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors.
+The model achieved an R-squared value of 0.008, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors.
 
-When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly lower probability of arrest compared to the baseline racial group (Black Non-Hispanic), with coefficients of -0.0287, -0.0301, and -0.0274, respectively, all of which are statistically significant (p-values of 1.47e-05, 0.000454, 7.96e-08 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of being arrested based on their race alone.
+When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly higher probability of police behaving properly compared to the baseline racial group (Black Non-Hispanic), with coefficients of 0.0413, 0.0331, and 0.0538, respectively, all of which are statistically significant (p-values of 0.000619, 0.033628, 7.03e-09 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of reporting improper police behavior based on their race alone.
 
-We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with fewer years of education are less likely to avoid arrest, as indicated by a coefficient of -0.0047 (p-value < 2e-16). Household poverty shows a positive association with being arrested, with a coefficient of 0.0238 and a p-value of 2.70e-07. Additionally, males are significantly more likely to be arrested compared to females, as indicated by a coefficient of 0.0259 (p-value < 2e-16). 
+We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with more years of education are more likely to report proper police behavior, as indicated by a coefficient of 0.00386 (p-value of 0.000197). Household poverty shows a negative association with proper police behavior, with a coefficient of -0.0242 and a p-value of 0.00424. Additionally, males are significantly less likely to report improper police behavior compared to females, as indicated by a coefficient of -0.0277 (p-value 7.22e-08). 
 
-This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to be arrested by a police officer during any given interaction.
+This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to experience improper behavior from a police officer during any given interaction.
 
 The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors contributes meaningfully to explaining the likelihood of arrest.
 
@@ -125,6 +146,7 @@ The second dataset to be incorporated describes the number of homicides, the num
 This map represents the rate of homicides by firearm by state. There are different levels of colors to represent the homicide rate by state, and the diagrams are split into 2002, 2008, and 2011.
 
 ```{r}
+#| echo: False
 firearm_ds <- firearm_ds |>
   mutate(firearm_homicide_rate = as.numeric(firearm_homicide_rate),
          state = tolower(state)) |>
@@ -152,15 +174,16 @@ ggplot(map_data) +
   facet_wrap(~year)
 ```
 
-From this map, we notice that across the 3 years we seek to observe, its generally true that states within the southern and midwestern regions of the United States have the highest rate of firearm homicide. 
+From this map, we notice that across the 3 years we seek to observe, it's generally true that states within the southern and Midwestern regions of the United States have the highest rate of firearm homicide. 
  
-This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.
+This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior, and fortify and further explain our bar chart and linear model describing the proportion of race vs. proper police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.
 
 #### Combined Regional Dataset
 
 The plot below shows a breakdown of the firearm homicide rates for each region across the years relevant to our analysis.
 
 ```{r}
+#| echo: False
 ggplot(combined_regional_ds, 
        aes(
          x = year,
@@ -180,87 +203,81 @@ ggplot(combined_regional_ds,
   )
 ```
 
-This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. From the different scatter plots, regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.
+### Integrating Police Behavior and Firearm Homicides
+To deepen our analysis, we explored whether the rate of firearm homicides in a region or state-level factors could help explain variations in proper and improper police behavior. By combining the PROPER variable from the police interaction dataset with the fa_homicide_rate variable, we created models to examine how firearm homicide rates influence police behavior across different regions.
+
+### Analysis of Firearm Homicide Rate and Police Behavior
+First, we visualized the average rate of firearm homicides for states with higher proportions of improper police behavior. This approach highlights how neighborhood violence may correlate with reported police misconduct.
 
 ```{r}
-# Define server logic ----
-# server <- function(input, output) {
-#   # Load the data
-#   data <- read_rds(here::here("dataset", "combined_regional_data.rds"))
-# 
-#     # Render the interactive plot
-#   output$scatterPlot <- renderPlot({
-#     ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +
-#       geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years
-#       geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points
-#       facet_wrap(~ region) + # Optional: Facet by region
-#       labs(
-#         title = paste("Firearm Homicide Rate vs", input$selected_race),
-#         x = "Firearm Homicide Rate",
-#         y = "Proportion",
-#         color = "Year"
-#       ) +
-#       theme_minimal() +
-#       theme(
-#         legend.position = "bottom",       # Place legend at the bottom
-#         legend.box = "horizontal",        # Align legend items horizontally
-#         legend.text = element_text(size = 10), # Adjust legend text size
-#         legend.title = element_text(size = 12), # Adjust legend title size
-#         legend.key.width = unit(1, "cm"), # Add space between legend items
-#         legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing
-#       ) +
-#       guides(
-#         color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend
-#       )
-#   })
-# }
-```
-
-This plot shows that, like we expected, the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.
-
-The plots below show changes in the overall population percentage of each racial group across the years in our original study. We use this demogrpahic information to create a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. We put all the racial groups into one figure to better compare.
-
-```{r}
-
-long_data <- combined_regional_ds %>%
-  pivot_longer(
-    cols = c(WHITE_NH_PROP, B_NH_PROP, HISPANIC_PROP, OTHER_MULTI_NH_PROP),
-    names_to = "Group",
-    values_to = "Proportion"
-  )
-
-# Combined plot
-ggplot(long_data, 
-       aes(
-         x = year,
-         y = Proportion,
-         color = region,
-         linetype = Group  # Differentiates groups by line type
-       )) +
-  geom_line() +  # Create a line for each group and region
+#| echo: False
+ggplot(combined_regional_ds, aes(x = log(fa_homicide_rate + 1), y = IMPROPER_PROP, color = region)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  theme_minimal() +
   labs(
-    title = "Proportion of Population Groups by Year and Region",
-    x = "Year",
-    y = "Proportion",
-    color = "Region",
-    linetype = "Group"
-  ) +
-  theme_minimal() +  # Clean theme for the plot
-  theme(
-    legend.title = element_blank(),
-    legend.position = "bottom"
+    title = "Improper Police Behavior vs. Firearm Homicide Rate",
+    x = "Log of Firearm Homicide Rate",
+    y = "Proportion of Improper Police Interactions"
   )
-
 ```
+The plot shows a slight positive trend, suggesting that states with higher firearm homicide rates tend to have higher proportions of improper police behavior. However, the relationship is not uniform across all regions.
 
-The graph illustrates the proportion of various population groups (White Non-Hispanic, Black Non-Hispanic, Hispanic, and Other/Multi Non-Hispanic) over time across different regions from 2000 to 2010. The trends reveal that the White Non-Hispanic population proportion remains the highest in all regions, with a slight decline over the years, indicating a gradual decrease in the dominance of this demographic. In contrast, the Hispanic population proportion shows a gradual increase over the same period, suggesting growing representation in most regions. The Black Non-Hispanic and Other/Multi Non-Hispanic proportions remain relatively stable, with smaller variations across regions and years. The data highlights distinct regional patterns, as some regions experience more pronounced shifts in demographic proportions, particularly for the Hispanic and White Non-Hispanic populations. 
+### Linear Model Connecting Firearm Homicide Rates and Proper Police Behavior
+To quantify this relationship, we modeled the binary PROPER variable against the fa_homicide_rate and regional demographic proportions. This analysis combines insights from both datasets to explore whether firearm homicide rates, demographics, and regions collectively influence police behavior.
 
 ```{r}
-model <- lm(fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + B_NH_PROP + WHITE_NH_PROP, combined_regional_ds)
+#| echo: False
 
-summary(model)
+# Fit the linear model
+combined_model <- lm(PROPER_PROP ~ fa_homicide_rate + B_NH_PROP + HISPANIC_PROP + OTHER_MULTI_NH_PROP + WHITE_NH_PROP + region, data = combined_regional_ds)
+
+# Summarize the model
+model_summary <- summary(combined_model)
+
+# Print coefficients and statistics
+cat("Coefficients and p-values:\n")
+print(model_summary$coefficients[, c("Estimate", "Pr(>|t|)")])
+cat("\nR-squared:\n")
+cat("Multiple R-squared:", model_summary$r.squared, "\n")
+cat("Adjusted R-squared:", model_summary$adj.r.squared, "\n")
+cat("\nF-statistic and p-value:\n")
+cat("F-statistic:", model_summary$fstatistic[1], "on", model_summary$fstatistic[2], "and", model_summary$fstatistic[3], "DF, p-value:", 
+    pf(model_summary$fstatistic[1], model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE), "\n")
 ```
+### Analysis of Results
+The linear model results show that various predictors, including homicide rates and racial demographics, explain a portion of the variation in the proportion of improper police behavior. Here’s a closer examination of each predictor:
 
-We modeled to predict the firearm homicide rate based on the proportions of various racial and ethnic groups within a region. The model has an r-squared value of 0.6639 and an adjusted r squared value of 0.5379, indicating that approximately 54-66% of the variability in firearm homicide rates is explained by the included predictors. The overall model is statistically significant, with a p-value of 0.02683, meaning the predictors collectively have a meaningful relationship with the firearm homicide rate. However, individually, none of the predictors except for the intercept shows statistical significance at the conventional 0.05 level. The proportion of "Other or Multiracial Non-Hispanic" population has a negative coefficient (-18.34), suggesting an inverse relationship with firearm homicide rates, though the p-value (0.3456) indicates this finding is not statistically significant. Similarly, the "Hispanic" population proportion has a positive coefficient (11.33), suggesting a potential positive relationship, but the p-value (0.1723) makes this inconclusive. The "Black Non-Hispanic" population proportion also shows a positive coefficient (6.84), but with a p-value of 0.3553, this relationship lacks statistical significance. The coefficient for "White Non-Hispanic" was not defined due to singularities, likely because of collinearity with other predictors. Overall, while the model highlights potential relationships, further refinement or additional data may be needed for stronger conclusions.
+1. Intercept (Estimate = 0.7295, p-value = 0.0281): The intercept is statistically significant, suggesting that when all predictor variables are zero, the proportion of improper police behavior (PROPER_PROP) is significantly different from zero.
 
+2. fa_homicide_rate (Estimate = -0.0176, p-value = 0.5536): The firearm homicide rate is not statistically significant (p-value > 0.05), suggesting that it does not have a strong direct effect on the proportion of improper police behavior in this model.
+
+3. B_NH_PROP (Estimate = 1.7044, p-value = 0.3164): The proportion of Black non-Hispanic individuals is not statistically significant (p-value > 0.05), implying that it does not have a significant impact on the outcome in this context.
+
+4. HISPANIC_PROP (Estimate = 1.4353, p-value = 0.0786): While not quite reaching the 0.05 threshold, this variable is marginally significant at the 0.1 level. This suggests a possible relationship between the proportion of Hispanic individuals and improper police behavior, warranting further exploration.
+
+5. OTHER_MULTI_NH_PROP (Estimate = 0.4295, p-value = 0.7396): The proportion of individuals from other multi-racial non-Hispanic groups is not statistically significant, implying that this demographic does not appear to significantly impact improper police behavior.
+
+6. region (northeast, south, and west): The regional dummies (compared to the baseline region) show that being in any of the other regions does not significantly affect the proportion of improper police behavior:
+
+* northeast (Estimate = -0.0380, p-value = 0.3055)
+* south (Estimate = -0.2145, p-value = 0.2197)
+* west (Estimate = -0.1649, p-value = 0.1978) 
+All these p-values are greater than 0.05, indicating no significant differences in improper behavior across the regions.
+
+#### Model Fit and Significance
+* R-squared = 0.7712: The model explains approximately 77% of the variation in improper police behavior. This is a relatively high value, suggesting that the model captures a significant portion of the underlying patterns.
+
+* Adjusted R-squared = 0.3709: The adjusted R-squared value is much lower, indicating that while the model explains some of the variance, a substantial proportion remains unexplained. This suggests that there are likely additional factors influencing improper police behavior that have not been captured by the current model.
+
+* F-statistic = 1.9266, p-value = 0.2746: The overall F-test shows that the predictors together do not significantly explain the variance in improper behavior at the 0.05 significance level. This implies that while some individual predictors might have marginal significance, the model as a whole is not a strong predictor of the outcome.
+
+### Reflections and Future Directions
+The analysis highlights the complexity of understanding improper police behavior and the factors that might contribute to it. The relatively high R-squared value suggests that certain aspects, particularly demographic and regional factors, may partially explain the variation in improper behavior. However, the lower adjusted R-squared value and non-significant predictors indicate that other systemic or situational factors might play a critical role but are not captured in the current model.
+
+#### Potential Areas for Further Investigation:
+* Additional Variables: The unexplained variability suggests that there may be other key factors, such as community-police relations, socio-economic status, or local policies, that could provide further insights.
+* Interaction Effects: Interactions between race, region, and homicide rates might yield more nuanced insights into how these factors influence police behavior.
+* Model Refinement: Regularization techniques like Lasso or Ridge regression could help identify key predictors and reduce multicollinearity, improving model interpretation.
+By continuing to explore these dynamics, policymakers can develop targeted interventions aimed at reducing both improper police behavior and broader societal issues like firearm violence, ultimately contributing to safer and more equitable communities.
 
