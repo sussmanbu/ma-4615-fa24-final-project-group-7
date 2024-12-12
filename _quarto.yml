@@ -1,7 +1,10 @@
 project:
   type: website
   execute-dir: project
-  resources: scripts
+  resources: [ 
+    scripts,
+    dataset_for_shiny
+  ]
 site-url: https://sussmanbu.github.io/ma4615-fa23-final-project-group-7/
 
 website:
