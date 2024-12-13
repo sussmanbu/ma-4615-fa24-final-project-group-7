@@ -17,7 +17,7 @@ The dataset is collected by the Bureau of Justice Statistics (BJS), which is the
 
 
 The dataset comprises person-level, household-level, and police encounter data, emphasizing key variables to study the relationship between police contact and victimization reporting. 
-At the person level, variables include PER_ID(Unique person identifier), age, race, contact(if the respondent had police contact in the past 12 months), and number of face-to-face police contacts within the past year.
+At the person level, variables include PER_ID (Unique person identifier), age, race, contact (if the respondent had police contact in the past 12 months), and number of face-to-face police contacts within the past year.
 At the household level, HH_ID identifies households, while hhpov (poverty status) and HH_size (number of household members) contextualize socioeconomic status. Police encounters are detailed with REASON (reason for contact), arrested (if the respondent was arrested), and cuffed (if handcuffed), which capture the nature of police interactions. 
 Victimization variables like d_HH_P23 (household crime victimization), time2vic_inc_P23HH (time between police interview and crime), and notify_inc_P23HH (police notified of household crime) provide insights into subsequent incidents. 
 Additional demographic variables such as education, mar_stat (marital status), and work_lw (employment status) add socioeconomic context.
