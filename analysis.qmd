@@ -9,8 +9,6 @@ filters:
 ---
 ![](images/analysis.jpg)
 
-# Motivation for Data Analysis
-
 # Overview of Data Analysis:
 
 Our data analysis is performed on the combined data from two datasets. One of these datasets is titled "The Effect of Prior Police Contact on Victimization Reporting...", and it reports national data about civilian experience with the police from the DOJ's National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled "Firearm Suicide Proxy for Household Gun Ownership" examines gun ownership rates and homicide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homicide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.
@@ -31,7 +29,6 @@ The second model was ran on the combined dataset, and it examines the extent to 
 # Code:
 
 Here, our Police Interaction dataset and all libraries are loaded.
-
 
 ```{r}
 #| echo: False
@@ -133,7 +130,7 @@ The model achieved an R-squared value of 0.008, indicating that while the model 
 
 When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly higher probability of police behaving properly compared to the baseline racial group (Black Non-Hispanic), with coefficients of 0.0413, 0.0331, and 0.0538, respectively, all of which are statistically significant (p-values of 0.000619, 0.033628, 7.03e-09 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of reporting improper police behavior based on their race alone.
 
-We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with more years of education are more likely to report proper police behavior, as indicated by a coefficient of 0.00386 (p-value of 0.000197). Household poverty shows a negative association with proper police behavior, with a coefficient of -0.0242 and a p-value of 0.00424. Additionally, males are significantly less likely to report improper police behavior compared to females, as indicated by a coefficient of -0.0277 (p-value 7.22e-08). 
+We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with more years of education are more likely to report proper police behavior, as indicated by a coefficient of 0.00386 (p-value of 0.000197). Household poverty shows a negative association with proper police behavior, with a coefficient of -0.0242 and a p-value of 0.00424. Additionally, males are significantly more likely to report improper police behavior compared to females, as indicated by a coefficient of -0.0277 (p-value 7.22e-08). 
 
 This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to experience improper behavior from a police officer during any given interaction.
 
