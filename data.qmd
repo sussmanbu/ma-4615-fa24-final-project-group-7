@@ -46,13 +46,12 @@ This dataset was collected by Megan Kang and can be found on the Harvard Dataver
 
 Particularly this dataset includes information across districts, states, and years, and contains comprehensive variables that allow us to study the complex relationship between geography and household gun ownership and misuse. At the district-level we have variables that show the total population of the district and homicide/suicide rates caused by firearms and non-firearms.
 
-Our goal with this dataset was to combine it with our original dataset related to police sentiment. In doing so we did very minor initial cleaning by removing the following columns:
+Our goal with this dataset was to combine it with our original dataset related to police sentiment. Minor initial cleaning was performed, removing the following columns/variables:
 
-*fss* - a metric irrelevant to our analysis
-*districts* - our original dataset uses regions, so we can construct those regions using the state level descriptions
-*suicide related metrics* - we felt that homicide information was more relevant to the way police may choose to approach situations
-
-As well as removing all years besides the years which were present in our original dataset. 
+*fss* - a metric irrelevant to our analysis.
+*districts* - our original dataset used regions, which we could determine using the state level data, concatanating them into relevant regional variables.
+*suicide related metrics* - we felt that homicide information was more relevant to the way police may choose to approach situations.
+All year values besides the years which were present in our original dataset were removed, due to their lack of relevancy to our analysis. 
 
 **Combination**
 In combining the datasets we chose to combine information such that we would display information based on the region and year combinations. This is because the original data was presented across 4 different regions: Northeast, Midwest, South, and West as well as 3 years: 2002, 2008, and 2011.
