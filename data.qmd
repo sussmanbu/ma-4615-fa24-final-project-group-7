@@ -49,7 +49,7 @@ Particularly this dataset includes information across districts, states, and yea
 Our goal with this dataset was to combine it with our original dataset related to police sentiment. Minor initial cleaning was performed, removing the following columns/variables:
 
 *fss* - a metric irrelevant to our analysis.
-*districts* - our original dataset used regions, which we could determine using the state level data, concatanating them into relevant regional variables.
+*districts* - our original dataset used regions, which we could determine using the state level data, concetanating them into relevant regional variables.
 *suicide related metrics* - we felt that homicide information was more relevant to the way police may choose to approach situations.
 All year values besides the years which were present in our original dataset were removed, due to their lack of relevancy to our analysis. 
 
@@ -76,7 +76,7 @@ For these variables there are a few main categories:
 *racial demographics* - which were taken by finding the proportion of certain races against the entire population
 *event proportions* - which were taken by finding the average number of occurrences across the total number of police contacts
 
-Next we had to transform the firearm dataset to follow the same region x year format. Since our firearm dataset came broken down by states we would have to use these states to reconstruct the original corresponding regions. To do this designation we used the Census Designated Regions of the United States. This is a potential point of error in our analysis as we could not find certain information about the regional breakdown in the first dataset. Then we simply grouped by region x year and recalculated the simple metrics in the original dataset but across the new breakdown. 
+Next we had to transform the firearm dataset to follow the same region x year format. Since our firearm dataset was broken down by states, we would have to use the state values to concatenate the original corresponding regions. To do this designation we used the Census Designated Regions of the United States, a framework possibly used by the dataset. This could be a potential point of error in our analysis, as there was no certain information about the regional breakdown utilized in the first dataset. Therefore, while we could not confirm perfect regional alignment, we believe this approximation is reasonable for our analysis. Thereafter, we simply grouped by region x year and recalculated the simple metrics in the original dataset but across the new breakdown. 
 
 Finally we used full_join to combine our two transformed data sets to create a new combined dataset that shared the same grouping breakdowns. 
 
