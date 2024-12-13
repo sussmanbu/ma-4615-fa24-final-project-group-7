@@ -1,6 +1,6 @@
 ---
 title: "Other datasets"
-author: ""
+author: "Group 7"
 subtitle: ""
 description:  |
   Blog post describing other datasets we found and our initial thoughts to combine them with our origial dataset.

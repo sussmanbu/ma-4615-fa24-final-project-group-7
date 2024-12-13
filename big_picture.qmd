@@ -1,5 +1,6 @@
 ---
 title: "Do Police Treat Minorities Worse?"
+author: "Group 7"
 description: "A detailed analysis of the effect of racial demographics on police satisfaction across the regions of America."
 toc: true
 draft: FALSE
@@ -17,9 +18,13 @@ We often see headlines and news articles outlining the racial discrimination tha
 ### Analysis Results
 Through our analysis we found a significant correlation between multiple different factors and their likelihood to be treated properly during an interaction with the police.
 
-During this analysis we did indeed find that there was a strong correlation between a person's race and their likelihood of being arrested by police during a given encounter. This was alongside a number of other variables which found that males of Black Non-Hispanic descent, with little education, living with lower annual income are the individuals with the highest likelihood of being arrested by the police. 
+During this analysis we did indeed find that there was a strong correlation between a person's race and their likelihood of both experiencing improper police behavior and being arrested by police during a given encounter. This was alongside a number of other variables which found that males of Black Non-Hispanic descent, with little education, living with lower annual income are the individuals with the highest likelihood of being arrested by the police. 
 
-We also found that regions with higher populations of the Black Non-Hispanic demographic faced slightly higher rates of firearm homicide when compared to their counterparts. 
+![](images/improper plot.png) ![](images/arrested plot.png)
+
+We also found that regions with higher populations of the Black Non-Hispanic demographic faced slightly higher rates of firearm homicide when compared to their counterparts. However, our predictive model based on the combined dataset for firearm homicide and police behavior was not able to predict improper police behavior for respondents of any particular race or from any particular region.
+
+![](images/Firearm Homicide vs Black NH population for Improper Police Behavior.png)
 
 While the outlined factors, like race, education, income, and gender, may be strong predictors of things like homicide or arrest rates we must be sure to not label them as causes for these things. 
 

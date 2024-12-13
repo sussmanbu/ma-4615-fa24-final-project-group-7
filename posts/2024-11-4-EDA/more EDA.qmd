@@ -1,6 +1,6 @@
 ---
 title: "EDA"
-author: ""
+author: "Group 7"
 subtitle: ""
 description:  |
   Blog post discussing further EDA and initial thoughts on statistical modeling.

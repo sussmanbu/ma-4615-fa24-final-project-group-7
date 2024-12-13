@@ -1,6 +1,6 @@
 ---
 title: "Data Cleaning and Loading & Data for Equity"
-author: ""
+author: "Group 7"
 subtitle: ""
 description:  |
   Blog post outlining specifics of the data and how we went about cleaning it, additionally discussing the data for equity principles, as well as related article.

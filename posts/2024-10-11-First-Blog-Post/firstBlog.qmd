@@ -1,6 +1,6 @@
 ---
 title: "First Blog"
-author: ""
+author: "Group 7"
 subtitle: ""
 description:  |
   First Blog Post

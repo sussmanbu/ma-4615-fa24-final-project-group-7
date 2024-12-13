@@ -1,6 +1,6 @@
 ---
 title: "Final Blog Post"
-author: ""
+author: "Group 7"
 subtitle: ""
 description:  |
   Final Blog Post wrapping up our projects

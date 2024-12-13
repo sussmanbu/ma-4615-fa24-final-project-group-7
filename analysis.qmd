@@ -1,5 +1,6 @@
 ---
 title: Analysis
+author: "Group 7"
 description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
 draft: false
 filters:
@@ -26,7 +27,6 @@ Modeling and Inference:
 We ran two models on our dataset.
 The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included.
 The second model was ran on the combined dataset, and it examines the extent to which firearm homicide statistics can be explained by the racial demographic variations in different regions of the US. 
-!!!! We don't have info on it rn but we should get (or eliminate this model)
 
 # Code:
 
@@ -129,7 +129,7 @@ cat("F-statistic:", f_statistic[1], "on", f_statistic[2], "and", f_statistic[3],
 
 The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA. 
 
-The model achieved an R-squared value of 0.008, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors.
+The model achieved an R-squared value of 0.008, indicating that while the model explains a small portion of the variability in improper police behavior, the predictors are statistically significant contributors.
 
 When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly higher probability of police behaving properly compared to the baseline racial group (Black Non-Hispanic), with coefficients of 0.0413, 0.0331, and 0.0538, respectively, all of which are statistically significant (p-values of 0.000619, 0.033628, 7.03e-09 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of reporting improper police behavior based on their race alone.
 

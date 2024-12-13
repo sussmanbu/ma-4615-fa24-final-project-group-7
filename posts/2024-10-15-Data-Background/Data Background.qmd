@@ -1,6 +1,6 @@
 ---
 title: "Data Background"
-author: ""
+author: "Group 7"
 subtitle: ""
 description:  |
   Blog post outlining background information related to our dataset.

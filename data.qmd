@@ -1,5 +1,6 @@
 ---
 title: Data
+author: "Group 7"
 description: We describe the sources of our data and the cleaning process.
 toc: true
 draft: false

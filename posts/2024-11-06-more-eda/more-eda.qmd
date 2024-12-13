@@ -2,7 +2,7 @@
 title: "more EDA"
 description:  |
   More EDA and Initial thoughts
-author: ""
+author: "Group 7"
 date: "2024-11-06"
 date-modified: "2024-11-06"
 draft: FALSE
