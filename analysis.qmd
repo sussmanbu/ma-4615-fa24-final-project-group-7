@@ -133,7 +133,7 @@ We also see a strong correlation for the predictors of education, household pove
 
 This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to experience improper behavior from a police officer during any given interaction.
 
-The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors contributes meaningfully to explaining the likelihood of arrest.
+The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors (the demographics including race, years of education, household poverty status, and gender) contributes meaningfully to explaining the likelihood of arrest.
 
 ### Firearm Proxy Dataset
 
