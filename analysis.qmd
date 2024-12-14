@@ -126,7 +126,7 @@ cat("F-statistic:", f_statistic[1], "on", f_statistic[2], "and", f_statistic[3],
 
 The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA.
 
-The model achieved an R-squared value of 0.008, indicating that while the model explains a small portion of the variability in improper police behavior, the predictors are statistically significant contributors.
+The model achieved an R-squared value of 0.008, indicating that it explains a very small portion of the variability in improper police behavior. While some predictors are statistically significant, their overall contribution to explaining the outcome is minimal. This suggests that other unobserved factors likely play a larger role in determining improper police behavior. 
 
 When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly higher probability of police behaving properly compared to the baseline racial group (Black Non-Hispanic), with coefficients of 0.0413, 0.0331, and 0.0538, respectively, all of which are statistically significant (p-values of 0.000619, 0.033628, 7.03e-09 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of reporting improper police behavior based on their race alone.
 
