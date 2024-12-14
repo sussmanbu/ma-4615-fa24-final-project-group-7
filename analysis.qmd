@@ -4,9 +4,6 @@ author: "Group 7"
 description: "Here, a detailed analysis using more sophisticated statistics techniques is provided."
 toc: true
 draft: FALSE
-format: html
-standalone: true
-viewerHeight: 640
 filters:
   - shinylive
 editor: 
@@ -76,18 +73,8 @@ A plot is generated here to show how the proportion of improper police actions d
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 640
+#| viewerHeight: 640 # You will have to adjust this to fit everything
 #| echo: false
-
-
-suppressPackageStartupMessages(library(shiny))
-suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(sf))
-suppressPackageStartupMessages(library(leaflet))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(stringr))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(readr))
 
 police_interaction <- read_rds(here::here("dataset/police_interaction.rds"))
 
