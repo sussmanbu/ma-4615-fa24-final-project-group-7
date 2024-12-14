@@ -4,6 +4,8 @@ author: "Group 7"
 description: "Here, a detailed analysis using more sophisticated statistics techniques is provided."
 toc: true
 draft: FALSE
+standalone: true
+viewerHeight: 640
 filters:
   - shinylive
 ---
@@ -61,7 +63,6 @@ The first step of our EDA involves examining the "PROPER" variable, a binary var
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 640 # You will have to adjust this to fit everything
 #| echo: false
 
 
