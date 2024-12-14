@@ -76,12 +76,11 @@ In making this observation, it is important to note that the proportions could b
 
 #### Modeling
 
-For data modeling, the data was split into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
+For data modeling, the data was split into two. 80% of the data was randomly selected for the training dataset and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender. 
 
 We chose the variables of race, years of education, and poverty to construct our model because these variables are numerical or boolean values, are present in most or all of the participant data, and display the strongest correlation with the probability of being arrested. While other variables, such as the number of years being married, could have been used, variables like these are usually not present for many survey participants and don't provide much correlation with the probability of being arrested. 
 
 We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the PROPER metric.
-
 
 In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant. 
 
