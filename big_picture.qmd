@@ -164,6 +164,10 @@ ggplot(data = shp_data_2011) +
   theme_minimal()
 ```
 
+This population map of the United States allows readers to explore demographic data visually. Each region is shaded according to its population, with darker tones representing higher population concentrations. The southeastern and southern regions of the U.S. have the highest population densities, as they are shaded in the darkest blue. In contrast, the western and northern regions show lighter shades, signifying lower population concentrations.The color scale on the right provides a clear reference for interpreting the population values, ranging from approximately 7.0e+07 to 1.0e+08, helping the viewer understand the relative differences between regions at a glance. 
+
+
+
 ```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 640 # You will have to adjust this to fit everything
