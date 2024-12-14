@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Group 7">
 <meta name="description" content="Here, a detailed analysis using more sophisticated statistics techniques is provided.">
 
 <title>MA [46]15 Final Project - Group 7 - Analysis</title>
@@ -168,6 +169,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Group 7 </p>
+          </div>
+  </div>
     
   
     
@@ -179,104 +186,144 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><img src="images/analysis.jpg" class="img-fluid"></p>
-<section id="motivation-for-data-analysis" class="level1">
-<h1>Motivation for Data Analysis</h1>
-</section>
 <section id="overview-of-data-analysis" class="level1">
 <h1>Overview of Data Analysis:</h1>
 <p>Our data analysis is performed on the combined data from two datasets. One of these datasets is titled “The Effect of Prior Police Contact on Victimization Reporting…”, and it reports national data about civilian experience with the police from the DOJ’s National Crime Victimization Survey and the Police-Public Contact Survey. The other dataset, titled “Firearm Suicide Proxy for Household Gun Ownership” examines gun ownership rates and homicide rates for different racial groups in different states of the US. We want to use these datasets to better understand the racial disparities underlying police interactions and how the interactions might be shaped by gun ownership or crime statistics. Specifically, we were curious in how variations in the homicide rate among different racial groups in different regions of the US correlated with the rate at which civilians were arrested or experienced improper police interactions.</p>
-<p>The variables we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homocide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these variables are impacted by demographic factors, particularly race, education, household income, sex, and minority population.</p>
-<p>Here are some questions that we seek to answer in this EDA: How does the rate of improper police interactions vary among populations of different races? How does the homicide rate throughout the US vary by region and over time from 2002 to 2011? To what extent can variations in the homicide rate &amp; gun ownership levels be explained by variations in racial demographics across different regions of the US? Do variations in the firearm homicide rate across different regions correlate with statistics about improper police behavior or arrests?</p>
-<p>Modeling and Inference: We ran two models on our dataset. The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included. The second model was ran on the combined dataset, and it examines the extent to which firearm homicide statistics can be explained by the racial demographic variations in different regions of the US. !!!! We don’t have info on it rn but we should get (or eliminate this model)</p>
+<p>The measures we are most interested in analyzing are the rate of improper police interactions, the rate at which people are arrested, the homicide rate, and the relative gun ownership rate in different regions of the US. We want to determine how these measures are impacted by demographic factors, particularly race, education, household income, sex, and minority population.</p>
+<p>Here are some questions that we seek to answer in this EDA:</p>
+<p>How does the rate of improper police interactions vary among populations of different races? How does the homicide rate throughout the US vary by region and over time from 2002 to 2011? To what extent can variations in the homicide rate &amp; gun ownership levels be explained by variations in racial demographics across different regions of the US? Do variations in the firearm homicide rate across different regions correlate with statistics about improper police behavior or arrests?</p>
+<p>Modeling and Inference: We ran two models on our dataset. The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included. The second model was ran on the combined dataset, and it examines the extent to which firearm homicide statistics can be explained by the racial demographic variations in different regions of the US.</p>
 </section>
 <section id="code" class="level1">
 <h1>Code:</h1>
 <p>Here, our Police Interaction dataset and all libraries are loaded.</p>
-<section id="loading-datasets-and-libraries." class="level3">
-<h3 class="anchored" data-anchor-id="loading-datasets-and-libraries.">Loading Datasets and Libraries.</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidymodels))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(reshape2)) <span class="co">#For models</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(ggplot2)) <span class="co">#For plots</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(shiny))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(shinylive)) <span class="co">#For interactive plots</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(readr)) <span class="co"># For reading .rds files</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse)) <span class="co">#For data wrangling, manipulation, etc.</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(viridis)) <span class="co">#For visual themes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'viridis' was built under R version 4.4.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(sf)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'sf' was built under R version 4.4.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(maps)) <span class="co">#For maps</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(DT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'DT' was built under R version 4.4.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>police_interaction <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/police_interaction.rds"</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>firearm_ds <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/firearm_sh_ds.rds"</span>))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>combined_regional_ds <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/combined_regional_data.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="police-interation-data-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="police-interation-data-analysis">Police Interation Data Analysis</h3>
+<section id="police-interaction-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="police-interaction-data-analysis">Police Interaction Data Analysis</h3>
 <section id="proper-conduct" class="level4">
 <h4 class="anchored" data-anchor-id="proper-conduct">Proper Conduct</h4>
 <p>The first step of our EDA involves examining the “PROPER” variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>police_interaction <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(PROPER)) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(RACE) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">improper_proportion =</span> <span class="fu">sum</span>(PROPER <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">n</span>()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> RACE, <span class="at">y =</span> improper_proportion, <span class="at">fill =</span> RACE)) <span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>police_interaction <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/police_interaction.rds"</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>region_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Northeast"</span>, <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"Midwest"</span>, <span class="st">"3"</span> <span class="ot">=</span> <span class="st">"South"</span>, <span class="st">"4"</span> <span class="ot">=</span> <span class="st">"West"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>police_interaction <span class="ot">&lt;-</span> police_interaction <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">REGION =</span> <span class="fu">factor</span>(REGION, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Northeast"</span>, <span class="st">"Midwest"</span>, <span class="st">"South"</span>, <span class="st">"West"</span>)))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># UI Layout</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">titlePanel</span>(<span class="st">"Improper Police Behavior by Race with Region Filter"</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarLayout</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sidebarPanel</span>(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">selectInput</span>(<span class="st">"region"</span>, <span class="st">"Select Region:"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"All Regions"</span>, <span class="fu">levels</span>(police_interaction<span class="sc">$</span>REGION)),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                        <span class="at">selected =</span> <span class="st">"All Regions"</span>) <span class="co"># Default to All Regions</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mainPanel</span>(</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="fu">plotOutput</span>(<span class="st">"improperPlot"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Logic</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>improperPlot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># All Regions or specific region</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        filtered_data <span class="ot">&lt;-</span> police_interaction <span class="sc">%&gt;%</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(PROPER)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            {</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (input<span class="sc">$</span>region <span class="sc">!=</span> <span class="st">"All Regions"</span>) {</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">filter</span>(., REGION <span class="sc">==</span> input<span class="sc">$</span>region)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                } <span class="cf">else</span> {</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                    .</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Improper proportions and plot</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        filtered_data <span class="sc">%&gt;%</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>            <span class="fu">group_by</span>(RACE) <span class="sc">%&gt;%</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">summarize</span>(</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                <span class="at">improper_proportion =</span> <span class="fu">sum</span>(PROPER <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">n</span>()</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> RACE, <span class="at">y =</span> improper_proportion, <span class="at">fill =</span> RACE)) <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">labs</span>(</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="fu">ifelse</span>(input<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"All Regions"</span>, </span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Proportion of Improper Police Behavior by Race (All Regions)"</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">paste</span>(<span class="st">"Proportion of Improper Police Behavior by Race in"</span>, input<span class="sc">$</span>region)),</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>                <span class="at">x =</span> <span class="st">"Race"</span>,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="st">"Proportion of Improper Conduct"</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">+</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="analysis_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p></p><div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div><p></p>
 </div>
 </div>
-</div>
-<p>The plot shows that the “Black, Non-Hispanic” population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among “Hispanic” and “Other or multiracial, Non-Hispanic” populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the “White, Non-Hispanic” population was about 7%.</p>
+<p>The plot shows (with filter on “All Regions”) that the “Black, Non-Hispanic” population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among “Hispanic” and “Other or multiracial, Non-Hispanic” populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the “White, Non-Hispanic” population was about 7%.</p>
 <p>In making this observation, it is important to note that the proportions could be skewed due to the number of responses received for each group and the nature of data collection through a survey, which may have prompted individuals who experienced racial discrimination to be more likely to respond.</p>
 </section>
 <section id="modeling" class="level4">
 <h4 class="anchored" data-anchor-id="modeling">Modeling</h4>
-<p>For data modeling, the data was split into two. 80% of the data was randomly selected for the training dataset, and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender.</p>
+<p>For data modeling, the data was split into two. 80% of the data was randomly selected for the training dataset and 20% was randomly selected for the testing dataset. The model attempts to predict whether someone would be arrested based on their race, years of education, if their household is living in poverty, and their gender.</p>
 <p>We chose the variables of race, years of education, and poverty to construct our model because these variables are numerical or boolean values, are present in most or all of the participant data, and display the strongest correlation with the probability of being arrested. While other variables, such as the number of years being married, could have been used, variables like these are usually not present for many survey participants and don’t provide much correlation with the probability of being arrested.</p>
-<p>We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the ARRESTED metric.</p>
+<p>We note that, although it is not necessary to actually test our model because it will not be used to make predictions, we decided to incorporate a testing dataset to simply examine the relationship between the predictors and the PROPER metric.</p>
 <p>In the training set, the F-statistic is far over 1 and the p-values show over 95% confidence in all the response variables being significant.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(police_interaction, <span class="at">prop =</span> .<span class="dv">8</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Splits</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>training<span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>testing <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out some bad rows</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>filtered_training_data <span class="ot">&lt;-</span> training <span class="sc">|&gt;</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ARRESTED) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(RACE) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(EDUCATION) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(HHPOV) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(MALE))</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>filtered_testing_data <span class="ot">&lt;-</span> testing <span class="sc">|&gt;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ARRESTED) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(RACE) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(EDUCATION) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(HHPOV) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(MALE))</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Train model</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(ARRESTED <span class="sc">~</span> RACE <span class="sc">+</span> EDUCATION <span class="sc">+</span> HHPOV <span class="sc">+</span> MALE, filtered_training_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coefficients and p-values:</code></pre>
 </div>
-<p>The logistic regression model was trained to predict whether an individual would be arrested based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of arrest, as identified through EDA.</p>
-<p>The model achieved an R-squared value of 0.019, indicating that while the model explains a small portion of the variability in arrests, the predictors are statistically significant contributors.</p>
-<p>When looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly lower probability of arrest compared to the baseline racial group (Black Non-Hispanic), with coefficients of -0.0287, -0.0301, and -0.0274, respectively, all of which are statistically significant (p-values of 1.47e-05, 0.000454, 7.96e-08 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of being arrested based on their race alone.</p>
-<p>We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with fewer years of education are less likely to avoid arrest, as indicated by a coefficient of -0.0047 (p-value &lt; 2e-16). Household poverty shows a positive association with being arrested, with a coefficient of 0.0238 and a p-value of 2.70e-07. Additionally, males are significantly more likely to be arrested compared to females, as indicated by a coefficient of 0.0259 (p-value &lt; 2e-16).</p>
-<p>This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to be arrested by a police officer during any given interaction.</p>
-<p>The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors contributes meaningfully to explaining the likelihood of arrest.</p>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                           Estimate     Pr(&gt;|t|)
+(Intercept)                             0.807141032 0.000000e+00
+RACEHispanic                            0.042910002 4.524554e-04
+RACEOther or multiracial, Non-Hispanic  0.024230247 1.262961e-01
+RACEWhite, Non-Hispanic                 0.057335343 1.162388e-09
+EDUCATION                               0.004605994 1.544312e-05
+HHPOV                                  -0.017106677 4.861825e-02
+MALE                                   -0.023749979 5.902280e-06</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+R-squared:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multiple R-squared: 0.007908832 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Adjusted R-squared: 0.0074252 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+F-statistic and p-value:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>F-statistic: 16.35298 on 6 and 12308 DF, p-value: 7.410766e-19 </code></pre>
+</div>
+</div>
+<p>The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA.</p>
+<p>The model achieved an R-squared value of 0.008, indicating that it explains a very small portion of the variability in improper police behavior. While some predictors are statistically significant, their overall contribution to explaining the outcome is minimal. This suggests that other unobserved factors likely play a larger role in determining improper police behavior.</p>
+<p>On the other hand, when looking at the variables outlining the racial demographic of the survey responses we notice that being Hispanic, Non-Hispanic multiracial, or White (Non-Hispanic) is associated with a slightly higher probability of police behaving properly compared to the baseline racial group (Black Non-Hispanic), with coefficients of 0.0413, 0.0331, and 0.0538, respectively, all of which are statistically significant (p-values of 0.000619, 0.033628, 7.03e-09 respectively). This shows that the Black Non-Hispanic race sees a statistically significant higher likelihood of reporting improper police behavior based on their race alone.</p>
+<p>We also see a strong correlation for the predictors of education, household poverty, and gender. Individuals with more years of education are more likely to report proper police behavior, as indicated by a coefficient of 0.00386 (p-value of 0.000197). Household poverty shows a negative association with proper police behavior, with a coefficient of -0.0242 and a p-value of 0.00424. Additionally, males are significantly more likely to report improper police behavior compared to females, as indicated by a coefficient of -0.0277 (p-value 7.22e-08).</p>
+<p>This model suggests that Black Non-Hispanic, lower-income, uneducated, males are the demographic most likely to experience improper behavior from a police officer during any given interaction.</p>
+<p>The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors (the demographics including race, years of education, household poverty status, and gender) contributes meaningfully to explaining the likelihood of arrest.</p>
 </section>
 </section>
 <section id="firearm-proxy-dataset" class="level3">
@@ -284,31 +331,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The second dataset to be incorporated describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites &amp; nonwhites within different states from 1949 to 2020.</p>
 <p>This map represents the rate of homicides by firearm by state. There are different levels of colors to represent the homicide rate by state, and the diagrams are split into 2002, 2008, and 2011.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>firearm_ds <span class="ot">&lt;-</span> firearm_ds <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">firearm_homicide_rate =</span> <span class="fu">as.numeric</span>(firearm_homicide_rate),</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">tolower</span>(state)) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(firearm_homicide_rate))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>us_states <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(maps<span class="sc">::</span><span class="fu">map</span>(<span class="st">"state"</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">tolower</span>(ID)) <span class="sc">%&gt;%</span> <span class="co"># Convert state names to lowercase</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(region, geom) <span class="co"># Retain only state name and geometry columns</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>map_data <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">state =</span> region) <span class="sc">|&gt;</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(firearm_ds, <span class="at">by =</span> <span class="st">"state"</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>map_data<span class="sc">$</span>log_firearm_homicide_rate <span class="ot">&lt;-</span> <span class="fu">log</span>(map_data<span class="sc">$</span>firearm_homicide_rate <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(map_data) <span class="sc">+</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> log_firearm_homicide_rate), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"Homicide Rate"</span>) <span class="sc">+</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Firearm Homicide Rate by State"</span>,</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Rate"</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -317,29 +339,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>From this map, we notice that across the 3 years we seek to observe, its generally true that states within the southern and midwestern regions of the United States have the highest rate of firearm homicide.</p>
-<p>This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.</p>
+<p>From this map, we notice that across the 3 years we seek to observe, it’s generally true that states within the southern and Midwestern regions of the United States have the highest rate of firearm homicide.</p>
+<p>This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior, and fortify and further explain our bar chart and linear model describing the proportion of race vs.&nbsp;proper police behavior. Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.</p>
 <section id="combined-regional-dataset" class="level4">
 <h4 class="anchored" data-anchor-id="combined-regional-dataset">Combined Regional Dataset</h4>
 <p>The plot below shows a breakdown of the firearm homicide rates for each region across the years relevant to our analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_regional_ds, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> year,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> fa_homicide_rate,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> region</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       )) <span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span>  <span class="co"># Create a line for each region</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Firearm Homicide Rate by Year and Region"</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Firearm Homicide Rate"</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  <span class="co"># Clean theme for the plot</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>  </span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -348,110 +353,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This interactive scatter plot shows the Firearm Homicide Rate relative to racial proportions of the 4 regions. Most of the firearm homicides took place in the South, with similar firearm homicide rate in the Midwest and Northeast, and the lowest rate of firearm homicides in the West. From the different scatter plots, regions with more minorities had higher firearm homicide rate, which could be related to the higher proportion of improper police behavior reported by minorities than by non-minorities.</p>
+</section>
+</section>
+<section id="integrating-police-behavior-and-firearm-homicides" class="level3">
+<h3 class="anchored" data-anchor-id="integrating-police-behavior-and-firearm-homicides">Integrating Police Behavior and Firearm Homicides</h3>
+<p>To deepen our analysis, we explored whether the rate of firearm homicides in a region or state-level factors could help explain variations in proper and improper police behavior. By combining the PROPER variable from the police interaction dataset with the fa_homicide_rate variable, we created models to examine how firearm homicide rates influence police behavior across different regions.</p>
+</section>
+<section id="analysis-of-firearm-homicide-rate-and-police-behavior" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-of-firearm-homicide-rate-and-police-behavior">Analysis of Firearm Homicide Rate and Police Behavior</h3>
+<p>First, we visualized the average rate of firearm homicides for states with higher proportions of improper police behavior. This approach highlights how neighborhood violence may correlate with reported police misconduct.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define server logic ----</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># server &lt;- function(input, output) {</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Load the data</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   data &lt;- read_rds(here::here("dataset", "combined_regional_data.rds"))</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Render the interactive plot</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   output$scatterPlot &lt;- renderPlot({</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     ggplot(data, aes(x = fa_homicide_rate, y = .data[[input$selected_race]])) +</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#       geom_point(aes(color = as.factor(year)), size = 2, alpha = 0.7) + # Use color to differentiate years</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#       geom_text(aes(label = year), vjust = -1, size = 3, alpha = 0.8) + # Add year annotations above points</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#       facet_wrap(~ region) + # Optional: Facet by region</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       labs(</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#         title = paste("Firearm Homicide Rate vs", input$selected_race),</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         x = "Firearm Homicide Rate",</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#         y = "Proportion",</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         color = "Year"</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#       ) +</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_minimal() +</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme(</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         legend.position = "bottom",       # Place legend at the bottom</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co">#         legend.box = "horizontal",        # Align legend items horizontally</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         legend.text = element_text(size = 10), # Adjust legend text size</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">#         legend.title = element_text(size = 12), # Adjust legend title size</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#         legend.key.width = unit(1, "cm"), # Add space between legend items</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#         legend.spacing.x = unit(0.5, "cm") # Increase horizontal spacing</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">#       ) +</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">#       guides(</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#         color = guide_legend(nrow = 1, byrow = TRUE) # Force a single-row legend</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">#       )</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co">#   })</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
-<p>This plot shows that, like we expected, the South region by far had the highest rate of firearm homicides. We may expect to see if there is correlation between this statistic and our variables related to police behavior.</p>
-<p>The plots below show changes in the overall population percentage of each racial group across the years in our original study. We use this demogrpahic information to create a model that will train for a linear relationship between the rates of firearm homicides and the distribution of racial groups for this data. We put all the racial groups into one figure to better compare.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> combined_regional_ds <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(WHITE_NH_PROP, B_NH_PROP, HISPANIC_PROP, OTHER_MULTI_NH_PROP),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Group"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Proportion"</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Combined plot</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(long_data, </span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> year,</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> Proportion,</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> region,</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">linetype =</span> Group  <span class="co"># Differentiates groups by line type</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>       )) <span class="sc">+</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span>  <span class="co"># Create a line for each group and region</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Proportion of Population Groups by Year and Region"</span>,</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Region"</span>,</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"Group"</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  <span class="co"># Clean theme for the plot</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The graph illustrates the proportion of various population groups (White Non-Hispanic, Black Non-Hispanic, Hispanic, and Other/Multi Non-Hispanic) over time across different regions from 2000 to 2010. The trends reveal that the White Non-Hispanic population proportion remains the highest in all regions, with a slight decline over the years, indicating a gradual decrease in the dominance of this demographic. In contrast, the Hispanic population proportion shows a gradual increase over the same period, suggesting growing representation in most regions. The Black Non-Hispanic and Other/Multi Non-Hispanic proportions remain relatively stable, with smaller variations across regions and years. The data highlights distinct regional patterns, as some regions experience more pronounced shifts in demographic proportions, particularly for the Hispanic and White Non-Hispanic populations.</p>
+<p>The plot shows a slight positive trend, suggesting that states with higher firearm homicide rates tend to have higher proportions of improper police behavior. However, the relationship is not uniform across all regions.</p>
+</section>
+<section id="linear-model-connecting-firearm-homicide-rates-and-proper-police-behavior" class="level3">
+<h3 class="anchored" data-anchor-id="linear-model-connecting-firearm-homicide-rates-and-proper-police-behavior">Linear Model Connecting Firearm Homicide Rates and Proper Police Behavior</h3>
+<p>To quantify this relationship, we modeled the binary PROPER variable against the fa_homicide_rate and regional demographic proportions. This analysis combines insights from both datasets to explore whether firearm homicide rates, demographics, and regions collectively influence police behavior.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(fa_homicide_rate <span class="sc">~</span> OTHER_MULTI_NH_PROP <span class="sc">+</span> HISPANIC_PROP <span class="sc">+</span> B_NH_PROP <span class="sc">+</span> WHITE_NH_PROP, combined_regional_ds)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coefficients and p-values:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       Estimate   Pr(&gt;|t|)
+(Intercept)          0.72947466 0.02808213
+fa_homicide_rate    -0.01763306 0.55358123
+B_NH_PROP            1.70439477 0.31638794
+HISPANIC_PROP        1.43526981 0.07857210
+OTHER_MULTI_NH_PROP  0.42947248 0.73956531
+regionnortheast     -0.03802162 0.30553477
+regionsouth         -0.21447303 0.21967772
+regionwest          -0.16493963 0.19783890</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Call:
-lm(formula = fa_homicide_rate ~ OTHER_MULTI_NH_PROP + HISPANIC_PROP + 
-    B_NH_PROP + WHITE_NH_PROP, data = combined_regional_ds)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--0.7323 -0.3882  0.1048  0.3215  0.6758 
-
-Coefficients: (1 not defined because of singularities)
-                    Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)           2.8224     0.9544   2.957   0.0182 *
-OTHER_MULTI_NH_PROP -18.3424    18.3005  -1.002   0.3456  
-HISPANIC_PROP        11.3317     7.5610   1.499   0.1723  
-B_NH_PROP             6.8421     6.9735   0.981   0.3553  
-WHITE_NH_PROP             NA         NA      NA       NA  
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.5255 on 8 degrees of freedom
-Multiple R-squared:  0.6639,    Adjusted R-squared:  0.5379 
-F-statistic: 5.268 on 3 and 8 DF,  p-value: 0.02683</code></pre>
+R-squared:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multiple R-squared: 0.7712447 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Adjusted R-squared: 0.3709228 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+F-statistic and p-value:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>F-statistic: 1.926562 on 7 and 4 DF, p-value: 0.2745619 </code></pre>
 </div>
 </div>
-<p>We modeled to predict the firearm homicide rate based on the proportions of various racial and ethnic groups within a region. The model has an r-squared value of 0.6639 and an adjusted r squared value of 0.5379, indicating that approximately 54-66% of the variability in firearm homicide rates is explained by the included predictors. The overall model is statistically significant, with a p-value of 0.02683, meaning the predictors collectively have a meaningful relationship with the firearm homicide rate. However, individually, none of the predictors except for the intercept shows statistical significance at the conventional 0.05 level. The proportion of “Other or Multiracial Non-Hispanic” population has a negative coefficient (-18.34), suggesting an inverse relationship with firearm homicide rates, though the p-value (0.3456) indicates this finding is not statistically significant. Similarly, the “Hispanic” population proportion has a positive coefficient (11.33), suggesting a potential positive relationship, but the p-value (0.1723) makes this inconclusive. The “Black Non-Hispanic” population proportion also shows a positive coefficient (6.84), but with a p-value of 0.3553, this relationship lacks statistical significance. The coefficient for “White Non-Hispanic” was not defined due to singularities, likely because of collinearity with other predictors. Overall, while the model highlights potential relationships, further refinement or additional data may be needed for stronger conclusions.</p>
+</section>
+<section id="analysis-of-results" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-of-results">Analysis of Results</h3>
+<p>The linear model results show that various predictors, including homicide rates and racial demographics, explain a portion of the variation in the proportion of improper police behavior. Here’s a closer examination of each predictor:</p>
+<ol type="1">
+<li><p>Intercept (Estimate = 0.7295, p-value = 0.0281): The intercept is statistically significant, suggesting that when all predictor variables are zero, the proportion of improper police behavior (PROPER_PROP) is significantly different from zero.</p></li>
+<li><p>fa_homicide_rate (Estimate = -0.0176, p-value = 0.5536): The firearm homicide rate is not statistically significant (p-value &gt; 0.05), suggesting that it does not have a strong direct effect on the proportion of improper police behavior in this model.</p></li>
+<li><p>B_NH_PROP (Estimate = 1.7044, p-value = 0.3164): The proportion of Black non-Hispanic individuals is not statistically significant (p-value &gt; 0.05), implying that it does not have a significant impact on the outcome in this context.</p></li>
+<li><p>HISPANIC_PROP (Estimate = 1.4353, p-value = 0.0786): While not quite reaching the 0.05 threshold, this variable is marginally significant at the 0.1 level. This suggests a possible relationship between the proportion of Hispanic individuals and improper police behavior, warranting further exploration.</p></li>
+<li><p>OTHER_MULTI_NH_PROP (Estimate = 0.4295, p-value = 0.7396): The proportion of individuals from other multi-racial non-Hispanic groups is not statistically significant, implying that this demographic does not appear to significantly impact improper police behavior.</p></li>
+<li><p>region (northeast, south, and west): The regional dummies (compared to the baseline region) show that being in any of the other regions does not significantly affect the proportion of improper police behavior:</p></li>
+</ol>
+<ul>
+<li>northeast (Estimate = -0.0380, p-value = 0.3055)</li>
+<li>south (Estimate = -0.2145, p-value = 0.2197)</li>
+<li>west (Estimate = -0.1649, p-value = 0.1978) All these p-values are greater than 0.05, indicating no significant differences in improper behavior across the regions.</li>
+</ul>
+<section id="model-fit-and-significance" class="level4">
+<h4 class="anchored" data-anchor-id="model-fit-and-significance">Model Fit and Significance</h4>
+<ul>
+<li><p>R-squared = 0.7712: The model explains approximately 77% of the variation in improper police behavior. This is a relatively high value, suggesting that the model captures a significant portion of the underlying patterns.</p></li>
+<li><p>Adjusted R-squared = 0.3709: The adjusted R-squared value is much lower, indicating that while the model explains some of the variance, a substantial proportion remains unexplained. This suggests that there are likely additional factors influencing improper police behavior that have not been captured by the current model.</p></li>
+<li><p>F-statistic = 1.9266, p-value = 0.2746: The overall F-test shows that the predictors together do not significantly explain the variance in improper behavior at the 0.05 significance level. This implies that while some individual predictors might have marginal significance, the model as a whole is not a strong predictor of the outcome.</p></li>
+</ul>
+</section>
+</section>
+<section id="reflections-and-future-directions" class="level3">
+<h3 class="anchored" data-anchor-id="reflections-and-future-directions">Reflections and Future Directions</h3>
+<p>The analysis highlights the complexity of understanding improper police behavior and the factors that might contribute to it. The relatively high R-squared value suggests that certain aspects, particularly demographic and regional factors, may partially explain the variation in improper behavior. However, the lower adjusted R-squared value and non-significant predictors indicate that other systemic or situational factors might play a critical role but are not captured in the current model.</p>
+<section id="potential-areas-for-further-investigation" class="level4">
+<h4 class="anchored" data-anchor-id="potential-areas-for-further-investigation">Potential Areas for Further Investigation:</h4>
+<ul>
+<li>Additional Variables: The unexplained variability suggests that there may be other key factors, such as community-police relations, socio-economic status, or local policies, that could provide further insights.</li>
+<li>Interaction Effects: Interactions between race, region, and homicide rates might yield more nuanced insights into how these factors influence police behavior.</li>
+<li>Model Refinement: Regularization techniques like Lasso or Ridge regression could help identify key predictors and reduce multicollinearity, improving model interpretation. By continuing to explore these dynamics, policymakers can develop targeted interventions aimed at reducing both improper police behavior and broader societal issues like firearm violence, ultimately contributing to safer and more equitable communities.</li>
+</ul>
 
 
 </section>
