@@ -1,11 +1,11 @@
 ---
 title: Analysis
 author: "Group 7"
-description: Here, a detailed analysis using more sophisticated statistics techniques is provided.
-draft: false
+description: "Here, a detailed analysis using more sophisticated statistics techniques is provided."
+toc: true
+draft: FALSE
 filters:
   - shinylive
-
 ---
 ![](images/analysis.jpg)
 
