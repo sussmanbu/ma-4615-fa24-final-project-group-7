@@ -75,6 +75,10 @@ A plot is generated here to show how the proportion of improper police actions d
 #| viewerHeight: 640 # You will have to adjust this to fit everything
 #| echo: false
 
+suppressPackageStartupMessages(library(shiny))
+suppressPackageStartupMessages(library(tidyverse))
+options("readr.edition" = 1) 
+
 police_interaction <- read_rds(here::here("dataset/police_interaction.rds"))
 
 region_labels <- c("1" = "Northeast", "2" = "Midwest", "3" = "South", "4" = "West")
@@ -84,26 +88,10 @@ police_interaction <- police_interaction %>%
                            levels = c(1, 2, 3, 4), 
                            labels = c("Northeast", "Midwest", "South", "West")))
 
-# UI Layout
-ui <- fluidPage(
-    titlePanel("Improper Police Behavior by Race with Region Filter"),
-    
-    sidebarLayout(
-        sidebarPanel(
-            selectInput("region", "Select Region:",
-                        choices = c("All Regions", levels(police_interaction$REGION)),
-                        selected = "All Regions") # Default to All Regions
-        ),
-        mainPanel(
-            plotOutput("improperPlot")
-        )
-    )
-)
-
-# Logic
+# Server Logic
 server <- function(input, output) {
     output$improperPlot <- renderPlot({
-        # All Regions or specific region
+        # Filter Data
         filtered_data <- police_interaction %>%
             filter(!is.na(PROPER)) %>%
             {
@@ -114,7 +102,7 @@ server <- function(input, output) {
                 }
             }
         
-        # Improper proportions and plot
+        # Summarize Improper Proportion and Generate Plot
         filtered_data %>%
             group_by(RACE) %>%
             summarize(
@@ -129,11 +117,36 @@ server <- function(input, output) {
                 x = "Race",
                 y = "Proportion of Improper Conduct"
             ) +
-            theme(axis.text.x = element_text(angle = 45, hjust = 1))
+            theme_minimal() +
+            theme(
+                axis.text.x = element_text(angle = 45, hjust = 1),
+                legend.position = "none"
+            )
     })
 }
 
-shinyApp(ui, server)
+# UI Layout
+ui <- fluidPage(
+    titlePanel("Improper Police Behavior by Race with Region Filter"),
+    
+    sidebarLayout(
+        sidebarPanel(
+            selectInput(
+                inputId = "region",
+                label = "Select Region:",
+                choices = c("All Regions", levels(police_interaction$REGION)),
+                selected = "All Regions"
+            )
+        ),
+        
+        mainPanel(
+            plotOutput(outputId = "improperPlot")
+        )
+    )
+)
+
+shinyApp(ui = ui, server = server)
+
 ```
 
 The plot shows (with filter on "All Regions") that the "Black, Non-Hispanic" population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper.
