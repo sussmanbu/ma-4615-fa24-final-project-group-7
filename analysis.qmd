@@ -4,6 +4,9 @@ author: "Group 7"
 description: "Here, a detailed analysis using more sophisticated statistics techniques is provided."
 toc: true
 draft: FALSE
+format: html
+standalone: true
+viewerHeight: 640
 filters:
   - shinylive
 ---
