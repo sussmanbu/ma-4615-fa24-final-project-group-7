@@ -4,8 +4,6 @@ author: "Group 7"
 description: "Here, a detailed analysis using more sophisticated statistics techniques is provided."
 toc: true
 draft: FALSE
-standalone: true
-viewerHeight: 640
 filters:
   - shinylive
 ---
@@ -62,9 +60,6 @@ combined_regional_ds <- read_rds(here::here("dataset/combined_regional_data.rds"
 The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations. 
 
 ```{shinylive-r}
-#| standalone: true
-#| echo: false
-
 
 police_interaction <- read_rds(here::here("dataset/police_interaction.rds"))
 
