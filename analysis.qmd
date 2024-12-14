@@ -124,7 +124,7 @@ cat("F-statistic:", f_statistic[1], "on", f_statistic[2], "and", f_statistic[3],
 
 ```
 
-The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA. 
+The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA.
 
 The model achieved an R-squared value of 0.008, indicating that while the model explains a small portion of the variability in improper police behavior, the predictors are statistically significant contributors.
 
