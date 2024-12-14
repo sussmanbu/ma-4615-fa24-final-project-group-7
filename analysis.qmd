@@ -59,9 +59,11 @@ combined_regional_ds <- read_rds(here::here("dataset/combined_regional_data.rds"
 #### Proper Conduct
 The first step of our EDA involves examining the "PROPER" variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations. 
 
-```{r}
-#| context: shiny
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 640 # You will have to adjust this to fit everything
 #| echo: false
+
 
 police_interaction <- read_rds(here::here("dataset/police_interaction.rds"))
 
