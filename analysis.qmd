@@ -75,7 +75,11 @@ This binary variable is reported for 19,321 of the 105,273 total cases, with 1,8
 A plot is generated here to show how the proportion of improper police actions differs among different race populations.
 
 ```{shinylive-r}
-#| echo: False
+#| standalone: true
+#| viewerHeight: 640
+#| echo: false
+
+
 suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(sf))
