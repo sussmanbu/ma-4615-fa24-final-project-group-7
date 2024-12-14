@@ -37,7 +37,6 @@ Interestingly, strong correlations existed between the probability of being arre
 A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included.
 The second model was ran on the combined dataset, and it examines the extent to which firearm homicide statistics can be explained by the racial demographic variations in different regions of the US.
 
-# Code:
 
 Here, our Police Interaction dataset and all libraries are loaded.
 
