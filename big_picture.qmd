@@ -115,6 +115,7 @@ shinyApp(ui = ui, server = server)
 ```
 
 ```{r}
+#| echo: False
 suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(sf))
@@ -124,11 +125,11 @@ suppressPackageStartupMessages(library(stringr))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(readr))
 
-region_shp <- st_read("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.shp")
-region_stats <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
+# region_shp <- st_read("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.shp")
+# region_stats <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
 
-#region_shp <- st_read("dataset/region_shapefile.shp")
-#region_stats <- read_rds(here::here("dataset/combined_regional_data.rds"))
+region_shp <- st_read("dataset/region_shapefile.shp")
+region_stats <- read_rds(here::here("dataset/combined_regional_data.rds"))
 
 region_shp <- region_shp |>
   filter(!is.na(region))
@@ -178,16 +179,12 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(readr))
 options("readr.edition" = 1)
 
-temp <- tempfile(fileext = ".zip")
-download.file("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.zip", temp)
-shapefile <- sf::st_read(unzip(temp, exdir = tempdir()))
-
 # UI for the Shiny App
 ui <- fluidPage(
   titlePanel("Interactive Region Map with Statistics"),
   leafletOutput("map", height = 600)
 )
-region_shp <- st_read(shapefile)
+region_shp <- st_read("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.shp")
 region_stats <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
 region_shp <- region_shp |>
   filter(!is.na(region))
