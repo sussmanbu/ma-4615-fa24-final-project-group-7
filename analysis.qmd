@@ -79,14 +79,14 @@ suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(tidyverse))
 options("readr.edition" = 1) 
 
-police_interaction <- read_rds(here::here("dataset/police_interaction.rds"))
+police_interaction <- read_rds(here::here("dataset_for_shiny/police_interaction.rds"))
 
-region_labels <- c("1" = "Northeast", "2" = "Midwest", "3" = "South", "4" = "West")
+region_labels <- c("1" = "northeast", "2" = "midwest", "3" = "south", "4" = "west")
 
 police_interaction <- police_interaction %>%
     mutate(REGION = factor(REGION, 
                            levels = c(1, 2, 3, 4), 
-                           labels = c("Northeast", "Midwest", "South", "West")))
+                           labels = c("northeast", "midwest", "south", "west")))
 
 # Server Logic
 server <- function(input, output) {
