@@ -42,9 +42,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <meta name="shinylive:serviceworker_dir" content=".">
-<script src="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/run-python-blocks.js" type="module"></script>
-<link href="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/shinylive.css" rel="stylesheet">
+<script src="site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -263,9 +263,13 @@ ui &lt;- fluidPage(
 # Run the application ----
 shinyApp(ui = ui, server = server)
 </code></pre>
+<p>Each racial group (e.g., White NH, Black NH, Hispanic, Other/Multi NH) displays distinct trends in their proportions relative to firearm homicide rates. For example, the “White NH” plot shows consistently high racial proportions but relatively low firearm homicide rates across all regions and years, while the “Black NH” plot reflects lower racial proportions with higher firearm homicide rates, especially in the South. The “Hispanic” and “Other/Multi NH” groups show intermediate trends with lower racial proportions and moderate firearm homicide rates, particularly in the West and South. Regional variation is evident, with the South generally displaying higher firearm homicide rates across all groups. This visualization highlights the relationship between racial demographics and firearm homicide rates, with disparities likely reflecting broader socioeconomic and systemic factors.</p>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'sf' was built under R version 4.4.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.2</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `region_shapefile' from data source 
@@ -285,6 +289,7 @@ Geodetic CRS:  NAD83</code></pre>
 </div>
 </div>
 </div>
+<p>This population map of the United States allows readers to explore demographic data visually. Each region is shaded according to its population, with darker tones representing higher population concentrations. The southeastern and southern regions of the U.S. have the highest population densities, as they are shaded in the darkest blue. In contrast, the western and northern regions show lighter shades, signifying lower population concentrations.The color scale on the right provides a clear reference for interpreting the population values, ranging from approximately 7.0e+07 to 1.0e+08, helping the viewer understand the relative differences between regions at a glance.</p>
 <pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
@@ -307,16 +312,34 @@ ui &lt;- fluidPage(
   titlePanel("Interactive Region Map with Statistics"),
   leafletOutput("map", height = 600)
 )
-region_shp &lt;- st_read("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.shp")
+
+geojson_url &lt;- "https://raw.githubusercontent.com/sussmanbu/ma-4615-fa24-final-project-group-7/main/dataset_for_shiny/region_shapefile.geojson"
+
+# Temporary file for GeoJSON
+temp_geojson &lt;- tempfile(fileext = ".geojson")
+
+# Download the file
+download.file(geojson_url, temp_geojson)
+
+# Read the GeoJSON
+region_shp &lt;- st_read(temp_geojson)
+
 region_stats &lt;- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
 region_shp &lt;- region_shp |&gt;
   filter(!is.na(region))
+
 #2002
 stats_2002 &lt;- region_stats |&gt;
-  filter(year == "2002")
+  filter(year == "2002") |&gt;
+  mutate(region = str_to_title(region))
 
 shp_data_2002 &lt;- region_shp |&gt;
   left_join(stats_2002, by = c("region" = "region"))
+
+pal &lt;- colorFactor(
+  palette = "Set1",
+  domain = shp_data_2002$region
+)
 
 # Server logic for the Shiny App
 server &lt;- function(input, output) {

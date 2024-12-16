@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -75,6 +41,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content=".">
+<script src="site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -151,7 +122,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview-of-data-analysis" id="toc-overview-of-data-analysis" class="nav-link active" data-scroll-target="#overview-of-data-analysis">Overview of Data Analysis:</a>
+  <ul class="collapse">
+  <li><a href="#police-interaction-data-analysis" id="toc-police-interaction-data-analysis" class="nav-link" data-scroll-target="#police-interaction-data-analysis">Police Interaction Data Analysis</a></li>
+  <li><a href="#firearm-proxy-dataset" id="toc-firearm-proxy-dataset" class="nav-link" data-scroll-target="#firearm-proxy-dataset">Firearm Proxy Dataset</a></li>
+  <li><a href="#integrating-police-behavior-and-firearm-homicides" id="toc-integrating-police-behavior-and-firearm-homicides" class="nav-link" data-scroll-target="#integrating-police-behavior-and-firearm-homicides">Integrating Police Behavior and Firearm Homicides</a></li>
+  <li><a href="#analysis-of-firearm-homicide-rate-and-police-behavior" id="toc-analysis-of-firearm-homicide-rate-and-police-behavior" class="nav-link" data-scroll-target="#analysis-of-firearm-homicide-rate-and-police-behavior">Analysis of Firearm Homicide Rate and Police Behavior</a></li>
+  <li><a href="#linear-model-connecting-firearm-homicide-rates-and-proper-police-behavior" id="toc-linear-model-connecting-firearm-homicide-rates-and-proper-police-behavior" class="nav-link" data-scroll-target="#linear-model-connecting-firearm-homicide-rates-and-proper-police-behavior">Linear Model Connecting Firearm Homicide Rates and Proper Police Behavior</a></li>
+  <li><a href="#analysis-of-results" id="toc-analysis-of-results" class="nav-link" data-scroll-target="#analysis-of-results">Analysis of Results</a></li>
+  <li><a href="#reflections-and-future-directions" id="toc-reflections-and-future-directions" class="nav-link" data-scroll-target="#reflections-and-future-directions">Reflections and Future Directions</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -193,11 +181,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Here are some questions that we seek to answer in this EDA:</p>
 <p>How does the rate of improper police interactions vary among populations of different races? How does the homicide rate throughout the US vary by region and over time from 2002 to 2011? To what extent can variations in the homicide rate &amp; gun ownership levels be explained by variations in racial demographics across different regions of the US? Do variations in the firearm homicide rate across different regions correlate with statistics about improper police behavior or arrests?</p>
 <p>Modeling and Inference: We ran two models on our dataset. The first model was made solely on the data from the first dataset, and it examines the extent to which the probability of being arrested depends on household poverty, education level, sex, and race. Interestingly, strong correlations existed between the probability of being arrested and household poverty, education level, and sex, but not for race. A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included. The second model was ran on the combined dataset, and it examines the extent to which firearm homicide statistics can be explained by the racial demographic variations in different regions of the US.</p>
-</section>
-<section id="code" class="level1">
-<h1>Code:</h1>
 <p>Here, our Police Interaction dataset and all libraries are loaded.</p>
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'shinylive' was built under R version 4.4.2</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'viridis' was built under R version 4.4.2</code></pre>
 </div>
@@ -213,70 +204,85 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="proper-conduct" class="level4">
 <h4 class="anchored" data-anchor-id="proper-conduct">Proper Conduct</h4>
 <p>The first step of our EDA involves examining the “PROPER” variable, a binary variable which displays whether or not the police behaved properly during each interaction. This binary variable is reported for 19,321 of the 105,273 total cases, with 1,853 reported cases of the police behaving improperly and 17,468 cases of the police reporting properly. A plot is generated here to show how the proportion of improper police actions differs among different race populations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>police_interaction <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/police_interaction.rds"</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>region_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Northeast"</span>, <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"Midwest"</span>, <span class="st">"3"</span> <span class="ot">=</span> <span class="st">"South"</span>, <span class="st">"4"</span> <span class="ot">=</span> <span class="st">"West"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>police_interaction <span class="ot">&lt;-</span> police_interaction <span class="sc">%&gt;%</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">REGION =</span> <span class="fu">factor</span>(REGION, </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Northeast"</span>, <span class="st">"Midwest"</span>, <span class="st">"South"</span>, <span class="st">"West"</span>)))</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># UI Layout</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">titlePanel</span>(<span class="st">"Improper Police Behavior by Race with Region Filter"</span>),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarLayout</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sidebarPanel</span>(</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">selectInput</span>(<span class="st">"region"</span>, <span class="st">"Select Region:"</span>,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"All Regions"</span>, <span class="fu">levels</span>(police_interaction<span class="sc">$</span>REGION)),</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                        <span class="at">selected =</span> <span class="st">"All Regions"</span>) <span class="co"># Default to All Regions</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mainPanel</span>(</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="fu">plotOutput</span>(<span class="st">"improperPlot"</span>)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Logic</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>improperPlot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># All Regions or specific region</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        filtered_data <span class="ot">&lt;-</span> police_interaction <span class="sc">%&gt;%</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(PROPER)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            {</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (input<span class="sc">$</span>region <span class="sc">!=</span> <span class="st">"All Regions"</span>) {</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">filter</span>(., REGION <span class="sc">==</span> input<span class="sc">$</span>region)</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                } <span class="cf">else</span> {</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                    .</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                }</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Improper proportions and plot</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        filtered_data <span class="sc">%&gt;%</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>            <span class="fu">group_by</span>(RACE) <span class="sc">%&gt;%</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">summarize</span>(</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                <span class="at">improper_proportion =</span> <span class="fu">sum</span>(PROPER <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">n</span>()</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> RACE, <span class="at">y =</span> improper_proportion, <span class="at">fill =</span> RACE)) <span class="sc">+</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">labs</span>(</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="fu">ifelse</span>(input<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"All Regions"</span>, </span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Proportion of Improper Police Behavior by Race (All Regions)"</span>,</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">paste</span>(<span class="st">"Proportion of Improper Police Behavior by Race in"</span>, input<span class="sc">$</span>region)),</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>                <span class="at">x =</span> <span class="st">"Race"</span>,</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="st">"Proportion of Improper Conduct"</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">+</span></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p></p><div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div><p></p>
-</div>
-</div>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| viewerHeight: 640 # You will have to adjust this to fit everything
+#| echo: false
+
+suppressPackageStartupMessages(library(shiny))
+suppressPackageStartupMessages(library(tidyverse))
+options("readr.edition" = 1) 
+
+police_interaction &lt;- read_rds(here::here("dataset_for_shiny/police_interaction.rds"))
+
+region_labels &lt;- c("1" = "northeast", "2" = "midwest", "3" = "south", "4" = "west")
+
+police_interaction &lt;- police_interaction %&gt;%
+    mutate(REGION = factor(REGION, 
+                           levels = c(1, 2, 3, 4), 
+                           labels = c("northeast", "midwest", "south", "west")))
+
+# Server Logic
+server &lt;- function(input, output) {
+    output$improperPlot &lt;- renderPlot({
+        # Filter Data
+        filtered_data &lt;- police_interaction %&gt;%
+            filter(!is.na(PROPER)) %&gt;%
+            {
+                if (input$region != "All Regions") {
+                    filter(., REGION == input$region)
+                } else {
+                    .
+                }
+            }
+        
+        # Summarize Improper Proportion and Generate Plot
+        filtered_data %&gt;%
+            group_by(RACE) %&gt;%
+            summarize(
+                improper_proportion = sum(PROPER == 0) / n()
+            ) %&gt;%
+            ggplot(aes(x = RACE, y = improper_proportion, fill = RACE)) +
+            geom_bar(stat = "identity") +
+            labs(
+                title = ifelse(input$region == "All Regions", 
+                               "Proportion of Improper Police Behavior by Race (All Regions)",
+                               paste("Proportion of Improper Police Behavior by Race in", input$region)),
+                x = "Race",
+                y = "Proportion of Improper Conduct"
+            ) +
+            theme_minimal() +
+            theme(
+                axis.text.x = element_text(angle = 45, hjust = 1),
+                legend.position = "none"
+            )
+    })
+}
+
+# UI Layout
+ui &lt;- fluidPage(
+    titlePanel("Improper Police Behavior by Race with Region Filter"),
+    
+    sidebarLayout(
+        sidebarPanel(
+            selectInput(
+                inputId = "region",
+                label = "Select Region:",
+                choices = c("All Regions", levels(police_interaction$REGION)),
+                selected = "All Regions"
+            )
+        ),
+        
+        mainPanel(
+            plotOutput(outputId = "improperPlot")
+        )
+    )
+)
+
+shinyApp(ui = ui, server = server)
+</code></pre>
 <p>The plot shows (with filter on “All Regions”) that the “Black, Non-Hispanic” population experienced a much higher proportion of improper police interactions than all other populations, with about 15% of reported interactions classified as improper. Among “Hispanic” and “Other or multiracial, Non-Hispanic” populations, the proportion of improper police interacts was about 10%, while the rate of improper police interactions among members of the “White, Non-Hispanic” population was about 7%.</p>
 <p>In making this observation, it is important to note that the proportions could be skewed due to the number of responses received for each group and the nature of data collection through a survey, which may have prompted individuals who experienced racial discrimination to be more likely to respond.</p>
 </section>
@@ -292,30 +298,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                           Estimate     Pr(&gt;|t|)
-(Intercept)                             0.807141032 0.000000e+00
-RACEHispanic                            0.042910002 4.524554e-04
-RACEOther or multiracial, Non-Hispanic  0.024230247 1.262961e-01
-RACEWhite, Non-Hispanic                 0.057335343 1.162388e-09
-EDUCATION                               0.004605994 1.544312e-05
-HHPOV                                  -0.017106677 4.861825e-02
-MALE                                   -0.023749979 5.902280e-06</code></pre>
+(Intercept)                             0.823135082 0.000000e+00
+RACEHispanic                            0.032989280 6.819617e-03
+RACEOther or multiracial, Non-Hispanic  0.017974159 2.627556e-01
+RACEWhite, Non-Hispanic                 0.048639161 2.459160e-07
+EDUCATION                               0.004348941 3.744724e-05
+HHPOV                                  -0.023673581 5.631966e-03
+MALE                                   -0.030416092 5.392110e-09</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 R-squared:</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Multiple R-squared: 0.007908832 </code></pre>
+<pre><code>Multiple R-squared: 0.008398519 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Adjusted R-squared: 0.0074252 </code></pre>
+<pre><code>Adjusted R-squared: 0.007917859 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 F-statistic and p-value:</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>F-statistic: 16.35298 on 6 and 12308 DF, p-value: 7.410766e-19 </code></pre>
+<pre><code>F-statistic: 17.47289 on 6 and 12378 DF, p-value: 3.00688e-20 </code></pre>
 </div>
 </div>
 <p>The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA.</p>
@@ -334,7 +340,7 @@ F-statistic and p-value:</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -348,7 +354,7 @@ F-statistic and p-value:</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -369,7 +375,7 @@ F-statistic and p-value:</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
