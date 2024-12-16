@@ -31,4 +31,4 @@ region_sf <- states_sf |>
   group_by(region) |>
   summarize()
 
-st_write(region_sf, "dataset_for_shiny/region_shapefile.shp")
+st_write(region_sf, "dataset_for_shiny/region_shapefile.geojson", driver = "GeoJSON")
