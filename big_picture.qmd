@@ -169,8 +169,6 @@ ggplot(data = shp_data_2011) +
 
 This population map of the United States allows readers to explore demographic data visually. Each region is shaded according to its population, with darker tones representing higher population concentrations. The southeastern and southern regions of the U.S. have the highest population densities, as they are shaded in the darkest blue. In contrast, the western and northern regions show lighter shades, signifying lower population concentrations.The color scale on the right provides a clear reference for interpreting the population values, ranging from approximately 7.0e+07 to 1.0e+08, helping the viewer understand the relative differences between regions at a glance. 
 
-
-
 ```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 640 # You will have to adjust this to fit everything
@@ -191,16 +189,34 @@ ui <- fluidPage(
   titlePanel("Interactive Region Map with Statistics"),
   leafletOutput("map", height = 600)
 )
-region_shp <- st_read("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.shp")
+
+geojson_url <- "https://raw.githubusercontent.com/sussmanbu/ma-4615-fa24-final-project-group-7/main/dataset_for_shiny/region_shapefile.geojson"
+
+# Temporary file for GeoJSON
+temp_geojson <- tempfile(fileext = ".geojson")
+
+# Download the file
+download.file(geojson_url, temp_geojson)
+
+# Read the GeoJSON
+region_shp <- st_read(temp_geojson)
+
 region_stats <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
 region_shp <- region_shp |>
   filter(!is.na(region))
+
 #2002
 stats_2002 <- region_stats |>
-  filter(year == "2002")
+  filter(year == "2002") |>
+  mutate(region = str_to_title(region))
 
 shp_data_2002 <- region_shp |>
   left_join(stats_2002, by = c("region" = "region"))
+
+pal <- colorFactor(
+  palette = "Set1",
+  domain = shp_data_2002$region
+)
 
 # Server logic for the Shiny App
 server <- function(input, output) {
