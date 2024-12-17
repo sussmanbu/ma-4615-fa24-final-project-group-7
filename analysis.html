@@ -101,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./big_picture.html"> 
-<span class="menu-text">Do Police Treat Minorities Worse?</span></a>
+<span class="menu-text">Big Picture</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./analysis.html" aria-current="page"> 
@@ -215,7 +215,7 @@ suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(tidyverse))
 options("readr.edition" = 1) 
 
-police_interaction &lt;- read_rds(here::here("dataset_for_shiny/police_interaction.rds"))
+police_interaction &lt;- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/police_interaction.rds")
 
 region_labels &lt;- c("1" = "northeast", "2" = "midwest", "3" = "south", "4" = "west")
 
@@ -298,30 +298,30 @@ shinyApp(ui = ui, server = server)
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                           Estimate     Pr(&gt;|t|)
-(Intercept)                             0.823135082 0.000000e+00
-RACEHispanic                            0.032989280 6.819617e-03
-RACEOther or multiracial, Non-Hispanic  0.017974159 2.627556e-01
-RACEWhite, Non-Hispanic                 0.048639161 2.459160e-07
-EDUCATION                               0.004348941 3.744724e-05
-HHPOV                                  -0.023673581 5.631966e-03
-MALE                                   -0.030416092 5.392110e-09</code></pre>
+(Intercept)                             0.810595411 0.000000e+00
+RACEHispanic                            0.045464978 1.437183e-04
+RACEOther or multiracial, Non-Hispanic  0.031795842 4.636058e-02
+RACEWhite, Non-Hispanic                 0.056762317 8.252400e-10
+EDUCATION                               0.004683452 6.367607e-06
+HHPOV                                  -0.018327742 3.029322e-02
+MALE                                   -0.026937886 1.641202e-07</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 R-squared:</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Multiple R-squared: 0.008398519 </code></pre>
+<pre><code>Multiple R-squared: 0.008550129 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Adjusted R-squared: 0.007917859 </code></pre>
+<pre><code>Adjusted R-squared: 0.008071206 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 F-statistic and p-value:</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>F-statistic: 17.47289 on 6 and 12378 DF, p-value: 3.00688e-20 </code></pre>
+<pre><code>F-statistic: 17.85284 on 6 and 12421 DF, p-value: 1.011926e-20 </code></pre>
 </div>
 </div>
 <p>The logistic regression model was trained to predict whether an individual would report proper or improper police behavior based on a subset of predictors, including race, years of education, household poverty status, and gender. These variables were selected because they represent key demographic factors strongly associated with the likelihood of proper police behavior, as identified through EDA.</p>
