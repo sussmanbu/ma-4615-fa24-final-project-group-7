@@ -1,7 +1,7 @@
 ---
-title: "Do Police Treat Minorities Worse?"
+title: "Big Picture"
 author: "Group 7"
-description: "A detailed analysis of the effect of racial demographics on police satisfaction across the regions of America."
+description: "A detailed analysis of the effect of racial demographics on police satisfaction and firearm homicides across the regions of America."
 toc: true
 draft: FALSE
 filters:
@@ -12,8 +12,7 @@ filters:
 
 ### Introduction
 
-We often see headlines and news articles outlining the racial discrimination that minorities across the United States of America face each and every day. Many movements throughout our country's history relate to these issues; specifically, we saw the Black Lives Matter movement of 2020 bring into question the issue of police treatment towards minority individuals. This begs us to ask the question, are police really racist? Do they approach situations involving minorities professionally?
-
+We often see headlines and news articles outlining the racial discrimination that minorities across the United States of America face each and every day. Many movements throughout our country's history relate to these issues; specifically, we saw the Black Lives Matter movement of 2020 bring into question the issue of police treatment towards minority individuals. This begs us to ask the question, are police really racist? Do they approach situations involving minorities professionally? Or do they have to be stricter in these regions which face higher rates of violent crime? This study takes a deep dive into the correlation between police satisfaction rates, racial demographics, and the violent crime rates across the different regions of America to answer those questions.
 
 ### Analysis Results
 Through our analysis we found a significant correlation between multiple different factors and their likelihood to be treated properly during an interaction with the police.
@@ -117,59 +116,8 @@ shinyApp(ui = ui, server = server)
 Each racial group (e.g., White NH, Black NH, Hispanic, Other/Multi NH) displays distinct trends in their proportions relative to firearm homicide rates. For example, the "White NH" plot shows consistently high racial proportions but relatively low firearm homicide rates across all regions and years, while the "Black NH" plot reflects lower racial proportions with higher firearm homicide rates, especially in the South. The "Hispanic" and "Other/Multi NH" groups show intermediate trends with lower racial proportions and moderate firearm homicide rates, particularly in the West and South. Regional variation is evident, with the South generally displaying higher firearm homicide rates across all groups. This visualization highlights the relationship between racial demographics and firearm homicide rates, with disparities likely reflecting broader socioeconomic and systemic factors.
 
 
+
 ```{r}
-#| echo: False
-suppressPackageStartupMessages(library(shiny))
-suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(sf))
-suppressPackageStartupMessages(library(leaflet))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(stringr))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(readr))
-
-# region_shp <- st_read("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/region_shapefile.shp")
-# region_stats <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project-group-7/dataset_for_shiny/combined_regional_data.rds")
-
-region_shp <- st_read("dataset/region_shapefile.shp")
-region_stats <- read_rds(here::here("dataset/combined_regional_data.rds"))
-
-region_shp <- region_shp |>
-  filter(!is.na(region))
-
-region_stats$region <- str_to_title(region_stats$region)
-
-#2002
-stats_2002 <- region_stats |>
-  filter(year == "2002")
-
-shp_data_2002 <- region_shp |>
-  left_join(stats_2002, by = c("region" = "region"))
-
-#2008
-stats_2008 <- region_stats |>
-  filter(year == "2008")
-
-shp_data_2008 <- region_shp |>
-  left_join(stats_2008, by = c("region" = "region"))
-
-#2011
-stats_2011 <- region_stats |>
-  filter(year == "2011")
-
-shp_data_2011 <- region_shp |>
-  left_join(stats_2011, by = c("region" = "region"))
-
-ggplot(data = shp_data_2011) +
-  geom_sf(aes(fill = population)) +  # Color based on population
-  scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Gradient scale for population
-  labs(title = "Population by Region in the US", fill = "Population") +
-  theme_minimal()
-```
-
-This population map of the United States allows readers to explore demographic data visually. Each region is shaded according to its population, with darker tones representing higher population concentrations. The southeastern and southern regions of the U.S. have the highest population densities, as they are shaded in the darkest blue. In contrast, the western and northern regions show lighter shades, signifying lower population concentrations.The color scale on the right provides a clear reference for interpreting the population values, ranging from approximately 7.0e+07 to 1.0e+08, helping the viewer understand the relative differences between regions at a glance. 
-
-```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 640 # You will have to adjust this to fit everything
 #| echo: false
@@ -187,7 +135,19 @@ options("readr.edition" = 1)
 # UI for the Shiny App
 ui <- fluidPage(
   titlePanel("Interactive Region Map with Statistics"),
-  leafletOutput("map", height = 600)
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "year",
+        label = "Select Year:",
+        choices = c("2002", "2008", "2011"),
+        selected = "2002"
+      )
+    ),
+    mainPanel(
+      leafletOutput("map", height = 600)
+    )
+  )
 )
 
 geojson_url <- "https://raw.githubusercontent.com/sussmanbu/ma-4615-fa24-final-project-group-7/main/dataset_for_shiny/region_shapefile.geojson"
@@ -205,39 +165,53 @@ region_stats <- read_rds("https://sussmanbu.github.io/ma-4615-fa24-final-project
 region_shp <- region_shp |>
   filter(!is.na(region))
 
-#2002
-stats_2002 <- region_stats |>
-  filter(year == "2002") |>
-  mutate(region = str_to_title(region))
-
-shp_data_2002 <- region_shp |>
-  left_join(stats_2002, by = c("region" = "region"))
-
-pal <- colorFactor(
-  palette = "Set1",
-  domain = shp_data_2002$region
-)
-
 # Server logic for the Shiny App
 server <- function(input, output) {
   
+  filtered_data <- reactive({
+    stats_filtered <- region_stats |>
+      filter(year == input$year) |>
+      mutate(region = str_to_title(region))
+    
+    join <- region_shp |>
+      left_join(stats_filtered, by = c("region" = "region"))
+    
+    joined_data <- join |>
+      mutate(across(
+        .cols = ends_with("_PROP"),
+        .fns = ~ round(.x * 100, 2)
+      )) |>
+      mutate(across(
+        .cols = ends_with("_rate"),
+        .fns = ~ round(.x, 2)
+      ))
+    
+    return(joined_data)
+  })
+  
   output$map <- renderLeaflet({
-    # Create a basic leaflet map
-    leaflet(shp_data_2002) %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
+    shp_data <- filtered_data()
+    
+    pal <- colorFactor(
+      palette = "Set1",
+      domain = shp_data$region
+    )
+    
+    leaflet(shp_data) |>
+      addProviderTiles(providers$CartoDB.Positron) |>
       addPolygons(
-        fillColor = ~pal(region), # Use stat1 for coloring
+        fillColor = ~pal(region),
         fillOpacity = 0.7,
         color = "black",
         weight = 1,
-        popup = ~paste("Region: ", region, "<br>",
-                       "White NH Prop: ", WHITE_NH_PROP, "<br>",
-                      "Black NH Prop: ", B_NH_PROP, "<br>",
-                      "Hispanic Prop: ", HISPANIC_PROP, "<br>",
-                      "Other Multi NH Prop: ", OTHER_MULTI_NH_PROP, "<br>",
-                      "Arrest Prop: ", ARREST_PROP, "<br>",
-                      "Improper Prop: ", IMPROPER_PROP, "<br>",
-                      "FA Homicide Rate: ", fa_homicide_rate, "<br>"),
+        popup = ~paste0("Region: ", region, "<br>",
+                       "White NH Prop: ", WHITE_NH_PROP, "%<br>",
+                      "Black NH Prop: ", B_NH_PROP, "%<br>",
+                      "Hispanic Prop: ", HISPANIC_PROP, "%<br>",
+                      "Other Multi NH Prop: ", OTHER_MULTI_NH_PROP, "%<br>",
+                      "Arrest Prop: ", ARREST_PROP, "%<br>",
+                      "Improper Prop: ", IMPROPER_PROP, "%<br>",
+                      "FA Homicide Rate: ", fa_homicide_rate, " Homicides per 100,000 People"),
         highlight = highlightOptions(
           weight = 3,
           color = "blue",
