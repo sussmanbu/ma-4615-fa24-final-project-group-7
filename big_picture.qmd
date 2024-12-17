@@ -117,6 +117,8 @@ Each racial group (e.g., White NH, Black NH, Hispanic, Other/Multi NH) displays 
 
 
 
+The second interactive plot provides an interactive map visualization that displays regional statistics as well as racial statistics for selected years (2002, 2008, 2011). Readers can select a year from the sidebar to dynamically filter and display data for that specific year.
+
 ```{r}
 #| standalone: true
 #| viewerHeight: 640 # You will have to adjust this to fit everything
