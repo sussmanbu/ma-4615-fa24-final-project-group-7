@@ -79,7 +79,7 @@ suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(tidyverse))
 options("readr.edition" = 1) 
 
-police_interaction <- read_rds(here::here("dataset_for_shiny/police_interaction.rds"))
+police_interaction <- read_rds("https://sussmanbu.github.io/ma4615-fa23-final-project-group-7/dataset_for_shiny/police_interaction.rds")
 
 region_labels <- c("1" = "northeast", "2" = "midwest", "3" = "south", "4" = "west")
 
