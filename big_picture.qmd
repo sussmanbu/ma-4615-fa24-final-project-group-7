@@ -115,9 +115,7 @@ shinyApp(ui = ui, server = server)
 
 Each racial group (e.g., White NH, Black NH, Hispanic, Other/Multi NH) displays distinct trends in their proportions relative to firearm homicide rates. For example, the "White NH" plot shows consistently high racial proportions but relatively low firearm homicide rates across all regions and years, while the "Black NH" plot reflects lower racial proportions with higher firearm homicide rates, especially in the South. The "Hispanic" and "Other/Multi NH" groups show intermediate trends with lower racial proportions and moderate firearm homicide rates, particularly in the West and South. Regional variation is evident, with the South generally displaying higher firearm homicide rates across all groups. This visualization highlights the relationship between racial demographics and firearm homicide rates, with disparities likely reflecting broader socioeconomic and systemic factors.
 
-
-
-```{r}
+```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 640 # You will have to adjust this to fit everything
 #| echo: false
