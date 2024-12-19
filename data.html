@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Group 7">
 <meta name="description" content="We describe the sources of our data and the cleaning process.">
 
-<title>MA [46]15 Final Project - Group 7 - Data</title>
+<title>Data – MA [46]15 Final Project - Group 7</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./big_picture.html"> 
-<span class="menu-text">Big Picture</span></a>
+<span class="menu-text">Are the Police Racist?</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./analysis.html"> 
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
     </div>
 <!-- main -->
@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"> <strong><em>Before we begin, all of the cleaning and combining for our datasets is done with the code in <a href=".\scripts/load_and_clean_data.R">this load and clean file</a>, so please head there for a more detailed breakdown of how all of this was done.</em></strong></p>
+<p><img src="data.jpg" class="img-fluid"> <strong><em>Before we begin, all of the cleaning and combining for our datasets is done with the code in <a href="./scripts/load_and_clean_data.R">this load and clean file</a>, so please head there for a more detailed breakdown of how all of this was done.</em></strong></p>
 <p><strong>First Data Set:</strong><br>
 The Effect of Prior Police Contact on Victimization Reporting: Results From the Police-Public Contact and National Crime Victimization Surveys, United States, 2002-2011 (ICPSR 36370) <a href="https://www.icpsr.umich.edu/web/NACJD/studies/36370/">Dataset Link</a></p>
 <p>The dataset is collected by the Bureau of Justice Statistics (BJS), which is the primary statistical agency of the US’s Department of Justice. It was first established in 1979 in order to better understand statistics about crimes in the United States. The data collected in these studies provides information on how each individuals’ prior interactions with law enforcement, both directly and through the experiences of others, influence their decisions to report crimes. By linking data from the National Crime Victimization Survey (NCVS) with the Police-Public Contact Survey (PPCS), the researchers could explore the relationship between police encounter experiences and crime reporting behavior. The combined dataset used in this study contains data about survey participants in 2002, 2008, and 2011.</p>
@@ -208,16 +208,13 @@ The Effect of Prior Police Contact on Victimization Reporting: Results From the 
 <p><strong>Combination</strong> In combining the datasets we chose to combine information such that we would display information based on the region and year combinations. This is because the original data was presented across 4 different regions: Northeast, Midwest, South, and West as well as 3 years: 2002, 2008, and 2011.</p>
 <p>Our final combined dataset includes the following variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>variable_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Name =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"total_count"</span>, <span class="st">"WHITE_NH_PROP"</span>, <span class="st">"B_NH_PROP"</span>, <span class="st">"HISPANIC_PROP"</span>, <span class="st">"OTHER_MULTI_NH_PROP"</span>, <span class="st">"CONTACT_FREQ"</span>, <span class="st">"OC_FRISK_PROP"</span>, <span class="st">"TC_FRISK_PROP"</span>, <span class="st">"VSRCH_PROP"</span>, <span class="st">"ARREST_PROP"</span>, <span class="st">"CUFFED_PROP"</span>, <span class="st">"PROPER_PROP"</span>, <span class="st">"IMPROPER_PROP"</span>, <span class="st">"AVG_CONT"</span>, <span class="st">"population"</span>, <span class="st">"fa_homicides"</span>, <span class="st">"nfa_homicides"</span>, <span class="st">"homicides"</span>, <span class="st">"fa_homicide_rate"</span>, <span class="st">"nfa_homicide_rate"</span>, <span class="st">"homicide_rate"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Description =</span> <span class="fu">c</span>(<span class="st">"Region the data is from"</span>, <span class="st">"Year the data is from"</span>, <span class="st">"Total number of responses in the police sentiment dataset"</span>, <span class="st">"White non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Black non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Other/multiracial/Non-hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Proportion of responders who had contact with law enforcement"</span>, <span class="st">"Proportion of stop and frisks for non-traffic stops"</span>, <span class="st">"Proportion of stop and frisks for traffic stops"</span>, <span class="st">"Proportion of vehicle searchs"</span>, <span class="st">"Proportions of contacts that ended in arrest"</span>, <span class="st">"Proportion of contacts that included cuffing"</span>, <span class="st">"Proportion of contacts deemed handled proper"</span>, <span class="st">"Proportion of contacts deemed unproperly handled"</span>, <span class="st">"Average number of contacts in the last year"</span>, <span class="st">"Total region population from US census"</span>, <span class="st">"Number of Firearm homicides"</span>, <span class="st">"Number of non-firearm homicides"</span>, <span class="st">"number of homidides"</span>, <span class="st">"firearm homicides per 100,000"</span>, <span class="st">"non-firearm homicides per 100,000"</span>, <span class="st">"homicides per 100,000"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(variable_table, <span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>variable_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Name =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"total_count"</span>, <span class="st">"WHITE_NH_PROP"</span>, <span class="st">"B_NH_PROP"</span>, <span class="st">"HISPANIC_PROP"</span>, <span class="st">"OTHER_MULTI_NH_PROP"</span>, <span class="st">"CONTACT_FREQ"</span>, <span class="st">"OC_FRISK_PROP"</span>, <span class="st">"TC_FRISK_PROP"</span>, <span class="st">"VSRCH_PROP"</span>, <span class="st">"ARREST_PROP"</span>, <span class="st">"CUFFED_PROP"</span>, <span class="st">"PROPER_PROP"</span>, <span class="st">"IMPROPER_PROP"</span>, <span class="st">"AVG_CONT"</span>, <span class="st">"population"</span>, <span class="st">"fa_homicides"</span>, <span class="st">"nfa_homicides"</span>, <span class="st">"homicides"</span>, <span class="st">"fa_homicide_rate"</span>, <span class="st">"nfa_homicide_rate"</span>, <span class="st">"homicide_rate"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Description =</span> <span class="fu">c</span>(<span class="st">"Region the data is from"</span>, <span class="st">"Year the data is from"</span>, <span class="st">"Total number of responses in the police sentiment dataset"</span>, <span class="st">"White non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Black non-hispanic proportion of responses for police sentiment"</span>, <span class="st">"Hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Other/multiracial/Non-hispanic proportion of responses for police sentiment survey"</span>, <span class="st">"Proportion of responders who had contact with law enforcement"</span>, <span class="st">"Proportion of stop and frisks for non-traffic stops"</span>, <span class="st">"Proportion of stop and frisks for traffic stops"</span>, <span class="st">"Proportion of vehicle searchs"</span>, <span class="st">"Proportions of contacts that ended in arrest"</span>, <span class="st">"Proportion of contacts that included cuffing"</span>, <span class="st">"Proportion of contacts deemed handled proper"</span>, <span class="st">"Proportion of contacts deemed unproperly handled"</span>, <span class="st">"Average number of contacts in the last year"</span>, <span class="st">"Total region population from US census"</span>, <span class="st">"Number of Firearm homicides"</span>, <span class="st">"Number of non-firearm homicides"</span>, <span class="st">"number of homidides"</span>, <span class="st">"firearm homicides per 100,000"</span>, <span class="st">"non-firearm homicides per 100,000"</span>, <span class="st">"homicides per 100,000"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(variable_table, <span class="at">n =</span> <span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23 × 2
    Variable_Name       Variable_Description                                     
@@ -291,18 +288,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -334,7 +320,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/sussmanbu\.github\.io\/ma-4615-fa24-final-project-group-7\/");
@@ -342,7 +350,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
