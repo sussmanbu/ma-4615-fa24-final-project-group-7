@@ -37,7 +37,6 @@ Interestingly, strong correlations existed between the probability of being arre
 A more detailed description of the correlation is included with the code used to generate the model farther down on this page, where summary statistics about the model are also included.
 The second model was ran on the combined dataset, and it examines the extent to which firearm homicide statistics can be explained by the racial demographic variations in different regions of the US.
 
-
 Here, our Police Interaction dataset and all libraries are loaded.
 
 ```{r}
@@ -62,7 +61,7 @@ firearm_ds <- read_rds(here::here("dataset/firearm_sh_ds.rds"))
 combined_regional_ds <- read_rds(here::here("dataset/combined_regional_data.rds"))
 ```
 
-### Police Interaction Data Analysis
+## Police Interaction Data Analysis
 
 #### Proper Conduct
 
@@ -154,7 +153,7 @@ Among "Hispanic" and "Other or multiracial, Non-Hispanic" populations, the propo
 
 In making this observation, it is important to note that the proportions could be skewed due to the number of responses received for each group and the nature of data collection through a survey, which may have prompted individuals who experienced racial discrimination to be more likely to respond.
 
-#### Modeling
+### Modeling
 
 For data modeling, the data was split into two.
 80% of the data was randomly selected for the training dataset and 20% was randomly selected for the testing dataset.
@@ -225,7 +224,7 @@ This model suggests that Black Non-Hispanic, lower-income, uneducated, males are
 
 The summary of this model denotes that there are very small p-values of less than 2.2e-16,indicating that the combination of predictors (the demographics including race, years of education, household poverty status, and gender) contributes meaningfully to explaining the likelihood of arrest.
 
-### Firearm Proxy Dataset
+## Firearm Proxy Dataset
 
 The second dataset to be incorporated describes the number of homicides, the number of suicides, and the number of suicides done with firearms for whites & nonwhites within different states from 1949 to 2020.
 
@@ -266,7 +265,7 @@ From this map, we notice that across the 3 years we seek to observe, it's genera
 This is useful to understand since we can use this information to dig deeper into the causes behind negative police behavior, and fortify and further explain our bar chart and linear model describing the proportion of race vs. proper police behavior.
 Specifically, this may help us determine whether race or the level of neighborhood gun violence are more useful indicators for particular aspects of police behavior in our study.
 
-#### Combined Regional Dataset
+## Combined Regional Dataset
 
 The plot below shows a breakdown of the firearm homicide rates for each region across the years relevant to our analysis.
 
@@ -364,7 +363,7 @@ Here’s a closer examination of each predictor:
 -   south (Estimate = -0.2145, p-value = 0.2197)
 -   west (Estimate = -0.1649, p-value = 0.1978) All these p-values are greater than 0.05, indicating no significant differences in improper behavior across the regions.
 
-#### Model Fit and Significance
+### Model Fit and Significance
 
 -   R-squared = 0.7712: The model explains approximately 77% of the variation in improper police behavior.
     This is a relatively high value, suggesting that the model captures a significant portion of the underlying patterns.
@@ -381,7 +380,7 @@ The analysis highlights the complexity of understanding improper police behavior
 The relatively high R-squared value suggests that certain aspects, particularly demographic and regional factors, may partially explain the variation in improper behavior.
 However, the lower adjusted R-squared value and non-significant predictors indicate that other systemic or situational factors might play a critical role but are not captured in the current model.
 
-#### Potential Areas for Further Investigation:
+### Potential Areas for Further Investigation:
 
 -   Additional Variables: The unexplained variability suggests that there may be other key factors, such as community-police relations, socio-economic status, or local policies, that could provide further insights.
 -   Interaction Effects: Interactions between race, region, and homicide rates might yield more nuanced insights into how these factors influence police behavior.

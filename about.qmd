@@ -1,7 +1,6 @@
 ---
 title: "About"
-author: "Group 7"
-# image: profile.jpg
+image: profile.jpg
 about:
   template: jolla
   links:

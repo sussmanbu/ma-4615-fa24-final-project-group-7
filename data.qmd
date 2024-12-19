@@ -6,7 +6,7 @@ toc: true
 draft: false
 ---
 
-![](images/data-import-cheatsheet-thumbs.png)
+![](data.jpg)
 ***Before we begin, all of the cleaning and combining for our datasets is done with the code in [this load and clean file](/scripts/load_and_clean_data.R), so please head there for a more detailed breakdown of how all of this was done.***
 
 **First Data Set:**  
